@@ -17,28 +17,28 @@
         PLAYER: {
             NAME: 'HTML5 basic media player',
             VIDEO_ID: 'clickbaby',
-			VIDEO_NAME: 'sample video click-baby'
+            VIDEO_NAME: 'sample video click-baby'
         },
 
         VISITOR: {
-            MARKETING_CLOUD_ORG_ID: 'sample-marketing-cloud-org-id',
-            TRACKING_SERVER: 'example.com',
+            MARKETING_CLOUD_ORG_ID: '3CE342C75100435B0A490D4C@AdobeOrg',
+            TRACKING_SERVER: 'obumobile1.sc.omtrdc.net',
             DPID: 'sample-dpid',
             DPUUID: 'sample-dpuuid'
         },
 
         APP_MEASUREMENT: {
-            RSID: 'sample-account',
-            TRACKING_SERVER: 'example.com',
-			PAGE_NAME: 'Sample Page Name'
+            RSID: 'mobile1vhl.sample.player',
+            TRACKING_SERVER: 'obumobile1.sc.omtrdc.net',
+            PAGE_NAME: 'Sample Page Name'
         },
 
         HEARTBEAT: {
-            TRACKING_SERVER: 'example.com',
+            TRACKING_SERVER: 'obumobile1.hb.omtrdc.net',
             PUBLISHER: 'sample-publisher',
             CHANNEL: 'sample-channel',
-            OVP: 'sample-ovp',
-            SDK: 'sample-sdk'
+            OVP: 'test-ovp',
+            SDK: 'VHL2 Sample Player v1.0'
         }
     };
 })();
