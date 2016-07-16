@@ -1,0 +1,54 @@
+body {
+	background-color: #fff;
+}
+
+a {
+	color: #7d7d7d;
+}
+
+a:hover {
+	color: #f00;
+}
+
+section {
+	padding: 10px;
+	font: 14px Garamond, Georgia, Times New Roman, serif; 
+}
+
+header {
+}
+
+h1 {
+	font: 16px;
+}
+
+nav {
+}
+
+ul {
+	text-decoration: none;
+}
+
+ul li {
+	text-decoration: none;
+}
+
+footer {
+	
+}
+
+.container { position:relative; }
+.container video {
+    position: relative;
+    z-index: 0;
+}
+.overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    font-size: 80px;
+    font-weight: bold;
+    background-color: #ffffff;
+    padding:5px;
+}

@@ -1,0 +1,12 @@
+VideoHeartbeatSample (JS)
+=========================
+
+1. Opening the project
+To open the project, you use the IntelliJ IDE. Load the project from the projects/ folder.
+
+2. Building and running
+To run the sample, place the files on a webserver and access the index.html page.
+
+The sample comes with dummy values for all the configuration options (see Configuration.js file). 
+
+In order to actually see the demo working, you need to fill-in the configuration options with valid values, provided by Adobe.
