@@ -35,8 +35,8 @@
 
         HEARTBEAT: {
             TRACKING_SERVER: 'obumobile1.hb.omtrdc.net',
-            PUBLISHER: 'sample-publisher',
-            CHANNEL: 'sample-channel',
+            PUBLISHER: '3CE342C75100435B0A490D4C@AdobeOrg',
+            CHANNEL: 'test-channel',
             OVP: 'test-ovp',
             SDK: 'VHL2 Sample Player v1.0'
         }
