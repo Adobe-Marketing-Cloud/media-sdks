@@ -1,0 +1,155 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+<!--' *************************************************************************
+' *
+' * ADOBE CONFIDENTIAL
+' * ___________________
+' *
+' *  Copyright 2015 Adobe Systems Incorporated
+' *  All Rights Reserved.
+' *
+' * NOTICE:  All information contained herein is, and remains
+' * the property of Adobe Systems Incorporated and its suppliers,
+' * if any.  The intellectual and technical concepts contained
+' * herein are proprietary to Adobe Systems Incorporated and its
+' * suppliers and are protected by trade secret or copyright law.
+' * Dissemination of this information or reproduction of this material
+' * is strictly forbidden unless prior written permission is obtained
+' * from Adobe Systems Incorporated.
+' *
+' ************************************************************************** -->
+
+<component name = "VideoExample" extends = "Group" initialFocus = "videoPlayer" >
+
+  <interface>
+    <field id = "state" type="string"/>
+    <field id = "streamStarted" type="string"/>
+    <field id = "videoPlayer" type="node"/>
+    <field id = "adobeTrackerTask" type="node"/>
+    <field id = "start" type="int" onchange="startChanged"/>
+    <field id = "currAdBreakInfo" type="assocarray"/>
+    <field id = "currAdInfo" type="assocarray"/>
+    <field id = "isInAd" type="bool"/> 
+    <field id = "isInAdBreak" type="bool"/>
+    <field id = "currAdBreakContextData" type="assocarray"/>
+    <field id = "currAdContextData" type="assocarray"/>
+  </interface>
+
+  <script type="text/brightscript" uri="pkg:/source/adbmobile.brs" />
+  <script type="text/brightscript" uri="pkg:/components/adobeMobileSceneGraphTrackerHelper.brs" />
+
+  <script type = "text/brightscript" >
+
+    <![CDATA[
+
+    sub init()
+      m.top.streamStarted = "false"
+
+      videocontent = createObject("RoSGNode", "ContentNode")
+      videocontent.title = "Example Video"
+      videocontent.streamformat = "mp4"
+      videocontent.url = "http://cdn.auditude.com/assets/video/mp4/hdh264.mp4"
+
+      m.top.videoPlayer = m.top.findNode("videoPlayer")
+      m.top.videoPlayer.visible = true
+      m.top.videoPlayer.setFocus(true)
+      m.top.videoPlayer.content = videocontent
+      m.top.adobeTrackerTask = createObject("RoSGNode","AdobeMobileSceneGraphTracker")
+
+      m.top.videoPlayer.observeField("state", "OnVideoPlayerStateChange")
+      m.top.videoPlayer.control = "play"
+
+      initMediaTracker(m.top.adobeTrackerTask)
+      runMediaTracker()
+    end sub
+
+    Sub startChanged()
+        currPosition = m.top.videoPlayer.position
+
+        updatePlayhead(currPosition)        
+        runMediaTracker()
+        enableDebugLogging() 
+
+        '''ad timeline / chapters etc timeline management
+        if m.top.streamStarted = "true"
+
+          if currPosition > 0 and currPosition < 10 and m.top.isInAdBreak = false
+              currAdBreakInfo = adb_media_init_adbreakinfo("pod1", currPosition, 1)
+              currAdBreakContextData = invalid
+              trackMediaEvent(ADBMobile().MEDIA_AD_BREAK_START, currAdBreakInfo, currAdBreakContextData)
+              m.top.currAdBreakContextData = currAdBreakContextData
+              m.top.currAdBreakInfo = currAdBreakInfo
+              m.top.isInAdBreak = true
+          else if currPosition > 1 and currPosition < 10 and m.top.isInAdBreak = true and m.top.isInAd = false
+              currAdInfo = adb_media_init_adinfo("ad1", "ad1_title", 1, 10)
+              currAdContextData = {}
+              currAdContextData["key1"] = "val1"
+              trackMediaEvent(ADBMobile().MEDIA_AD_START, currAdInfo, currAdContextData)
+              m.top.currAdContextData = currAdContextData
+              m.top.currAdInfo = currAdInfo
+              m.top.isInAd = true
+          end if
+
+          if currPosition > 10 and m.top.isInAd = true
+              trackMediaEvent(ADBMobile().MEDIA_AD_COMPLETE, m.top.currAdInfo, m.top.currAdContextData)
+              m.top.isInAd = false
+          else if currPosition > 12 and m.top.isInAdBreak = true              
+              trackMediaEvent(ADBMobile().MEDIA_AD_BREAK_COMPLETE, m.top.currAdBreakInfo, m.top.currAdBreakContextData)
+              m.top.isInAdBreak = false                         
+          end if
+        end if
+    end sub
+
+    Sub OnVideoPlayerStateChange()
+      m.videoPlayer = m.top.videoPlayer
+      
+      if m.videoPlayer <> invalid        
+        ? "HomeScene > OnVideoPlayerStateChange : state == ";m.videoPlayer.state
+
+        if m.videoPlayer.state = "error"
+          trackError(m.videoPlayer.errorMsg, m.videoPlayer.errorCode)
+          m.videoPlayer.visible = false
+
+        else if m.videoPlayer.state = "playing"
+            
+          if m.top.streamStarted = "false"
+            m.top.streamStarted = "true"            
+
+            mInfo = adb_media_init_mediainfo("test_media_name", "test_media_id", 10, "vod")
+            mediaContextData = {}
+            mediaContextData["videotype"] = "episode"
+
+            trackMediaLoad(mInfo, mediaContextData)
+            trackMediaStart()
+          endif
+
+            trackMediaPlay()
+
+          else if m.videoPlayer.state = "finished"          
+            trackMediaComplete()
+            trackMediaUnload()
+            m.videoPlayer.visible = false
+            m.top.streamStarted = "false" 
+                    
+          else if m.videoPlayer.state = "stopped"
+            trackMediaUnload()
+            m.top.streamStarted = "false"
+          
+          else if m.videoPlayer.state = "paused"
+            trackMediaPause()
+        endif
+      endif
+    end sub
+    ]]>
+
+  </script>
+
+  <children >
+    <Video
+            id="videoPlayer"
+            visible="false"
+            translation="[0, 0]"
+            width="1280"
+            height="720"/>
+  </children>
+
+</component>
