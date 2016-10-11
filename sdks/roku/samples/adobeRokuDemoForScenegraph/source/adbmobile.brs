@@ -1095,18 +1095,20 @@ Function _adb_clockservice() As Object
         End Function,                
 
       startClockService: Function() As Void
-          m._checkStatusTimer.start(m._checkStatusInterval, "CheckStatusTimer")
+          if m.isActive() = false
+            m._checkStatusTimer.start(m._checkStatusInterval, "CheckStatusTimer")
 
-          ''' Send the first check status ping as soon as timer is started
-          dictionary = {
-            '''r: CreateObject("roDateTime").AsSeconds()
-            r: _adb_util().getTimestampInMillis()
-          }
-          _adb_serializeAndSendHeartbeat().queueRequestsForResponse(dictionary)
+            ''' Send the first check status ping as soon as timer is started
+            dictionary = {
+              '''r: CreateObject("roDateTime").AsSeconds()
+              r: _adb_util().getTimestampInMillis()
+            }
+            _adb_serializeAndSendHeartbeat().queueRequestsForResponse(dictionary)
 
-          m._reportingTimer.start(m._reportingInterval, "ReportingTimer")
-          m._flushFilterTimer.start(m._flushFilterInterval, "FlushFilterTimer")
-          m._active = true
+            m._reportingTimer.start(m._reportingInterval, "ReportingTimer")
+            m._flushFilterTimer.start(m._flushFilterInterval, "FlushFilterTimer")
+            m._active = true
+          endif
         End Function,
 
       stopClockService: Function() As Void
