@@ -106,7 +106,7 @@
         ? "HomeScene > OnVideoPlayerStateChange : state == ";m.videoPlayer.state
 
         if m.videoPlayer.state = "error"
-          trackError(m.videoPlayer.errorMsg, m.videoPlayer.errorCode)
+          trackError(m.videoPlayer.errorMsg, "video-player-error-code")
           m.videoPlayer.visible = false
 
         else if m.videoPlayer.state = "playing"

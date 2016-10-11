@@ -165,8 +165,8 @@ Function trackMediaEvent (mediaEventName as String, mediaEventInfo as Object, me
 End Function
 
 Function trackError(errorMsg as String, errorCode as String)
-    m.tracker.errorMessage = errorMsg
-    m.tracker.errorCode = errorCode
+    m.tracker.mediaErrorMessage = errorMsg
+    m.tracker.mediaErrorCode = errorCode
     m.tracker.mediaTrackError = true
 End Function
 
