@@ -22,7 +22,7 @@
 
   <interface>
     <field id = "state" type="string"/>
-    <field id = "streamStarted" type="string"/>
+    <field id = "streamStarted" type="bool"/>
     <field id = "videoPlayer" type="node"/>
     <field id = "adobeTrackerTask" type="node"/>
     <field id = "start" type="int" onchange="startChanged"/>
@@ -42,7 +42,7 @@
     <![CDATA[
 
     sub init()
-      m.top.streamStarted = "false"
+      m.top.streamStarted = false
 
       videocontent = createObject("RoSGNode", "ContentNode")
       videocontent.title = "Example Video"
@@ -70,7 +70,7 @@
         enableDebugLogging() 
 
         '''ad timeline / chapters etc timeline management
-        if m.top.streamStarted = "true"
+        if m.top.streamStarted = true
 
           if currPosition > 0 and currPosition < 10 and m.top.isInAdBreak = false
               currAdBreakInfo = adb_media_init_adbreakinfo("pod1", currPosition, 1)
@@ -111,8 +111,8 @@
 
         else if m.videoPlayer.state = "playing"
             
-          if m.top.streamStarted = "false"
-            m.top.streamStarted = "true"            
+          if m.top.streamStarted = false
+            m.top.streamStarted = true           
 
             mInfo = adb_media_init_mediainfo("test_media_name", "test_media_id", 10, "vod")
             mediaContextData = {}
@@ -128,11 +128,11 @@
             trackMediaComplete()
             trackMediaUnload()
             m.videoPlayer.visible = false
-            m.top.streamStarted = "false" 
+            m.top.streamStarted = false
                     
           else if m.videoPlayer.state = "stopped"
             trackMediaUnload()
-            m.top.streamStarted = "false"
+            m.top.streamStarted = false
           
           else if m.videoPlayer.state = "paused"
             trackMediaPause()
