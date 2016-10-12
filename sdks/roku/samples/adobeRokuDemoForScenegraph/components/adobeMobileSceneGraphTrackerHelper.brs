@@ -30,14 +30,14 @@ End Function
 '************
 
 Function trackAction(actionName as String, actionData as Object)
-    m.tracker.stateEventName = actionName
-    m.tracker.stateEventData = actionData
+    m.tracker.actionEventName = actionName
+    m.tracker.actionEventData = actionData
     m.tracker.trackAction = true
 End Function
 
 Function trackState(stateName as String, stateData as Object)
-    m.tracker.stateName = actionName
-    m.tracker.stateData = actionData
+    m.tracker.stateEventName = stateName
+    m.tracker.stateEventData = stateData
     m.tracker.trackState = true
 End Function
 

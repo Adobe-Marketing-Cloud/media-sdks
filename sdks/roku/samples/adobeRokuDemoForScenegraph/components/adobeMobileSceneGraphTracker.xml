@@ -27,7 +27,9 @@
     <field id = "trackState" type="bool" alwaysNotify="true"/>
     <field id = "stateEventName" type="string" alwaysNotify="true"/>
     <field id = "stateEventData" type="assocarray" alwaysNotify="true"/>
-    
+    <field id = "actionEventName" type="string" alwaysNotify="true"/>
+    <field id = "actionEventData" type="assocarray" alwaysNotify="true"/>
+     
     <field id = "trackingIdentifier" type="string" alwaysNotify="true"/>
     <field id = "userIdentifier" type="string" alwaysNotify="true"/>
 
@@ -161,7 +163,8 @@
         m.top.observeField("mediaEventName", apiPort)
         m.top.observeField("mediaEventData", apiPort)
         m.top.observeField("mediaEventContextData", apiPort)
-        m.top.observeField("stateEventData", apiPort)
+        m.top.observeField("actionEventName", apiPort)
+        m.top.observeField("actionEventData", apiPort)
 
         while (true)
 
@@ -170,6 +173,8 @@
 
           if m.top.debugLogs = true
             ADBMobile().setDebugLogging(true)
+          else if m.top.debugLogs = false
+            ADBMobile().setDebugLogging(false)
           endif
 
           if m.top.playhead <> invalid
@@ -223,8 +228,8 @@
               endif
 
             else if field = "trackAction"
-              if m.top.stateEventName <> invalid and m.top.stateEventData <> invalid
-                ADBMobile().trackAction(m.top.stateEventName, m.top.stateEventData)
+              if m.top.actionEventName <> invalid and m.top.actionEventData <> invalid
+                ADBMobile().trackAction(m.top.actionEventName, m.top.actionEventData)
               else
                 print "Need api event name and api data set before calling trackAction"
               endif

@@ -60,6 +60,10 @@
 
       initMediaTracker(m.top.adobeTrackerTask)
       runMediaTracker()
+      stateData = {}
+      stateData["key1"] = "val1"
+      stateData["key2"] = "val2"
+      trackState("demo scenegraph", stateData)
     end sub
 
     Sub startChanged()
@@ -72,14 +76,14 @@
         '''ad timeline / chapters etc timeline management
         if m.top.streamStarted = true
 
-          if currPosition > 0 and currPosition < 10 and m.top.isInAdBreak = false
+          if currPosition > 5 and currPosition < 10 and m.top.isInAdBreak = false
               currAdBreakInfo = adb_media_init_adbreakinfo("pod1", currPosition, 1)
               currAdBreakContextData = invalid
               trackMediaEvent(ADBMobile().MEDIA_AD_BREAK_START, currAdBreakInfo, currAdBreakContextData)
               m.top.currAdBreakContextData = currAdBreakContextData
               m.top.currAdBreakInfo = currAdBreakInfo
               m.top.isInAdBreak = true
-          else if currPosition > 1 and currPosition < 10 and m.top.isInAdBreak = true and m.top.isInAd = false
+          else if currPosition > 6 and currPosition < 10 and m.top.isInAdBreak = true and m.top.isInAd = false
               currAdInfo = adb_media_init_adinfo("ad1", "ad1_title", 1, 10)
               currAdContextData = {}
               currAdContextData["key1"] = "val1"
@@ -125,14 +129,18 @@
             trackMediaPlay()
 
           else if m.videoPlayer.state = "finished"          
-            trackMediaComplete()
-            trackMediaUnload()
-            m.videoPlayer.visible = false
-            m.top.streamStarted = false
+            if m.top.streamStarted = true
+              trackMediaComplete()
+              trackMediaUnload()
+              m.videoPlayer.visible = false
+              m.top.streamStarted = false
+            end if
                     
           else if m.videoPlayer.state = "stopped"
-            trackMediaUnload()
-            m.top.streamStarted = false
+            if m.top.streamStarted = true
+              trackMediaUnload()
+              m.top.streamStarted = false
+            end if
           
           else if m.videoPlayer.state = "paused"
             trackMediaPause()
