@@ -12,7 +12,7 @@ Lighter, Simpler implementation.
 - Clear difference between optional and required video tracking APIs. Optional video tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single video tracking API: trackEvent. 
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/sc/appmeasurement/hbvideo/android_2.0/
+https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/android_2.0/
 
 
 ## 2.0.0 (July 15, 2016)
