@@ -1,0 +1,50 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+
+<!--' *************************************************************************
+' *
+' * ADOBE CONFIDENTIAL
+' * ___________________
+' *
+' *  Copyright 2015 Adobe Systems Incorporated
+' *  All Rights Reserved.
+' *
+' * NOTICE:  All information contained herein is, and remains
+' * the property of Adobe Systems Incorporated and its suppliers,
+' * if any.  The intellectual and technical concepts contained
+' * herein are proprietary to Adobe Systems Incorporated and its
+' * suppliers and are protected by trade secret or copyright law.
+' * Dissemination of this information or reproduction of this material
+' * is strictly forbidden unless prior written permission is obtained
+' * from Adobe Systems Incorporated.
+' *
+' ************************************************************************** -->
+
+<component name = "HomeScene" extends = "OverhangPanelSetScene" >
+  <interface>
+    <field id = "run" type="int" onChange="runThis"/>
+  </interface>
+
+  <script type="text/brightscript" uri="pkg:/source/adbmobile.brs" />
+  <script type = "text/brightscript" >
+
+    <![CDATA[
+
+    sub init()            
+      runselectedexample()
+    end sub
+
+    sub runThis()
+      m.currentexample.start = m.currentexample.start + 1
+    end sub
+
+    sub runselectedexample()
+      m.currentexample = createObject("roSGNode", "VideoExample")
+      m.top.appendChild(m.currentexample)
+      m.currentexample.setFocus(true)
+    end sub
+
+    ]]>
+
+  </script>
+
+</component>
