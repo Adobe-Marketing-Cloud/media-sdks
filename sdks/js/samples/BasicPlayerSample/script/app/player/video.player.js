@@ -67,7 +67,7 @@
 
         var self = this;
         if (this.$el) {
-            this.$el.on('play', function() {
+            this.$el.on('playing', function() {
                 self._onPlay();
             });
             this.$el.on('seeking', function() {
@@ -123,7 +123,8 @@
     };
 
     VideoPlayer.prototype.getPlayhead = function() {
-        return this.$el.get(0).currentTime;
+        var playhead = this.$el.get(0).currentTime;
+        return playhead ? playhead : 0;
     };
 
     VideoPlayer.prototype._onPlay = function(e) {

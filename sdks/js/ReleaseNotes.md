@@ -12,8 +12,10 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/js_2.0/
 
+## 2.0.2
+- Bug fixes.
+
 ## 2.0.1
-What’s new :
 - Fixed issues with adding custom video metadata on Firefox 47.0 and Chrome 52.0.
 
 ## 2.0.0
