@@ -14,6 +14,8 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/android_2.0/
 
-
+## 2.0.1 (June 29, 2017)
+- Bug fixes to improve stability and performance.
+- 
 ## 2.0.0 (July 15, 2016)
 - Initial release of 2.x libraries.
