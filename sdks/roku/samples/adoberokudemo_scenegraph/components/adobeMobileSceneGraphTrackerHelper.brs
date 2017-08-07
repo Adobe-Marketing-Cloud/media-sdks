@@ -102,10 +102,17 @@ Function runMediaTracker()
 End Function
 
 Function updatePlayhead(position as float)
-    m.tracker.playhead = position
+    if m.playhead <> invalid
+        if m.playhead <> position AND (position - m.playhead) > 1
+            m.tracker.playhead = position
+            m.playhead = position
+        endif
+    else
+        m.playhead = position
+    endif
 End Function
 
-Function trackMediaEvent (mediaEventName as String, mediaEventInfo as Object, mediaEventContextData as Object)    
+Function trackMediaEvent (mediaEventName as String, mediaEventInfo as Object, mediaEventContextData as Object)
     if (mediaEventName = ADBMobile().MEDIA_BUFFER_START)
         m.tracker.mediaBufferStart = true
 

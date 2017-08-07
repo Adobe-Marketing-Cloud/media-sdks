@@ -1236,11 +1236,7 @@ Function _adb_media() As Object
             m["_MAX_STALLED_PLAYHEAD_COUNT"] = 2
             m["_MAX_SESSION_INACTIVITY"] = 30 * 60 * 1000 ' Production :- ~30 mins
             'm["_MAX_SESSION_INACTIVITY"] = 1 * 60 * 1000  ' Testing :- ~1 min
-            if _adb_media_isInErrorState() = false
-              m._isEnabled = true
-            else
-              m._isEnabled = false
-            endif
+            m._isEnabled = false
           End Function,
 
         enable: Function() As Void
@@ -1886,7 +1882,8 @@ Function _adb_media_setErrorState(boolval As Boolean)
   elseif boolval = false
     _adb_persistenceLayer().writeValue("media_error_state", "false")
     if GetGlobalAA()._adb_media_instance <> invalid
-      _adb_media().enable()
+      ''' FIX: media module should never be enabled until trackLoad API is called
+      '_adb_media().enable()
 
       ''' no need to start the clock service here, trackStart should start it
       '_adb_clockservice().startClockService()

@@ -177,10 +177,6 @@
             ADBMobile().setDebugLogging(false)
           endif
 
-          if m.top.playhead <> invalid
-            ADBMobile().mediaUpdatePlayhead(m.top.playhead)
-          end if
-
           if m.top.userIdentifier = invalid and ADBMobile().userIdentifier() <> invalid
             m.top.userIdentifier = ADBMobile().userIdentifier()
           endif
@@ -219,6 +215,9 @@
 
             else if field = "debugLogging"
               ADBMobile().setDebugLogging(msg.getData())
+
+            else if field = "playhead"
+              ADBMobile().mediaUpdatePlayhead(msg.getData())
 
             else if field = "trackState"
               if m.top.stateEventName <> invalid and m.top.stateEventData <> invalid
