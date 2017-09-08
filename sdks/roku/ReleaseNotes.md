@@ -5,6 +5,12 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/
 
+## 2.0.2 (08 September, 2017)
+What’s new :
+- Added SceneGraph compatibility to AdobeMobileLibrary
+- Misc. bug fixes
+- API changes: AdobeMobile APIs and Constants have been rewritten into SceneGraph compatible node. For details, refer to the SceneGraph section of the Roku documentation: https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/c_vhl_sg_titlepage.html
+
 ## 2.0.1 (10 April, 2017)
 What’s new :
 - Added pause tracking feature. Two new heartbeat events are now sent to track pause and stalling.

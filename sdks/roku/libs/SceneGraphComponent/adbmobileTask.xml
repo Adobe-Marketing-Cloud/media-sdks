@@ -1,11 +1,10 @@
-<?xml version = "1.0" encoding = "utf-8" ?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--' *************************************************************************
 ' *
 ' * ADOBE CONFIDENTIAL
 ' * ___________________
 ' *
-' *  Copyright 2015 Adobe Systems Incorporated
+' *  Copyright 2017 Adobe Systems Incorporated
 ' *  All Rights Reserved.
 ' *
 ' * NOTICE:  All information contained herein is, and remains
@@ -19,32 +18,16 @@
 ' *
 ' ************************************************************************** -->
 
-<component name = "HomeScene" extends = "OverhangPanelSetScene" >
+<component name="adbmobileTask" extends="Task">
+  
   <interface>
-    <field id = "run" type="int" onChange="runThis"/>
+  	<field id="adbmobileApiCall" type="assocarray"/>
+    <field id="adbmobileApiResponse" type="assocarray"/>
   </interface>
 
-  <script type="text/brightscript" uri="pkg:/source/adbmobile.brs" />
-  <script type = "text/brightscript" >
-
-    <![CDATA[
-
-    sub init()            
-      runselectedexample()
-    end sub
-
-    sub runThis()
-      m.currentexample.start = m.currentexample.start + 1
-    end sub
-
-    sub runselectedexample()
-      m.currentexample = createObject("roSGNode", "VideoExample")
-      m.top.appendChild(m.currentexample)
-      m.currentexample.setFocus(true)
-    end sub
-
-    ]]>
-
-  </script>
+  <!-- Replace with correct location if needed -->
+  <script type="text/brightscript" uri="pkg:/components/adbmobileTask.brs"/>
+  <!-- Replace with correct location if needed -->
+  <script type="text/brightscript" uri="pkg:/source/adbmobile.brs"/>
 
 </component>

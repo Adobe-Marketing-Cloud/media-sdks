@@ -1,0 +1,212 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+<!--' *************************************************************************
+' *
+' * ADOBE CONFIDENTIAL
+' * ___________________
+' *
+' *  Copyright 2017 Adobe Systems Incorporated
+' *  All Rights Reserved.
+' *
+' * NOTICE:  All information contained herein is, and remains
+' * the property of Adobe Systems Incorporated and its suppliers,
+' * if any.  The intellectual and technical concepts contained
+' * herein are proprietary to Adobe Systems Incorporated and its
+' * suppliers and are protected by trade secret or copyright law.
+' * Dissemination of this information or reproduction of this material
+' * is strictly forbidden unless prior written permission is obtained
+' * from Adobe Systems Incorporated.
+' *
+' ************************************************************************** -->
+
+<component name = "VideoExample" extends = "Group" initialFocus = "videoPlayer" >
+
+  <interface>
+    <field id = "state" type="string"/>
+    <field id = "streamStarted" type="bool"/>
+    <field id = "videoPlayer" type="node"/>
+  </interface>
+
+  <script type="text/brightscript" uri="pkg:/source/adbmobile.brs" />
+  <script type = "text/brightscript" >
+
+    <![CDATA[
+
+    sub init()
+      m.top.streamStarted = false
+
+      ''' Create Video Content node
+      videocontent = createObject("RoSGNode", "ContentNode")
+      videocontent.title = "Example Video"
+      videocontent.streamformat = "mp4"
+      videocontent.url = "http://cdn.auditude.com/assets/video/mp4/hdh264.mp4"
+
+      ''' Initialize VideoPlayer with Video Content
+      m.top.videoPlayer = m.top.findNode("videoPlayer")
+      m.top.videoPlayer.visible = true
+      m.top.videoPlayer.setFocus(true)
+      m.top.videoPlayer.content = videocontent
+
+      ''' Create adbmobileTask node
+      m.adbmobileTask = createObject("roSGNode","adbmobileTask")
+
+      ''' Get AdobeMobile SG connector instance
+      m.adbmobile = ADBMobile().getADBMobileConnectorInstance(m.adbmobileTask) 
+
+      ''' Get AdobeMobile SG constants
+      m.adbmobileConstants = m.adbmobile.sceneGraphConstants()
+
+      ''' Register callback for receiving API responses
+      m.adbmobileTask.ObserveField(m.adbmobileConstants.API_RESPONSE, "onAdbmobileApiResponse")
+
+      ''' Start using the AdobeMobile SDK APIs
+      print "Mobile SDK version: " + m.adbmobile.version
+      
+      print "API Call 1: Setting debugLogging to TRUE"
+      m.adbmobile.setDebugLogging(true)
+
+      print "API Call 2: Fetching MCID"
+      m.adbmobile.visitorMarketingCloudID()
+
+      print "API Call 3: Calling trackState"
+      stateData = {}
+      stateData["key1"] = "val1"
+      stateData["key2"] = "val2"
+      m.adbmobile.trackState("Video Scene", stateData)
+
+      m.top.videoPlayer.observeField("state", "OnVideoPlayerStateChange")
+      m.top.videoPlayer.observeField("position", "onPositionChange")
+      m.top.videoPlayer.control = "play"      
+      
+      print "API Call 4: Getting debug logging value"
+      m.adbmobile.getDebugLogging()
+
+      print "API Call 5: Getting Privacy Status"
+      m.adbmobile.getPrivacyStatus()      
+
+      print "API Call 6: Get Dpid"
+      m.adbmobile.audienceDpid()
+
+    end sub
+
+    ''' Implement callback for parsing ADBMobile API response
+    function onAdbmobileApiResponse() as void
+      responseObject = m.adbmobileTask[m.adbmobileConstants.API_RESPONSE]
+
+      if responseObject <> invalid
+        methodName = responseObject.apiName
+        retVal = responseObject.returnValue
+
+        if methodName = m.adbmobileConstants.DEBUG_LOGGING
+          if retVal
+            print "API Response: DEBUG LOGGING: " + "True"
+          else 
+            print "API Response: DEBUG LOGGING: " + "False"
+          endif
+        else if methodName = m.adbmobileConstants.PRIVACY_STATUS
+          print "API Response: PRIVACY STATUS: " + retVal
+        else if methodName = m.adbmobileConstants.TRACKING_IDENTIFIER
+          if retVal <> invalid
+            print "API Response: TRACKING IDENTIFIER: " + retVal
+          else 
+            print "API Response: TRACKING IDENTIFIER: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.USER_IDENTIFIER
+          if retVal <> invalid
+            print "API Response: USER IDENTIFIER: " + retVal
+          else 
+            print "API Response: USER IDENTIFIER: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.VISITOR_MARKETING_CLOUD_ID
+          if retVal <> invalid
+            print "API Response: MCID: " + retVal
+          else 
+            print "API Response: MCID: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.AUDIENCE_DPID
+          if retVal <> invalid
+            print "API Response: AUDIENCE DPID: " + retVal
+          else 
+            print "API Response: AUDIENCE DPID: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.AUDIENCE_DPUUID
+          if retVal <> invalid
+            print "API Response: AUDIENCE DPUUID: " + retVal
+          else 
+            print "API Response: AUDIENCE DPUUID: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.AUDIENCE_VISITOR_PROFILE
+          if retVal <> invalid
+            print "API Response: AUDIENCE VISITOR PROFILE: Valid Object"
+          else 
+            print "API Response: AUDIENCE VISITOR PROFILE: " + "invalid"
+          endif
+        end if
+      endif
+    end function
+
+    ''' Implement callbacks for Video Player
+    ''' Implement sample MediaHeartbeat APIs
+    function onPositionChange()
+      print "Video Player Position Changed to : " m.videoPlayer.position
+      m.adbmobile.mediaUpdatePlayhead(m.videoPlayer.position)
+
+    end function
+
+    Sub OnVideoPlayerStateChange()
+      m.videoPlayer = m.top.videoPlayer
+      
+      if m.videoPlayer <> invalid        
+        ? "HomeScene > OnVideoPlayerStateChange : state == ";m.videoPlayer.state
+
+        if m.videoPlayer.state = "error"
+          m.adbmobile.mediaTrackError(m.videoPlayer.errorMsg, "video-player-error-code")
+          m.videoPlayer.visible = false
+
+        else if m.videoPlayer.state = "playing"
+            
+          if m.top.streamStarted = false
+            m.top.streamStarted = true           
+
+            mInfo = adb_media_init_mediainfo("test_media_name", "test_media_id", 10, "vod")
+            mediaContextData = {}
+            mediaContextData["videotype"] = "episode"
+
+            m.adbmobile.mediaTrackLoad(mInfo, mediaContextData)
+            m.adbmobile.mediaTrackStart()
+          endif
+
+          m.adbmobile.mediaTrackPlay()
+
+          else if m.videoPlayer.state = "finished"          
+            if m.top.streamStarted = true
+              m.adbmobile.mediaTrackComplete()
+              m.adbmobile.mediaTrackUnload()
+              m.videoPlayer.visible = false
+              m.top.streamStarted = false
+            end if
+                    
+          else if m.videoPlayer.state = "stopped"
+            if m.top.streamStarted = true
+              m.adbmobile.mediaTrackUnload()
+              m.top.streamStarted = false
+            end if
+          
+          else if m.videoPlayer.state = "paused"
+            m.adbmobile.mediaTrackPause()
+        endif
+      endif
+    end sub
+    ]]>
+
+  </script>
+
+  <children >
+    <Video
+            id="videoPlayer"
+            visible="false"
+            translation="[0, 0]"
+            width="1280"
+            height="720"/>
+  </children>
+
+</component>

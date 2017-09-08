@@ -21,9 +21,27 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.0.1",
+      version: "2.0.2",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
+
+      ''' Scene Graph support
+      sgConstants: Function() as Object
+          return _adbMobileSGConnector().sceneGraphConstants()
+        End Function,
+
+      getADBMobileConnectorInstance: Function(adbmobiletask as Object) as Object
+          connector = _adbMobileSGConnector().getADBMobileConnectorInstance(adbmobiletask)
+
+          ''' attach ADBMobile constants to this connector
+          connector.version = m.version
+          connector.PRIVACY_STATUS_OPT_IN = m.PRIVACY_STATUS_OPT_IN
+          connector.PRIVACY_STATUS_OPT_OUT = m.PRIVACY_STATUS_OPT_OUT
+          _adb_media_loadconstants(connector)
+          _adb_media_loadStandardMetadataConstants(connector)
+
+          return connector
+        End Function,
 
       ''' event loop processor
       processMessages: Function() as Void
@@ -33,7 +51,7 @@ Function ADBMobile() As Object
 
       processMediaMessages: Function() as Void
           ' do not execute the Media processmessages loop if MediaHeartbeat is in error state
-          if _adb_media_isInErrorState() = false
+          if _adb_media_isInErrorState() = false AND _adb_media().isEnabled()
             
             ' call the ADB Mobile process message since media uses analytics
             m.processMessages()
@@ -108,57 +126,178 @@ Function ADBMobile() As Object
           _adb_audienceManager().setDpidAndDpuuid(dpid, dpuuid)
         End Function,
 
-    ''' media/MediaHeartbeat
+      ''' media/MediaHeartbeat
+      mediaTrackLoad: Function(mediaInfo as Object, ContextData as Object) As Void
+          _adb_media().trackLoad(mediaInfo, ContextData)
+        End Function,
 
-    mediaTrackLoad: Function(mediaInfo as Object, ContextData as Object) As Void
-      _adb_media().trackLoad(mediaInfo, ContextData)
-      End Function,
-
-    mediaTrackStart: Function() As Void
+      mediaTrackStart: Function() As Void
           _adb_media().trackStart()
         End Function,
 
-    mediaTrackUnload: Function() As Void
-        _adb_media().trackUnload()
-      End Function,
-
-    mediaTrackPlay: Function() As Void        
-        _adb_media().trackPlay()
-      End Function,
-
-    mediaTrackPause: Function() As Void
-        _adb_media().trackPause()
+      mediaTrackUnload: Function() As Void
+          _adb_media().trackUnload()
         End Function,
 
-    mediaTrackComplete: Function() As Void
-        _adb_media().trackComplete()
-      End Function,
+      mediaTrackPlay: Function() As Void        
+          _adb_media().trackPlay()
+        End Function,
 
-    mediaTrackError: Function(errorId As String, errorSource As String) As Void
-        _adb_media().trackError(errorId, errorSource)
-      End Function,
+      mediaTrackPause: Function() As Void
+          _adb_media().trackPause()
+        End Function,
 
-    mediaTrackEvent: Function(event as String, data as Object, ContextData as Object) As Void
-        _adb_media().trackMediaEvent(event, data, ContextData)
-      End Function,
+      mediaTrackComplete: Function() As Void
+          _adb_media().trackComplete()
+        End Function,
 
-    mediaUpdatePlayhead: Function(position as Integer) As Void
-        _adb_media().updatePlayhead(position)
-      End Function,
+      mediaTrackError: Function(errorId As String, errorSource As String) As Void
+          _adb_media().trackError(errorId, errorSource)
+        End Function,
 
-    mediaUpdateQoS: Function(data as Object) As Void
-        _adb_media().updateQoSData(data)
-      End Function
+      mediaTrackEvent: Function(event as String, data as Object, ContextData as Object) As Void
+          _adb_media().trackMediaEvent(event, data, ContextData)
+        End Function,
+
+      mediaUpdatePlayhead: Function(position as Integer) As Void
+          _adb_media().updatePlayhead(position)
+        End Function,
+
+      mediaUpdateQoS: Function(data as Object) As Void
+          _adb_media().updateQoSData(data)
+        End Function
     }
 
-	' Include Constants
-	_adb_media_loadconstants(instance)
-  _adb_media_loadStandardMetadataConstants(instance)
+	  ' Include Constants
+	  _adb_media_loadconstants(instance)
+    _adb_media_loadStandardMetadataConstants(instance)
 
     GetGlobalAA()["ADBMobile"] = instance
   endif
 
   return GetGlobalAA().ADBMobile
+End Function
+
+Function _adbMobileSGConnector() As Object
+  if GetGlobalAA()._adbMobileSGConnector = invalid
+    instance = {
+
+      ''' Constants used to attach field variable updates to adbmobileTask node
+      sceneGraphConstants: Function() As Object
+        return {
+          API_CALL:                     "adbmobileApiCall",
+          API_RESPONSE:                 "adbmobileApiResponse",
+          DEBUG_LOGGING:                "getDebugLogging",
+          PRIVACY_STATUS:               "getPrivacyStatus",
+          TRACKING_IDENTIFIER:          "trackingIdentifier",
+          USER_IDENTIFIER:              "userIdentifier",
+          VISITOR_MARKETING_CLOUD_ID:   "visitorMarketingCloudID",
+          AUDIENCE_VISITOR_PROFILE:     "audienceVisitorProfile",
+          AUDIENCE_DPID:                "audienceDpid",
+          AUDIENCE_DPUUID:              "audienceDpuuid"
+        }
+      End Function,    
+  
+      
+      ''' Return an instance of this object to make API calls to ADBMobile using Scene Graph
+      ''' This object maps SG API calls to ADBMobile API calls
+      getADBMobileConnectorInstance: Function(adbmobiletask as Object) as Object
+        return {
+          adbmobileTask:          adbmobiletask
+          setDebugLogging:        Function(flag as Boolean) as void
+                                    m.invokeFunction("setDebugLogging", [flag])
+                                  End Function,
+          getDebugLogging:        Function() as void
+                                    m.invokeFunction("getter/getDebugLogging", [])
+                                  End Function,
+          setPrivacyStatus:       Function(state as String) as void
+                                    m.invokeFunction("setPrivacyStatus", [state])
+                                  End Function,
+          getPrivacyStatus:       Function() as void
+                                    m.invokeFunction("getter/getPrivacyStatus", [])
+                                  End Function,
+          trackState:             Function(state As String, ContextData as Object) as void
+                                    m.invokeFunction("trackState", [state, ContextData])
+                                  End Function,
+          trackAction:            Function(action As String, ContextData as Object) as void
+                                    m.invokeFunction("trackAction", [action, ContextData])
+                                  End Function,
+          trackingIdentifier:     Function() as void
+                                    m.invokeFunction("getter/trackingIdentifier", [])
+                                  End Function,
+          userIdentifier:         Function() as void
+                                    m.invokeFunction("getter/userIdentifier", [])
+                                  End Function,
+          setUserIdentifier:      Function(id as String) as void
+                                    m.invokeFunction("setUserIdentifier", [id])
+                                  End Function,
+          visitorSyncIdentifiers: Function(identifiers as Object) as void
+                                    m.invokeFunction("visitorSyncIdentifiers", [identifiers])
+                                  End Function,
+          visitorMarketingCloudID:  Function() as void
+                                      m.invokeFunction("getter/visitorMarketingCloudID", [])
+                                    End Function,
+          audienceSubmitSignal:   Function(traits as Object) as void
+                                    m.invokeFunction("audienceSubmitSignal", [traits])
+                                  End Function,
+          audienceVisitorProfile: Function() as void
+                                    m.invokeFunction("getter/audienceVisitorProfile", [])
+                                  End Function,
+          audienceDpid:           Function() as void
+                                    m.invokeFunction("getter/audienceDpid", [])
+                                  End Function,
+          audienceDpuuid:         Function() as void
+                                    m.invokeFunction("getter/audienceDpuuid", [])
+                                  End Function,
+          audienceSetDpidAndDpuuid: Function(dpid As String, dpuuid as String) as void
+                                      m.invokeFunction("audienceSetDpidAndDpuuid", [dpid, dpuuid])
+                                    End Function,
+          mediaTrackLoad:         Function(mediaInfo As Object, ContextData as Object) as void
+                                    m.invokeFunction("mediaTrackLoad", [mediaInfo, ContextData])
+                                  End Function,
+          mediaTrackStart:        Function() as void
+                                    m.invokeFunction("mediaTrackStart", [])
+                                  End Function,
+          mediaTrackUnload:       Function() as void
+                                    m.invokeFunction("mediaTrackUnload", [])
+                                  End Function,
+          mediaTrackPlay:         Function() as void
+                                    m.invokeFunction("mediaTrackPlay", [])
+                                  End Function,
+          mediaTrackPause:        Function() as void
+                                    m.invokeFunction("mediaTrackPause", [])
+                                  End Function,
+          mediaTrackComplete:     Function() as void
+                                    m.invokeFunction("mediaTrackComplete", [])
+                                  End Function,
+          mediaTrackError:        Function(errorId As String, errorSource as String) as void
+                                    m.invokeFunction("mediaTrackError", [errorId, errorSource])
+                                  End Function,
+          mediaTrackEvent:        Function(event As String, data As Object, ContextData as Object) as void
+                                    m.invokeFunction("mediaTrackEvent", [event, data, ContextData])
+                                  End Function,
+          mediaUpdatePlayhead:    Function(position As Integer) as void
+                                    m.invokeFunction("mediaUpdatePlayhead", [position])
+                                  End Function,
+          mediaUpdateQoS:         Function(data as Object) as void
+                                    m.invokeFunction("mediaUpdateQoS", [data])
+                                  End Function,
+
+          sceneGraphConstants:    m.sceneGraphConstants,
+          invokeFunction:         Function(funcName as string, args)
+                                    invocation = {}
+                                    invocation.methodName = funcName
+                                    invocation.args = args
+                                    m.adbmobileTask[m.sceneGraphConstants().API_CALL] = invocation
+                                  End Function
+        }
+      End Function
+    }
+
+    GetGlobalAA()["_adbMobileSGConnector"] = instance
+  endif
+
+  return GetGlobalAA()._adbMobileSGConnector
 End Function
 
 Function _adb_buildAndSendRequest(data, vars, timestamp)
@@ -1236,7 +1375,7 @@ Function _adb_media() As Object
             m["_MAX_STALLED_PLAYHEAD_COUNT"] = 2
             m["_MAX_SESSION_INACTIVITY"] = 30 * 60 * 1000 ' Production :- ~30 mins
             'm["_MAX_SESSION_INACTIVITY"] = 1 * 60 * 1000  ' Testing :- ~1 min
-            m._isEnabled = false
+            m._isEnabled = false            
           End Function,
 
         enable: Function() As Void
@@ -1257,7 +1396,17 @@ Function _adb_media() As Object
             ' Track partial state before stall
             m.trackContentAndResetReportingTimer()
             _adb_mediacontext().setInStall(true)
-            m.resetAssetReferenceTimeStamp()
+            _adb_mediacontext().resetAssetRefContext()
+          endif
+          End Function,
+
+        trackPlayheadStallComplete: Function() As Void
+          _adb_logger().debug("#trackPlayheadStallComplete()")
+          if _adb_media_isInErrorState() = false AND m.isEnabled()
+            ' Track partial state before stall
+            m.trackContentAndResetReportingTimer()
+            _adb_mediacontext().setInStall(false)
+            _adb_mediacontext().resetAssetRefContext()
           endif
           End Function,
 
@@ -1281,9 +1430,7 @@ Function _adb_media() As Object
                 m._stalledPlayheadCount = 0
                 if _adb_mediacontext().isInStall()
                   _adb_logger().debug("#_playheadStalled -> trackPlaybackState()")
-                  ' track partial stall'
-                  m.trackPlaybackState()
-                  _adb_mediacontext().setInStall(false)
+                  m.trackPlayheadStallComplete()
                 endif
               else if currentPlayhead >= 0 AND (NOT _adb_mediacontext().isInStall())
                   m._stalledPlayheadCount++
@@ -1383,6 +1530,7 @@ Function _adb_media() As Object
             m.trackStartInternal(videoResumed)
 
             _adb_mediacontext().setActiveSession(true)
+            _adb_mediacontext().resetAssetRefContext()
           else
             _adb_logger().debug("trackStart: ADB Media module is in error state.")
           endif
@@ -1429,13 +1577,15 @@ Function _adb_media() As Object
             _adb_mediacontext().setActiveSession(false)
             _adb_mediacontext().resetState()
             _adb_clockservice().stopClockService()
+            m.disable()
           End Function,
 
         trackPlay: Function() As Void
             _adb_logger().debug("#trackPlay()")
             if _adb_media_isInErrorState() = false AND m.isEnabled()
-               ' Should we do partial tracking here ??
+               m.trackContentAndResetReportingTimer()
                _adb_mediacontext().setInPause(false)
+               _adb_mediacontext().resetAssetRefContext()
                 m.trackPlaybackState()
                 m.resumeStallTracking()
             else
@@ -1468,7 +1618,7 @@ Function _adb_media() As Object
 
             dictionary = _adb_paramsResolver().resolveDataForEvent(_adb_mediacontext().getCurrentPlaybackState())
             _adb_serializeAndSendHeartbeat().queueRequestsForResponse(dictionary)
-            m.resetAssetReferenceTimeStamp()
+            _adb_mediacontext().resetAssetRefContext()
           else
             _adb_logger().debug("trackPlaybackState: ADB Media module is in error state.")
           endif
@@ -1481,6 +1631,8 @@ Function _adb_media() As Object
             m.trackContentAndResetReportingTimer()
             _adb_mediacontext().setInPause(true)
             m.suspendStallTracking()
+            _adb_mediacontext().resetAssetRefContext()
+            m.trackPlaybackState()
           else
             _adb_logger().debug("trackPause: ADB Media module is in error state.")
           endif
@@ -1581,6 +1733,7 @@ Function _adb_media() As Object
             ' reset the reporting timer if state is tracked
             m.trackContentAndResetReportingTimer()
             _adb_mediacontext().setInBuffering(true)
+            _adb_mediacontext().resetAssetRefContext()
             m.trackPlaybackState()
             m.suspendStallTracking()
           End Function,
@@ -1595,17 +1748,17 @@ Function _adb_media() As Object
             _adb_mediacontext().updateTimeStampForEvent("buffer", "-1")
             _adb_mediacontext().updateRefTSForEvent("buffer", "-1")
 
-            m.resetAssetReferenceTimeStamp()
-            if NOT _adb_mediacontext().isPaused()
+            _adb_mediacontext().resetAssetRefContext()
+            if _adb_mediacontext().isPlaying()
               m.resumeStallTracking()
             endif
           End Function,
 
         trackSeekStart: Function() As Void
             _adb_logger().debug("#trackSeekStart()")
-            ' set the adb media state to pause as seek starts
-            _adb_mediacontext().setInSeeking(true)
             m.trackContentAndResetReportingTimer()
+            ' set the adb media state to pause as seek starts
+            _adb_mediacontext().setInSeeking(true)            
             m.suspendStallTracking()
           End Function,
 
@@ -1617,7 +1770,7 @@ Function _adb_media() As Object
                     reportingTimer.reset()
                 endif
                 _adb_mediacontext().setInSeeking(false)
-                if NOT _adb_mediacontext().isPaused()
+                if _adb_mediacontext().isPlaying()
                   m.resumeStallTracking()
                 endif
             endif
@@ -1640,6 +1793,7 @@ Function _adb_media() As Object
             _adb_mediacontext().setChapterContextData(ContextData)
 
             m.trackChapterStartInternal()
+            _adb_mediacontext().resetAssetRefContext()
 
             ' force play with duration 0 after chapter start
             m.trackPlaybackState()
@@ -1657,8 +1811,7 @@ Function _adb_media() As Object
             _adb_mediacontext().setChapterInfo(invalid)
             _adb_mediacontext().setChapterContextData(invalid)
 
-            'reset main content's reference time stamp to current timestamp.
-             _adb_mediacontext().updateRefTSForEvent(_adb_mediacontext().getCurrentPlaybackState(), _adb_util().getTimestampInMillis())
+            _adb_mediacontext().resetAssetRefContext()
           End Function,
 
         trackChapterSkip: Function() As Void
@@ -1702,6 +1855,7 @@ Function _adb_media() As Object
             _adb_mediacontext().setAdContextData(finalData)
 
             m.trackAdStartInternal()
+            _adb_mediacontext().resetAssetRefContext()
           End Function,
 
         trackAdComplete: Function(adInfo as Object) As Void
@@ -1716,8 +1870,7 @@ Function _adb_media() As Object
             _adb_mediacontext().setAdInfo(invalid)
             _adb_mediacontext().setAdContextData(invalid)
 
-            'reset main content's reference time stamp to current timestamp.
-            _adb_mediacontext().updateRefTSForEvent(_adb_mediacontext().getCurrentPlaybackState(), _adb_util().getTimestampInMillis())
+            _adb_mediacontext().resetAssetRefContext()
           End Function,
 
         trackAdSkip: Function() As Void
@@ -1733,17 +1886,6 @@ Function _adb_media() As Object
             dictionary = _adb_paramsResolver().resolveDataForEvent(_adb_paramsResolver()["_bitrate_change"])
             _adb_serializeAndSendHeartbeat().queueRequestsForResponse(dictionary)
           End Function,
-
-        resetAssetReferenceTimeStamp: Function() As Void
-          if _adb_mediacontext().isInAd() = true
-            currAd = _adb_mediacontext().getAdInfo()
-            currAdID = currAd["id"]
-            _adb_mediacontext().updateRefTSForEvent(currAdID+"_"+_adb_mediacontext().getCurrentPlaybackState(),_adb_util().getTimestampInMillis())
-          else
-            _adb_mediacontext().updateRefTSForEvent(_adb_mediacontext().getCurrentPlaybackState(), _adb_util().getTimestampInMillis())
-          endif
-        End Function,
-
 
         trackContentAndResetReportingTimer: Function() As Void
             reportingTimer = _adb_clockservice().getTimer("ReportingTimer")
@@ -1882,7 +2024,7 @@ Function _adb_media_setErrorState(boolval As Boolean)
   elseif boolval = false
     _adb_persistenceLayer().writeValue("media_error_state", "false")
     if GetGlobalAA()._adb_media_instance <> invalid
-      ''' FIX: media module should never be enabled until trackLoad API is called
+      ''' FIX: do not enable _adb_media until trackLoad API is called
       '_adb_media().enable()
 
       ''' no need to start the clock service here, trackStart should start it
@@ -1955,11 +2097,18 @@ Function _adb_mediacontext() As Object
 
         setInPause: Function(flag As Boolean)
           m["isPausedValue"] = flag
+          if NOT flag
+            m["isPlayStartedValue"] = true
+          endif
           m.recordTSForIdleState()
         End Function,
 
         isPaused: Function() As Boolean
           return m["isPausedValue"]
+        End Function,
+
+        isPlaying: Function() As Boolean
+          return (NOT m["isPausedValue"] AND m["isPlayStartedValue"])
         End Function,
 
         setInSeeking: Function(flag As Boolean)
@@ -2144,8 +2293,7 @@ Function _adb_mediacontext() As Object
         resetToResumeState: Function() as Void
           ' Resets Event timestamps, Ad info and chapter info
           m["eventTSMap"] = {}
-          m["refTSMap"] = {}
-          m["lastTrackedEventTime"] = {"playhead" : -1, "ts" : "-1"}
+          m["assetRefContext"] = {}
 
           m.setInAdTo(false)
           m.setAdInfo(invalid)
@@ -2162,7 +2310,9 @@ Function _adb_mediacontext() As Object
           m.setIsActiveTracking(false)
           m.setInAdTo(false)
           m.setInChapterTo(false)
+          m.setActiveSession(false)
 
+          m["isPlayStartedValue"] = false
           m["isBufferingValue"] = false
           m["isInStallValue"] = false
           m["isPausedValue"] = false
@@ -2173,16 +2323,21 @@ Function _adb_mediacontext() As Object
           m.resetToResumeState()
         End Function,
 
-        updateLastTrackedEventTime: Function(playhead As Integer, ts As String) As Void
-          m.lastTrackedEventTime = {"playhead" : playhead, "ts" : ts}
+        resetAssetRefContext: Function() As Void
+          'This function is called to track the duration of the player state event. (start, play, pause, stall, buffer)
+          'This should be called always after tracking player state event.
+
+          m.assetRefContext.state = m.getCurrentPlaybackState()
+          m.assetRefContext.ts = _adb_util().getTimestampInMillis()
+          m.assetRefContext.playhead = m.getCurrentPlayhead()
+        End Function,
+
+        getAssetRefContext: Function() As Object
+          return m.assetRefContext
         End Function,
 
         updateTimeStampForEvent: Function(eventName As String, ts As String) As Void
           m.eventTSMap[eventName] = ts
-        End Function,
-
-        updateRefTSForEvent: Function(eventName As String, ts As String) As Void
-          m.refTSMap[eventName] = ts
         End Function,
 
         updateCurrentPlayhead: Function(playhead As Integer) As Void
@@ -2195,13 +2350,15 @@ Function _adb_mediacontext() As Object
 
         getCurrentPlaybackState: Function() As Object
           if m.isInStall()
-            return "stall"
+            return _adb_paramsResolver()._player_event_stall
           else if m.isBuffering()
-            return "buffer"
+            return _adb_paramsResolver()._player_event_buffer
           else if m.isPaused() OR m.isSeeking()
-            return "pause"
+            return _adb_paramsResolver()._player_event_pause
+          else if NOT m.isPaused()
+            return _adb_paramsResolver()._player_event_play
           else
-            return "play"
+            return _adb_paramsResolver()._player_event_start
           endif
         End Function,
 
@@ -2228,10 +2385,6 @@ Function _adb_mediacontext() As Object
           return m["isVideoIdleValue"]
         End Function,
 
-        getLastTrackedEventTime: Function() As Object
-          return m.lastTrackedEventTime
-        End Function,
-
         getTimeStampForEvent: Function(eventName As String) As Object
           if m.eventTSMap[eventName] = invalid
             m.eventTSMap[eventName] = "-1"
@@ -2239,15 +2392,6 @@ Function _adb_mediacontext() As Object
 
           return m.eventTSMap[eventName]
         End Function,
-
-        getRefTSForEvent: Function(eventName As String) As Object
-          if m.refTSMap[eventName] = invalid
-            'don't save it to always return -1 so that we can always check for it and make it = prevTS
-            return "-1"
-          endif
-
-          return m.refTSMap[eventName]
-        End Function
       }
 
       instance._init()
@@ -2308,24 +2452,16 @@ Function _adb_paramsResolver() As Object
             m._appendEventData(resolvedData, "start")
             m._appendMetadata(resolvedData)
 
-            'save time stamp for ad play so that first ad play has event duration != 0
-            currAd = _adb_mediacontext().getAdInfo()
-            currAdID = currAd["id"]
-            _adb_mediacontext().updateRefTSForEvent(currAdID+"_"+_adb_mediacontext().getCurrentPlaybackState(),_adb_util().getTimestampInMillis())
-
           elseif eventName="media-ad-end"
             m._appendEventData(resolvedData, "complete")
             'm._appendAdAssetData(resolvedData)
 
           elseif eventName = m["_chapter_start"]
             m["_chapterSessionIdValue"] = invalid
-            'update the reference time stamp with every chapter-start event. This makes event duration = 0 with a prev_ts
-            _adb_mediacontext().updateRefTSForEvent(eventName,_adb_util().getTimestampInMillis())
             m._appendEventData(resolvedData,eventName)
             m._appendMetadata(resolvedData)
 
           elseif eventName = m["_chapter_complete"]
-            _adb_mediacontext().updateRefTSForEvent(eventName,_adb_util().getTimestampInMillis())
             m._appendEventData(resolvedData,eventName)
             'm._appendChapterStreamData(resolvedData)
 
@@ -2340,28 +2476,14 @@ Function _adb_paramsResolver() As Object
 
           if _adb_mediacontext().isInAd() = true
             m._appendAdAssetData(resolvedData)
-
-            '''currAd = _adb_mediacontext().getAdInfo
-            currAd = _adb_mediacontext().getAdInfo()
-            currAdID = currAd["id"]
-            m._appendEventTS(resolvedData, currAdID+"_"+eventName)
-          else
-            m._appendEventTS(resolvedData, eventName)
-          endif
-
-          'Add duration only to events that track a time range
-          if eventName <> "error" AND eventName <> "_bitrate_change"
-            if _adb_mediacontext().isInAd() = true
-              m._appendEventDuration(resolvedData, currAdID + "_" + eventName)
-            else
-              m._appendEventDuration(resolvedData, eventName)
-            endif
-            _adb_mediacontext().updateLastTrackedEventTime(resolvedData[m._event_playhead], resolvedData[m._event_ts])
           endif
 
           if _adb_mediacontext().isInChapter() = true
             m._appendChapterStreamData(resolvedData)
           endif
+
+          m._appendEventTS(resolvedData, eventName)
+          m._appendEventDuration(resolvedData, eventName)
 
           return resolvedData
         End Function,
@@ -2536,44 +2658,53 @@ Function _adb_paramsResolver() As Object
         End Function,
 
         _appendEventTS: Function(resolvedData As Object, eventName as String) As Void
+          resolvedEventName = eventName
+
+          if _adb_mediacontext().isInAd()
+            currAd = _adb_mediacontext().getAdInfo()
+            currAdID = currAd.id
+            resolvedEventName = currAdID + "_" + eventName
+          endif
+
           currTS = _adb_util().getTimestampInMillis()
-          prevTS = _adb_mediacontext().getTimeStampForEvent(eventName)
+          prevTS = _adb_mediacontext().getTimeStampForEvent(resolvedEventName)
 
           resolvedData[m._event_prevts] = prevTS
           resolvedData[m._event_ts] = currTS
 
-          _adb_mediacontext().updateTimeStampForEvent(eventName, currTS)
+          _adb_mediacontext().updateTimeStampForEvent(resolvedEventName, currTS)
         End Function,
 
         _appendEventDuration: Function(resolvedData As Object, eventName as String) As Void
+          'We only append event duration to start / play / pause / stall / buffer calls.
+          'With pause and stall tracking in place, we send out a ping every 'reportingInterval' sec
+          'eventDuration will never be more than 'reportingInterval' sec.
+          
+          refContext = _adb_mediacontext().getAssetRefContext()
+          eventDuration = 0
+
           currTS = resolvedData[m._event_ts]
-          prevTS = resolvedData[m._event_prevts]
-          refTS = _adb_mediacontext().getRefTSForEvent(eventName)
-
-          'for some events, event duration = 0 even if prev_ts != -1. In these cases, reference ts = current ts.
-          if refTS = "-1"
-            refTS = prevTS
-          endif
-
-          duration =  _adb_util().calculateTimeDiffInMillis(currTS, refTS)
           playhead = resolvedData[m._event_playhead]
-          prevEventTime = _adb_mediacontext().getLastTrackedEventTime()
-
-          playheadDelta = Abs(playhead - prevEventTime.playhead) * 1000
-          tsDelta = _adb_util().calculateTimeDiffInMillis(currTS, prevEventTime.ts)
-          if refTS = "-1"
-            resolvedData[m._event_duration] = 0
-          else if eventName <> "pause" AND eventName <> "stall"
-            if (playheadDelta <= tsDelta * m._TS_DELTA_LIMIT_FACTOR) AND (tsDelta <= _adb_clockservice()._reportingInterval * m._TS_DELTA_LIMIT_FACTOR)
-              resolvedData[m._event_duration] = duration
-            else
-              _adb_logger().warning("Setting event duration to 0. playheadDelta:" + Str(playheadDelta) + " tsDelta:" + Str(tsDelta) + " event type:" + eventName)
-              resolvedData[m._event_duration] = 0
+          if (refContext.state = eventName)
+            if currTS <> invalid AND refContext.ts <> invalid
+              _adb_util().calculateTimeDiffInMillis(currTS, refContext.ts)
+              eventDuration = _adb_util().calculateTimeDiffInMillis(currTS, refContext.ts)
             endif
-          else
-            resolvedData[m._event_duration] = duration
+
+            'Important: Code to protect against events coming in after a long pause (like resuming a suspended app) and resulting in large event durations
+            'This was ported from VHL code in other platforms.
+            if (eventName <> m._player_event_pause AND eventName <> m._player_event_stall)
+              playheadDelta = Abs(playhead - refContext.playhead) * 1000
+              tsDelta = _adb_util().calculateTimeDiffInMillis(currTS, refContext.ts)
+                  
+              if (playheadDelta > tsDelta * m._TS_DELTA_LIMIT_FACTOR) OR (tsDelta > _adb_clockservice()._reportingInterval * m._TS_DELTA_LIMIT_FACTOR)
+                  _adb_logger().warning("Setting event duration to 0. playheadDelta:" + Str(playheadDelta) + " tsDelta:" + Str(tsDelta) + " event type:" + eventName)
+                  eventDuration = 0
+              endif
+            endif
           endif
 
+          resolvedData[m._event_duration] = eventDuration
         End Function
 
         _appendAdAssetData: Function(resolvedData As Object) As Void
@@ -2762,6 +2893,12 @@ Function _adb_paramsResolver() As Object
           m["_bitrate_change"] = "bitrate_change"
           m["_chapter_start"] = "chapter_start"
           m["_chapter_complete"] = "chapter_complete"
+
+          m["_player_event_play"] = "play"
+          m["_player_event_pause"] = "pause"
+          m["_player_event_buffer"] = "buffer"
+          m["_player_event_stall"] = "stall"
+          m["_player_event_start"] = "start"
 
           m["_TS_DELTA_LIMIT_FACTOR"] = 1.5
         End Function
@@ -3054,9 +3191,13 @@ Function _adb_mediaPlayerDataValidator() As Object
   return GetGlobalAA()._mediaPlayerDataValidator
 End Function
 
+
 Function ADBVideoPlayer()
     this = m.handler_Instance
     if this = INVALID
+
+    	_adb_logger().warning("ADBVideoPlayer - This utility object is deprecated and is only available for applications not using SceneGraph")
+
         this = {
         'member variables
             playerId   		: INVALID
@@ -4782,9 +4923,9 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "11"
-          m["_gitHash"] = "27609a"
-          m["_api_level"] = 3
+          m["_buildNumber"] = "27"
+          m["_gitHash"] = "094acb"
+          m["_api_level"] = 4
         End Function
     }
 

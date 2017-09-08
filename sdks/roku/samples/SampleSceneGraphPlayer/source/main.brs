@@ -3,7 +3,7 @@
 ' * ADOBE CONFIDENTIAL
 ' * ___________________
 ' *
-' *  Copyright 2015 Adobe Systems Incorporated
+' *  Copyright 2017 Adobe Systems Incorporated
 ' *  All Rights Reserved.
 ' *
 ' * NOTICE:  All information contained herein is, and remains
@@ -30,8 +30,6 @@ sub showHomecreen()
   screen.show()
 
   while (true)
-    scene.run = scene.run + 1
-    
     msg = wait(1, m.port)
     if type(msg) = "roSGScreenEvent"
       print "received screen closed...."
