@@ -14,6 +14,9 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/android_2.0/
 
+## 2.0.2 (September 15, 2017)
+- Bug fixes to improve memory usage and stability.
+
 ## 2.0.1 (June 29, 2017)
 - Bug fixes to improve stability and performance.
 - 
