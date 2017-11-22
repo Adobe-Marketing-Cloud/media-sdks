@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/chromecast/
 
+## 2.0.1 (22 November, 2017)
+What’s new :
+- Bug fixes
+
 ## 2.0.0 (11 August, 2017)
 What’s new :
 - Added new tracking APIs and constants to make the library consistent with other platforms. 
