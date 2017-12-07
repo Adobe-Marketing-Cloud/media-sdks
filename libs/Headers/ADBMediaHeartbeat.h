@@ -135,7 +135,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param value A non-null value for the key. Any existing value for the key is replaced by the new value. 
  * @param key The name of the key to be set.
  */
-- (void)setValue:(id)value forKey:(NSString *)key;
+- (void)setValue:(nonnull id)value forKey:(nonnull NSString *)key;
 
 /**
  * Returns the value of the specified key.
@@ -145,14 +145,14 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param key The name of the key whose value  is to be returned.
  * @return The value for the specified key or nil if there is no corresponding value for the key
  */
-- (id)valueForKey:(NSString *)key;
+- (id)valueForKey:(nonnull NSString *)key;
 
 /**
  * Returns all the keys as an NSArray instance
  *
  * @return A new array containing the keys, or an empty array if this instance has no entries.
  */
-- (NSArray *)allKeys;
+- (nonnull NSArray *)allKeys;
 
 @end
 
@@ -168,7 +168,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * multiple times during a playback session. Player implementation must always return the most
  * recently available QoS data.
  */
-- (ADBMediaObject *)getQoSObject;
+- (nonnull ADBMediaObject *)getQoSObject;
 
 /**
  * Current position of the playhead. For VOD, value is specified in seconds from the beginning of the media item.
@@ -187,13 +187,13 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * 	@brief Gets the version.
  *  @return a string pointer containing the version value.
  */
-+ (NSString *)version;
++ (nonnull NSString *)version;
 
 
 #pragma mark - Initialization
 
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
++ (nonnull instancetype)new NS_UNAVAILABLE;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 /**
  * Creates an instance of ADBMediaHeartbeat class with provided delegate
@@ -201,7 +201,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param delegate
  * @param config
  */
-- (instancetype)initWithDelegate:(id<ADBMediaHeartbeatDelegate>)delegate config:(ADBMediaHeartbeatConfig *)config;
+- (nonnull instancetype)initWithDelegate:(nonnull id<ADBMediaHeartbeatDelegate>)delegate config:(nonnull ADBMediaHeartbeatConfig *)config;
 
 
 #pragma mark - Media Lifecycle Track
@@ -212,7 +212,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param mediaObject An ADBMediaObject instance created using createMediaObjectWithName method
  * @param data a dictionary pointer containing the context data to be tracked.
  */
-- (void)trackSessionStart:(ADBMediaObject *)mediaObject data:(NSDictionary *)data;
+- (void)trackSessionStart:(nonnull ADBMediaObject *)mediaObject data:(nullable NSDictionary *)data;
 
 /**
  * Video playback tracking method to track Video Play and a resume after a previous pause.
@@ -241,7 +241,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  *
  * param errorId A string describing the error
  */
-- (void)trackError:(NSString *)errorId;
+- (void)trackError:(nonnull NSString *)errorId;
 
 
 #pragma mark - Media Events Track
@@ -253,7 +253,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param info
  * @param data a dictionary pointer containing the context data to be tracked.
  */
-- (void)trackEvent:(ADBMediaHeartbeatEvent)event mediaObject:(ADBMediaObject *)mediaObject data:(NSDictionary *)data;
+- (void)trackEvent:(ADBMediaHeartbeatEvent)event mediaObject:(nullable ADBMediaObject *)mediaObject data:(nullable NSDictionary *)data;
 
 
 #pragma mark - Create Methods
@@ -266,10 +266,10 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param length The length of the media in seconds
  * @param streamType The stream type as a string. Use the pre-defined constants for vod, live, and linear content
  */
-+ (ADBMediaObject *)createMediaObjectWithName:(NSString *)name
-					  mediaId:(NSString *)mediaId
++ (nonnull ADBMediaObject *)createMediaObjectWithName:(nonnull NSString *)name
+					  mediaId:(nonnull NSString *)mediaId
 					   length:(double)length
-				   streamType:(NSString *)streamType;
+				   streamType:(nonnull NSString *)streamType;
 
 /**
  * Creates an instance of the AdBreak info object
@@ -278,7 +278,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param position The position of the ad break in the content starting with 1
  * @param startTime The start time of the ad break relative to the main media
  */
-+ (ADBMediaObject *)createAdBreakObjectWithName:(NSString *)name
++ (nonnull ADBMediaObject *)createAdBreakObjectWithName:(nonnull NSString *)name
 					   position:(double)position
 					  startTime:(double)startTime;
 
@@ -290,8 +290,8 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param position The start position of the ad
  * @param length The length of the ad in seconds
  */
-+ (ADBMediaObject *)createAdObjectWithName:(NSString *)name
-									  adId:(NSString *)adId
++ (nonnull ADBMediaObject *)createAdObjectWithName:(nonnull NSString *)name
+									  adId:(nonnull NSString *)adId
 								position:(double)position
 								  length:(double)length;
 
@@ -303,7 +303,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param length The length of the chapter in seconds
  * @param startTime The start of the chapter relative to the main media
  */
-+ (ADBMediaObject *)createChapterObjectWithName:(NSString *)name
++ (nonnull ADBMediaObject *)createChapterObjectWithName:(nonnull NSString *)name
 									  position:(double)position
 										length:(double)length
 									 startTime:(double)startTime;
@@ -316,7 +316,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param fps The current frames per second information
  * @param droppedFrames The number of dropped frames so far
  */
-+ (ADBMediaObject *)createQoSObjectWithBitrate:(double)bitrate
++ (nonnull ADBMediaObject *)createQoSObjectWithBitrate:(double)bitrate
 								  startupTime:(double)startupTime
 										  fps:(double)fps
 								droppedFrames:(double)droppedFrames;
@@ -326,7 +326,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  *
  * @param metadata The timed metadata string value
  */
-+ (ADBMediaObject *)createTimedMetadataObject:(NSString *)metadata;
++ (nonnull ADBMediaObject *)createTimedMetadataObject:(nonnull NSString *)metadata;
 
 
 @end
