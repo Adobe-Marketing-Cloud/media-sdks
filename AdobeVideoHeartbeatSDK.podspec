@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "AdobeVideoHeartbeatSDK"
-  s.version      = "2.0.0"
+  s.version      = "2.0.1"
   s.summary      = "Video Analytics (Heartbeats) is Adobe’s standardized video solution. This is the only official Adobe Video Analytics (Heartbeats) Pod."
   s.description  = <<-DESC
                    Adobe Analytics for Video enables clients to track the full customer journey across their site, which includes video consumption, and these measures are easily integrated into Analytics reporting and other Experience Cloud products.
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.license      = {:type => "Commercial", :text => "Adobe Systems Incorporated All Rights Reserved"}
   s.author       = "Adobe Video Heartbeat Library Team"
-  s.source       = { :git => 'https://github.com/Adobe-Marketing-Cloud/video-heartbeat-v2.git', :tag => "ios-v2.0.0-cocoapod" }
+  s.source       = { :git => 'https://github.com/Adobe-Marketing-Cloud/video-heartbeat-v2.git', :tag => "ios-v2.0.1-cocoapod" }
   s.platform     = :ios, '5.0'
   
 

@@ -296,7 +296,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createAdBreakObjectWithName:(NSString *)<em>name</em> position:(double)<em>position</em> startTime:(double)<em>startTime</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createAdBreakObjectWithName:(nonnull NSString *)<em>name</em> position:(double)<em>position</em> startTime:(double)<em>startTime</em></code></div>
 
     
 	
@@ -357,7 +357,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createAdObjectWithName:(NSString *)<em>name</em> adId:(NSString *)<em>adId</em> position:(double)<em>position</em> length:(double)<em>length</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createAdObjectWithName:(nonnull NSString *)<em>name</em> adId:(nonnull NSString *)<em>adId</em> position:(double)<em>position</em> length:(double)<em>length</em></code></div>
 
     
 	
@@ -423,7 +423,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createChapterObjectWithName:(NSString *)<em>name</em> position:(double)<em>position</em> length:(double)<em>length</em> startTime:(double)<em>startTime</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createChapterObjectWithName:(nonnull NSString *)<em>name</em> position:(double)<em>position</em> length:(double)<em>length</em> startTime:(double)<em>startTime</em></code></div>
 
     
 	
@@ -489,7 +489,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createMediaObjectWithName:(NSString *)<em>name</em> mediaId:(NSString *)<em>mediaId</em> length:(double)<em>length</em> streamType:(NSString *)<em>streamType</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createMediaObjectWithName:(nonnull NSString *)<em>name</em> mediaId:(nonnull NSString *)<em>mediaId</em> length:(double)<em>length</em> streamType:(nonnull NSString *)<em>streamType</em></code></div>
 
     
 	
@@ -555,7 +555,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createQoSObjectWithBitrate:(double)<em>bitrate</em> startupTime:(double)<em>startupTime</em> fps:(double)<em>fps</em> droppedFrames:(double)<em>droppedFrames</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createQoSObjectWithBitrate:(double)<em>bitrate</em> startupTime:(double)<em>startupTime</em> fps:(double)<em>fps</em> droppedFrames:(double)<em>droppedFrames</em></code></div>
 
     
 	
@@ -621,7 +621,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createTimedMetadataObject:(NSString *)<em>metadata</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createTimedMetadataObject:(nonnull NSString *)<em>metadata</em></code></div>
 
     
 	
@@ -672,7 +672,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (NSString *)version</code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)version</code></div>
 
     
 	
@@ -721,7 +721,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (instancetype)initWithDelegate:(id&lt;ADBMediaHeartbeatDelegate&gt;)<em>delegate</em> config:(ADBMediaHeartbeatConfig *)<em>config</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (nonnull instancetype)initWithDelegate:(nonnull id&lt;ADBMediaHeartbeatDelegate&gt;)<em>delegate</em> config:(nonnull ADBMediaHeartbeatConfig *)<em>config</em></code></div>
 
     
 	
@@ -806,7 +806,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackError:(NSString *)<em>errorId</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackError:(nonnull NSString *)<em>errorId</em></code></div>
 
     
 	
@@ -849,7 +849,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackEvent:(ADBMediaHeartbeatEvent)<em>event</em> mediaObject:(ADBMediaObject *)<em>mediaObject</em> data:(NSDictionary *)<em>data</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackEvent:(ADBMediaHeartbeatEvent)<em>event</em> mediaObject:(nullable ADBMediaObject *)<em>mediaObject</em> data:(nullable NSDictionary *)<em>data</em></code></div>
 
     
 	
@@ -1028,7 +1028,7 @@ does not watch the video to completion.</p>
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackSessionStart:(ADBMediaObject *)<em>mediaObject</em> data:(NSDictionary *)<em>data</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackSessionStart:(nonnull ADBMediaObject *)<em>mediaObject</em> data:(nullable NSDictionary *)<em>data</em></code></div>
 
     
 	
@@ -1087,7 +1087,7 @@ does not watch the video to completion.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2016 Adobe Systems Inc. All rights reserved. (Last updated: 2016-07-15)</span><br />
+						<p><span class="copyright">&copy; 2016 Adobe Systems Inc. All rights reserved. (Last updated: 2016-10-11)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						
