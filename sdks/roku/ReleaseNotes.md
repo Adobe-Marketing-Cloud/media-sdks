@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/
 
+## 2.0.3 (08 December, 2017)
+What’s new :
+- Bug fixes
+
 ## 2.0.2 (08 September, 2017)
 What’s new :
 - Added SceneGraph compatibility to AdobeMobileLibrary

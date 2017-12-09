@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.0.2",
+      version: "2.0.3",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -2321,6 +2321,9 @@ Function _adb_mediacontext() As Object
           m["idleStateTs"] = _adb_util().getTimestampInMillis()
           m["playhead"] = 0
           m.resetToResumeState()
+
+          _adb_paramsResolver().resetSessionIds()
+
         End Function,
 
         resetAssetRefContext: Function() As Void
@@ -4923,8 +4926,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "27"
-          m["_gitHash"] = "094acb"
+          m["_buildNumber"] = "34"
+          m["_gitHash"] = "aa3c5d"
           m["_api_level"] = 4
         End Function
     }
