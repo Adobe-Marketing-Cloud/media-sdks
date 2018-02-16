@@ -4,7 +4,7 @@
 
 To import Video Heartbeat using Cocoapods:
 
-    pod 'AdobeVideoHeartbeatSDK', '~>2.0.1'
+    pod 'AdobeVideoHeartbeatSDK', '~>2.1'
 
 in your podfile
 
