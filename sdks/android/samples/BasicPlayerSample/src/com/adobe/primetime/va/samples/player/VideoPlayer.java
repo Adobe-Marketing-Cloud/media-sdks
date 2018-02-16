@@ -104,13 +104,15 @@ public class VideoPlayer extends Observable {
 
     public Double getCurrentPlaybackTime() {
         Double playhead;
-
-        if (_adInfo != null) { // During ad playback the main video playhead remains
-                               // constant at where it was when the ad started
+        Double vTime = getPlayhead();
+        if(vTime > AD_START_POS + AD_LENGTH) {
+            playhead = vTime - AD_LENGTH;
+        }
+        else if(vTime >AD_START_POS) {
             playhead = AD_START_POS;
-        } else {
-            Double vTime = getPlayhead();
-            playhead = (vTime <= AD_START_POS) ? vTime : vTime - AD_LENGTH;
+        }
+        else {
+            playhead = vTime;
         }
 
         return playhead;

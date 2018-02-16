@@ -14,6 +14,12 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/android_2.0/
 
+## 2.1.0 (February 15, 2018)
+- One second ad tracking: Improved accuracy for video ads.
+- Improved player state management and error recovery: Additional logic to better support maintaining player states and ensure accurate measurement, including identification of closed state.
+- Enhanced input data validation with better debug logging.
+- Bug fixes to improve stability and SDK performance.
+
 ## 2.0.2 (September 15, 2017)
 - Bug fixes to improve memory usage and stability.
 
