@@ -92,17 +92,17 @@ typedef NS_ENUM(NSInteger, ADBMediaHeartbeatEvent)
 /**
  * Constant defining stream type for VOD streams
  */
-FOUNDATION_EXPORT NSString *const ADBMediaHeartbeatStreamTypeVOD;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaHeartbeatStreamTypeVOD;
 
 /**
  * Constant defining stream type for Live streams
  */
-FOUNDATION_EXPORT NSString *const ADBMediaHeartbeatStreamTypeLIVE;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaHeartbeatStreamTypeLIVE;
 
 /**
  * Constant defining stream type for Linear streams
  */
-FOUNDATION_EXPORT NSString *const ADBMediaHeartbeatStreamTypeLINEAR;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaHeartbeatStreamTypeLINEAR;
 
 
 #pragma mark - ADBMediaObjectKey constants
@@ -113,16 +113,20 @@ FOUNDATION_EXPORT NSString *const ADBMediaHeartbeatStreamTypeLINEAR;
 /**
  * Constant defining Map of Standard Video Metadata to be attached on MediaObject
  */
-FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardVideoMetadata;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaObjectKeyStandardVideoMetadata;
 /**
  * Constant defining Map of Standard Ad Metadata to be attached on MediaObject
  */
-FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyVideoResumed;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaObjectKeyVideoResumed;
+/**
+ * Constant defining the time that MediaHeartbeat waits to start tracking pre-roll ad before tracking the video start
+ */
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaObjectKeyPrerollTrackingWaitingTime;
 
 /**
  * These constant strings define ad info keys
  */
-FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
+FOUNDATION_EXPORT NSString * __nonnull const ADBMediaObjectKeyStandardAdMetadata;
 
 
 #pragma mark - ADBMediaObject Interface
@@ -135,7 +139,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param value A non-null value for the key. Any existing value for the key is replaced by the new value. 
  * @param key The name of the key to be set.
  */
-- (void)setValue:(nonnull id)value forKey:(nonnull NSString *)key;
+- (void)setValue:(nullable id)value forKey:(nonnull NSString *)key;
 
 /**
  * Returns the value of the specified key.
@@ -145,7 +149,7 @@ FOUNDATION_EXPORT NSString *const ADBMediaObjectKeyStandardAdMetadata;
  * @param key The name of the key whose value  is to be returned.
  * @return The value for the specified key or nil if there is no corresponding value for the key
  */
-- (id)valueForKey:(nonnull NSString *)key;
+- (nullable id)valueForKey:(nonnull NSString *)key;
 
 /**
  * Returns all the keys as an NSArray instance

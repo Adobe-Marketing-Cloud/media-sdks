@@ -16,7 +16,7 @@
 #import "VideoAnalyticsProvider.h"
 #import "ADBMobile.h"
 
-NSString *const CONTENT_URL = @"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8";
+NSString *const CONTENT_URL = @"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8";
 
 @interface ViewController ()
 
