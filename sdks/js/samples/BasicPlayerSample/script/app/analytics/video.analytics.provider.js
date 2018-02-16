@@ -54,7 +54,7 @@
         mediaConfig.ovp = Configuration.HEARTBEAT.OVP;
 
         // Implement the sample MediaHeartbeatDelegate to provide Playhead information and QoS information from the player
-        $.extend(SampleMediaHeartbeatDelegate.prototype, MediaHeartbeatDelegate.prototype);
+        ADB.core.extend(SampleMediaHeartbeatDelegate.prototype, MediaHeartbeatDelegate.prototype);
 
         function SampleMediaHeartbeatDelegate(player) {
             this._player = player;

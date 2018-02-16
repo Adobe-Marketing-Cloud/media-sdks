@@ -9,7 +9,7 @@
  * written permission of Adobe.
  */
 
-jQuery(document).ready(function($) {
+document.addEventListener("DOMContentLoaded", function(event) {
 
     // Create the VideoPlayer.
     var videoPlayer = new VideoPlayer('movie');
@@ -24,11 +24,13 @@ jQuery(document).ready(function($) {
     NotificationCenter().addEventListener(PlayerEvent.VIDEO_UNLOAD, onExitAd);
 
     function onEnterAd() {
-        $('#pub-label').show();
+        var elem = document.getElementById("pub-label");
+        elem.style.display = 'block';
     }
 
     function onExitAd() {
-        $('#pub-label').hide();
+      var elem = document.getElementById("pub-label");
+      elem.style.display = 'none';
     }
 
     function onSeekComplete() {

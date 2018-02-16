@@ -63,38 +63,38 @@
 
         this._clock = null;
 
-        this.$el = $('#' + id);
+        this.el = document.getElementById(id);
 
         var self = this;
-        if (this.$el) {
-            this.$el.on('playing', function() {
+        if (this.el) {
+            this.el.addEventListener('playing', function() {
                 self._onPlay();
             });
-            this.$el.on('seeking', function() {
+            this.el.addEventListener('seeking', function() {
                 self._onSeekStart();
             });
-            this.$el.on('seeked', function() {
+            this.el.addEventListener('seeked', function() {
                 self._onSeekComplete();
             });
-            this.$el.on('pause', function() {
+            this.el.addEventListener('pause', function() {
                 self._onPause();
             });
-            this.$el.on('ended', function() {
+            this.el.addEventListener('ended', function() {
                 self._onComplete();
             });
         }
     }
 
     VideoPlayer.prototype.getCurrentPlaybackTime = function() {
-        var playhead;
-        if (this._adInfo) { // During ad playback the main video playhead remains
-            // constant at where it was when the ad started
+        var playhead;        
+        var vTime = this.getPlayhead();
+        if(vTime > AD_START_POS + AD_LENGTH) {
+            playhead = vTime - AD_LENGTH;
+        } else if(vTime > AD_START_POS){
             playhead = AD_START_POS;
         } else {
-            var vTime = this.getPlayhead();
-            playhead = (vTime < AD_START_POS) ? vTime : vTime - AD_LENGTH;
-        }
-
+            playhead = vTime;
+        }            
         return playhead;
     };
 
@@ -119,11 +119,11 @@
     };
 
     VideoPlayer.prototype.getDuration = function() {
-        return this.$el.get(0).duration - AD_LENGTH;
+        return this.el.duration - AD_LENGTH;
     };
 
     VideoPlayer.prototype.getPlayhead = function() {
-        var playhead = this.$el.get(0).currentTime;
+        var playhead = this.el.currentTime;
         return playhead ? playhead : 0;
     };
 
@@ -303,7 +303,7 @@
     };
 
     VideoPlayer.prototype._onTick = function() {
-        if (this.$el.get(0).seeking || this.$el.get(0).paused) {
+        if (this.el.seeking || this.el.paused) {
             return;
         }
 
