@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.0.3",
+      version: "2.0.4",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -61,10 +61,23 @@ Function ADBMobile() As Object
           endif          
         End Function,
 
+      getAllIdentifiers: Function() as String
+        return _adb_identities()._getAllIdentifiers()
+      End Function,
+
       ''' opt-in/opt-out
-      setPrivacyStatus: Function(state as String) as Void
-          _adb_logger().debug("ADBMobile Privacy Status changed to: " + state)
-          _adb_persistenceLayer().writeValue("adbmobile_optout", state)
+      setPrivacyStatus: Function(status as String) as Void
+          _adb_logger().debug("ADBMobile Privacy Status changed to: " + status)
+          _adb_persistenceLayer().writeValue("adbmobile_optout", status)
+
+          if status = m.PRIVACY_STATUS_OPT_OUT
+            '''purge
+            _adb_worker()._clearHits()
+            _adb_serializeAndSendHeartbeat()._clearHits()
+            _adb_audienceManager()._clearHits()
+            _adb_identities()._resetAllIdentifiers()
+          endif
+
         End Function,
 
       getPrivacyStatus: Function() as String
@@ -189,6 +202,7 @@ Function _adbMobileSGConnector() As Object
           API_RESPONSE:                 "adbmobileApiResponse",
           DEBUG_LOGGING:                "getDebugLogging",
           PRIVACY_STATUS:               "getPrivacyStatus",
+          ALL_IDENTIFIERS:              "getAllIdentifiers",
           TRACKING_IDENTIFIER:          "trackingIdentifier",
           USER_IDENTIFIER:              "userIdentifier",
           VISITOR_MARKETING_CLOUD_ID:   "visitorMarketingCloudID",
@@ -215,6 +229,9 @@ Function _adbMobileSGConnector() As Object
                                   End Function,
           getPrivacyStatus:       Function() as void
                                     m.invokeFunction("getter/getPrivacyStatus", [])
+                                  End Function,
+          getAllIdentifiers:      Function() as void
+                                    m.invokeFunction("getter/getAllIdentifiers", [])
                                   End Function,
           trackState:             Function(state As String, ContextData as Object) as void
                                     m.invokeFunction("trackState", [state, ContextData])
@@ -687,7 +704,7 @@ Function _adb_worker() as Object
   if GetGlobalAA()._adb_worker = invalid
     instance = {
       queue: Function(fragment as String, timestamp as Integer) as Void
-              if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
+              if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_IN
                 newHit = {frag: fragment, stamp: timestamp}
                 _adb_logger().debug("Analytics - Queued Hit (" + fragment + ")")
                 m._queue.Push(newHit)
@@ -767,6 +784,9 @@ Function _adb_worker() as Object
 
               return urlBase
             End Function
+        _clearHits: Function() as Void
+            m._queue.Clear()
+        End Function
     }
     instance._init()
 
@@ -782,7 +802,7 @@ Function _adb_audienceManager() As Object
         _sanitizeRegex: CreateObject("roRegex", "\.", "i"),
         _fixRequestRegex: CreateObject("roRegex", "\?\&", "i"),
         submitSignal: Function(data As Object) As Void
-            if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
+            if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_IN
               m._queue.Push(data)
               m._sendNextSignal()
             endif
@@ -868,8 +888,13 @@ Function _adb_audienceManager() As Object
           End Function,
         ''' sets current dpid/dpuuid
         setDpidAndDpuuid: Function(dpid as String, dpuuid as String) As Void
+        '''handle clearing of _dpid/_dpuuid, should do this regardless of privacy setting
+
+          if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
             m["_dpid"] = dpid
             m["_dpuuid"] = dpuuid
+          endif
+          
           End Function,
         ''' gets the currently set d_dpid
         getDpid: Function() As Dynamic
@@ -956,14 +981,27 @@ Function _adb_audienceManager() As Object
         ''' sets UUID to persistent storage
         _setUUID: Function(uuid as Dynamic) As Void
             if uuid <> invalid
-              _adb_persistenceLayer().writeValue("aam_uuid", uuid)
-              m.["_uuid"] = uuid
+              if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT or uuid.Len() = 0
+                _adb_persistenceLayer().writeValue("aam_uuid", uuid)
+                m.["_uuid"] = uuid
+              endif
             endif
           End Function,
         ''' returns the UUID for the AAM user
         _getUUID: Function() As Dynamic
             return _adb_persistenceLayer().readValue("aam_uuid")
-          End Function
+          End Function,
+        _resetData: Function() As Void
+          _adb_persistenceLayer().removeValue("aam_uuid")
+          m["_uuid"] = invalid
+        End Function,
+        _purgeDpidAndDpuuid: Function() As Void
+            m["_dpid"] = invalid
+            m["_dpuuid"] = invalid
+        End Function,
+        _clearHits: Function() as Void
+            m._queue.Clear()
+        End Function
     }
 
     instance._init()
@@ -980,7 +1018,9 @@ Function _adb_serializeAndSendHeartbeat() As Object
       _sanitizePublisherRegex: CreateObject("roRegex", "[^a-zA-Z0-9]+", "i"),
 
 		  queueRequestsForResponse: Function(data As Object) As Void
-          if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
+          '''vhl does not even queue hits if the status is not opt in (no offline tracking support yet)
+          
+          if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_IN
 			     _adb_logger().debug("MediaHeartbeat - Queued Hit")
             m._queue.Push(data)
             m._sendNextHit()
@@ -1173,6 +1213,10 @@ Function _adb_serializeAndSendHeartbeat() As Object
 	          urlBase = urlBase + "?"
 		      endif
           return urlBase
+        End Function,
+
+        _clearHits: Function() as Void
+            m._queue.Clear()
         End Function,
 
       _init: Function() As Void
@@ -3810,7 +3854,7 @@ Function _adb_message(messageJson As Object) As Object
 
 	  _sendCallback: Function(expandedURL As Dynamic, expandedBody As Dynamic) As Void             
             
-             if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
+             if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_IN
              	m._http.SetUrl(expandedURL)
              	
              	_adb_logger().debug("Messaging - Sending signal request (" + expandedURL.toStr() + ")")
@@ -4492,6 +4536,10 @@ Function _adb_aid() as Object
   if GetGlobalAA()._adb_aid = invalid
     instance = {
       _init: Function() as Void
+          if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_OUT
+            return
+          end if
+
           aid = _adb_persistenceLayer().readValue("aid")
           ignoreAID = _adb_persistenceLayer().readValue("ignoreAid")
 
@@ -4499,9 +4547,8 @@ Function _adb_aid() as Object
             ''' attempt to retrieve AID from analytics
             aid = m._retrieveremoteAID()
 
-            ''' check if we have aid to save
             if aid <> invalid
-              _adb_persistenceLayer().writeValue("aid", aid)
+                _adb_persistenceLayer().writeValue("aid", aid)
             else
               ''' no aid to save, write the ignore value
               _adb_persistenceLayer().writeValue("ignoreAid", "true")
@@ -4597,6 +4644,13 @@ Function _adb_aid() as Object
           last16 = LO_ALLOWED_CHARS[Rnd(4) - 1] + Right(uuid, 15)
 
           return first16 + "-" + last16
+        End Function
+
+        _purgeAID: Function() as Void
+          m["aid"] = invalid
+          _adb_persistenceLayer().removeValue("aid")
+          _adb_persistenceLayer().removeValue("aid_synced")
+          _adb_persistenceLayer().removeValue("ignoreAid")
         End Function
     }
 
@@ -4790,8 +4844,12 @@ Function _adb_config() as Object
             url_object = CreateObject("roUrlTransfer")
             url_object.SetCertificatesFile("common:/certs/ca-bundle.crt")
             url_object.setUrl(mHeartbeatConfigUrl)
-            media_config_json = ParseJson(url_object.GetToString())
-            m.configureMediaHeartbeat(media_config_json)
+
+            config_response = url_object.GetToString()
+            if config_response <> invalid
+              media_config_json = ParseJson(config_response)
+              m.configureMediaHeartbeat(media_config_json)
+            endif
           endif
  
           ''' log status
@@ -4813,9 +4871,15 @@ Function _adb_config() as Object
           return m.aamServer <> invalid AND Len(m.aamServer) > 0
         End Function,
       setUserIdentifier: Function(id as Dynamic) as Void
-          m["userIdentifier"] = id
-          _adb_persistenceLayer().writeValue("vid", id)
+          if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_OUT
+            m["userIdentifier"] = id
+            _adb_persistenceLayer().writeValue("vid", id)
+          endif
         End Function,
+      purgeUserIdentifier: Function() as Void
+          m["userIdentifier"] = invalid
+          _adb_persistenceLayer().removeValue("vid")
+      End Function,
       configureMediaHeartbeat: Function(mediaConfig as Dynamic) as Void            
           if mediaConfig <> invalid
             if mediaConfig.server <> invalid
@@ -4863,14 +4927,19 @@ Function _adb_config() as Object
             url_object.SetCertificatesFile("common:/certs/ca-bundle.crt")
             url_object.setUrl(msgURL)
 
-            messages_json = ParseJson(url_object.GetToString())
-            if messages_json <> invalid
-              messagesObject = FormatJson(messages_json.messages)
+            messages_response = url_object.GetToString()
 
-              if messagesObject <> invalid
-                return messagesObject
+            if messages_response <> invalid
+              messages_json = ParseJson(messages_response)
+              if messages_json <> invalid
+                messagesObject = FormatJson(messages_json.messages)
+
+                if messagesObject <> invalid
+                  return messagesObject
+                endif
+
               endif
-            
+
             endif
 
         endif
@@ -4885,6 +4954,156 @@ Function _adb_config() as Object
   endif
  
   return GetGlobalAA()._adb_config
+End Function
+
+
+Function _adb_identities() as Object
+  if GetGlobalAA()._adb_identities = invalid
+    instance = {
+
+		_init: Function() As Void
+		End Function,
+
+
+      _getAllIdentifiers: Function() as String
+      		result = {}
+
+          companyContexts = m._getCompanyContexts()
+          if companyContexts <> invalid
+            result["companyContexts"] = companyContexts
+          endif
+
+          userIds = []
+
+          mcid = m._getMcid()
+          if mcid <> invalid
+            userIds.Push(mcid)
+          endif
+
+          aid = m._getAid()
+          if aid <> invalid
+            userIds.Push(aid)
+          endif
+
+          vid = m._getVid()
+          if vid <> invalid
+            userIds.Push(vid)
+          endif
+
+          uuid = m._getUuid()
+          if uuid <> invalid
+            userIds.Push(uuid)
+          endif
+
+          dsids = m._getDsids()
+          if dsids <> invalid
+            userIds.Push(dsids)
+          endif
+
+          if userIds.Count() > 0
+            userIdsObject = {"userIDs":userIds}
+            users = []
+            users.Push(userIdsObject)
+            result["users"] = users
+          endif
+
+          jsonResultString = FormatJson(result)
+          if jsonResultString = invalid
+            _adb_logger().debug("Identities - unable to retrieve SDK identities")
+            return ""
+          else
+            return jsonResultString
+          endif
+        End Function,
+
+        _getMcid: Function() as Object
+          '''Unlike other platforms, we don't persist custom ids so we dont need to return them here
+
+          mid = _adb_visitor().marketingCloudID()
+          if m._isNonEmptyString(mid) = true
+            return{"namespace":"4","value":mid,"type":"namespaceId"}
+          endif
+
+          return invalid
+        End Function,
+
+        _getAid: Function() as Object
+          aid = _adb_aid().aid
+          if m._isNonEmptyString(aid) = true
+            return{"namespace":"avid","value":aid,"type":"integrationCode"}
+          endif
+
+          return invalid
+        End Function,
+
+        _getVid: Function() as Object
+          vid = _adb_config().userIdentifier
+          rsid = _adb_config().reportSuiteIDs
+
+          if (m._isNonEmptyString(rsid) = true and m._isNonEmptyString(vid) = true)
+            rsids = rsid.Split(",") 
+            return{"namespace":"vid","value":vid,"type":"analytics","rsids":rsids} 
+          endif
+
+          return invalid
+        End Function,
+
+        _getUuid: Function() as Object
+          uuid = _adb_audienceManager()._getUUID()
+          if m._isNonEmptyString(uuid) = true
+            return{"namespace":"0","value":uuid,"type":"namespaceId"}
+          endif
+
+          return invalid
+        End Function,
+
+        _getDsids: Function() as Object
+          dpid = _adb_audienceManager().getDpid()
+          dpuuid = _adb_audienceManager().getDpuuid()
+          if m._isNonEmptyString(dpid) = true And m._isNonEmptyString(dpuuid) = true
+            return{"namespace":dpid,"value":dpuuid,"type":"namespaceId"}
+          endif
+
+          return invalid
+        End Function,
+
+        _getCompanyContexts: Function() as Object
+          orgId = _adb_config().marketingCloudOrganizationIdentifier
+
+          if m._isNonEmptyString(orgId)
+            return[{"namespace":"imsOrgID","value":orgId}]
+          endif
+
+          return invalid
+        End Function,
+
+        _isNonEmptyString: Function(str as Dynamic) as Boolean
+          if str <> invalid and str.Len() > 0
+            return true
+          end if
+
+          return false
+        End Function,
+
+        _resetAnalyticsIdentifiers: Function() as Void
+        	_adb_aid()._purgeAID()
+        	_adb_config().purgeUserIdentifier()
+        End Function
+
+        _resetAllIdentifiers: Function() as Void
+        	m._resetAnalyticsIdentifiers()
+        	_adb_audienceManager()._resetData()
+        	_adb_audienceManager()._purgeDpidAndDpuuid() 
+          _adb_visitor().purgeIdentities()       	
+        End Function
+    }
+
+    instance._init()
+
+    GetGlobalAA()["_adb_identities"] = instance
+  endif
+
+  return GetGlobalAA()._adb_identities
 End Function
 
 Function _adb_logger() as Object
@@ -4926,8 +5145,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "34"
-          m["_gitHash"] = "aa3c5d"
+          m["_buildNumber"] = "48"
+          m["_gitHash"] = "803957"
           m["_api_level"] = 4
         End Function
     }
@@ -4951,7 +5170,9 @@ Function _adb_persistenceLayer() as Object
           m._registry.Flush()
         End Function,
       readValue: Function(key as String) as Dynamic
-          if m._registry.Exists(key)
+
+          '''bug in roku - Exists returns true even if no key. value in that case is an empty string
+          if m._registry.Exists(key) AND m._registry.Read(key).Len() > 0
             return m._registry.Read(key)
           endif
 
@@ -4959,6 +5180,7 @@ Function _adb_persistenceLayer() as Object
         End Function,
       removeValue: Function(key as String) as Void
           m._registry.Delete(key)
+          m._registry.Flush()
         End Function
     }
     GetGlobalAA()["_adb_persistenceLayer"] = instance
@@ -5112,14 +5334,11 @@ Function _adb_visitor() as Object
       _ttl: _adb_persistenceLayer().readValue("visitor_ttl"),
       _lastSync: _adb_persistenceLayer().readValue("visitor_sync"),
       _urlEncoder: CreateObject("roUrlTransfer"),
-      _supportsCount: false,
 
       ''' init Function
       _init: Function() as Void
           if m._lastSync = invalid : m._lastSync = "0" : endif
           if m._ttl = invalid : m._ttl = "0" : endif
-
-          m._supportsCount = type(Eval("test = {} : test.Count()")) <> "roList"
 
           m.idSync({})
         End Function,
@@ -5166,16 +5385,14 @@ Function _adb_visitor() as Object
             return
           endif
 
-          ''' get org id
-          orgId = _adb_config().marketingCloudOrganizationIdentifier
-
-          ''' check if we need to resync based on ttl.  this only occurs on blind sync (when no identifiers are passed)
-          needResync = (CreateObject("roDateTime").AsSeconds() - m._lastSync.ToInt()) > m._ttl.ToInt()
-
-
-          if m._mid <> invalid AND m._supportsCount AND identifiers.Count() = 0 AND needResync = false
+          ''' fail if privacy is opt_out?
+          if ADBMobile().getPrivacyStatus() <> ADBMobile().PRIVACY_STATUS_OPT_IN
+            _adb_logger().debug("ID Service - Privacy status is not set to opt in, no id sync will be submitted.")
             return
           endif
+
+          ''' get org id
+          orgId = _adb_config().marketingCloudOrganizationIdentifier
 
           url = ""
           if _adb_config().ssl = true
@@ -5200,6 +5417,7 @@ Function _adb_visitor() as Object
           endif
 
           ''' append identifiers
+          ''' ToDo(): If we ever decide to persist these custom ids, add them to _getVisitorIdentifiers() in identifiers.brs
           for each key in identifiers
             url = url + "&d_cid_ic=" + m._urlEncoder.Escape(key) + "%01" + m._urlEncoder.Escape(identifiers[key])
           end for
@@ -5282,7 +5500,7 @@ Function _adb_visitor() as Object
         End Function,
 
       ''' getter Function for marketing cloud id
-      marketingCloudID: Function () as String
+      marketingCloudID: Function () as Dynamic
           return m._mid
         End Function,
 
@@ -5331,6 +5549,10 @@ Function _adb_visitor() as Object
 
           return response
         End Function
+      purgeIdentities: Function() as Void
+        m._mid = invalid
+        _adb_persistenceLayer().removeValue("visitor_mid")
+      End Function
     }
 
     instance._init()

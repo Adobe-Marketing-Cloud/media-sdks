@@ -86,6 +86,9 @@
       print "API Call 6: Get Dpid"
       m.adbmobile.audienceDpid()
 
+      print "API Call 7: Get All identifiers"
+      m.adbmobile.getAllIdentifiers()
+
     end sub
 
     ''' Implement callback for parsing ADBMobile API response
@@ -139,6 +142,12 @@
             print "API Response: AUDIENCE VISITOR PROFILE: Valid Object"
           else 
             print "API Response: AUDIENCE VISITOR PROFILE: " + "invalid"
+          endif
+        else if methodName = m.adbmobileConstants.ALL_IDENTIFIERS
+          if retVal <> invalid
+            print "API Response: GET ALL IDENTIFIERS: " + retVal
+          else 
+            print "API Response: GET ALL IDENTIFIERS: " + "invalid"
           endif
         end if
       endif

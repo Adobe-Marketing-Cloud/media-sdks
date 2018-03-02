@@ -5,6 +5,11 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/
 
+## 2.0.4 (2 March, 2018)
+What’s new :
+- GDPR compliance
+- Remove Eval calls within our SDK for scene graph compatibility.
+
 ## 2.0.3 (08 December, 2017)
 What’s new :
 - Bug fixes
