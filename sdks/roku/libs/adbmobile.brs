@@ -1790,9 +1790,8 @@ Function _adb_media() As Object
 
             _adb_mediacontext().setInBuffering(false)
             _adb_mediacontext().updateTimeStampForEvent("buffer", "-1")
-            _adb_mediacontext().updateRefTSForEvent("buffer", "-1")
-
             _adb_mediacontext().resetAssetRefContext()
+
             if _adb_mediacontext().isPlaying()
               m.resumeStallTracking()
             endif
@@ -1925,8 +1924,7 @@ Function _adb_media() As Object
           End Function,
 
         trackBitrateChange: Function() As Void
-            _adb_logger().debug("#trackBitrateChange()")
-            _adb_mediacontext().updateRefTSForEvent(_adb_paramsResolver()["_bitrate_change"], _adb_util().getTimestampInMillis())
+            _adb_logger().debug("#trackBitrateChange()")            
             dictionary = _adb_paramsResolver().resolveDataForEvent(_adb_paramsResolver()["_bitrate_change"])
             _adb_serializeAndSendHeartbeat().queueRequestsForResponse(dictionary)
           End Function,
@@ -5145,8 +5143,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "48"
-          m["_gitHash"] = "803957"
+          m["_buildNumber"] = "50"
+          m["_gitHash"] = "9f49b4"
           m["_api_level"] = 4
         End Function
     }
