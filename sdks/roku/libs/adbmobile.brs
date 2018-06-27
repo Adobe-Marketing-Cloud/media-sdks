@@ -5200,22 +5200,22 @@ Function _adb_timer() As Object
           m._nextTick = m._interval 
           m._enabled = true
         else 
-          _adb_logger().debug("Timer -  " + m._name + " timer already started.")
+          if m._name <> invalid then _adb_logger().debug("Timer -  " + m._name + " timer already started.")
         endif
       End Function,
 
     stop: Function() As Void
         if m._enabled = true
-          _adb_logger().debug("Timer - stoping " + m._name + " timer.")
+          if m._name <> invalid then _adb_logger().debug("Timer - stoping " + m._name + " timer.")
           m._enabled = false
           m._nextTick = invalid
         else 
-          _adb_logger().debug("Timer -  " + m._name + " timer already stopped.")
+          if m._name <> invalid then _adb_logger().debug("Timer -  " + m._name + " timer already stopped.")
         endif
       End Function,
 
     restartWithNewInterval: Function(newInterval as Integer) As Void
-        _adb_logger().debug("Timer - restarting " + m._name + " timer with interval (" + newInterval.ToStr() + ")")
+        if m._name <> invalid then _adb_logger().debug("Timer - restarting " + m._name + " timer with interval (" + newInterval.ToStr() + ")")
         m._interval = newInterval
         m._ts.Mark()          
         m._nextTick = m._interval 
