@@ -8,7 +8,7 @@ NOTICE: Adobe permits you to use, modify, and distribute this file in accordance
 ----------------------------------
 Adobe Mobile Library (Chromecast)
 ----------------------------------
-Current Version:2.0.0
+Current Version:2.1.0
 
 =======
 SUMMARY
