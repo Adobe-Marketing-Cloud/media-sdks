@@ -5,7 +5,7 @@
         "timeout": 5
     },
     "audienceManager": {
-        "server": "",
+        "server": "obumobile5.demdex.net",
         "analyticsForwardingEnabled": false,
         "timeout": 5
     },
@@ -14,11 +14,11 @@
         "appid": "d101a5b0346d55efc7ca423a6e63d4ff31a9f2656285f30b261442775a8d9047"
     },
     "marketingCloud": {
-        "org": "3CE342C75100435B0A490D4C@AdobeOrg"
+        "org": "972C898555E9F7BC7F000101@AdobeOrg"
     },
     "analytics": {
-        "rsids": "mobile1vhl.sample.player",
-        "server": "obumobile1.sc.omtrdc.net",
+        "rsids": "mobile5vhl.sample.player",
+        "server": "obumobile5.sc.omtrdc.net",
         "ssl": false,
         "offlineEnabled": false,
         "charset": "UTF-8",
@@ -32,8 +32,8 @@
         "poi": []
     },
     "mediaHeartbeat":{  
-      "server":"obumobile1.hb.omtrdc.net",
-      "publisher":"test",
+      "server":"obumobile5.hb.omtrdc.net",
+      "publisher":"972C898555E9F7BC7F000101@AdobeOrg",
       "channel":"test-channel",
       "ssl":false,
       "ovp":"test-ovp",

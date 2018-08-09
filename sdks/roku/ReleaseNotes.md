@@ -5,6 +5,19 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/
 
+## 2.1.0 (9 August, 2018)
+What's new :
+- One second ad tracking: Improved accuracy for video ads.
+- Improved player state management and error recovery: Additional logic to better support maintaining player states and ensure accurate measurement, including identification of closed state.
+- Enhanced input data validation with better debug logging.
+- Optimization for session end and addition of new HB "end" event.
+- Misc. bug fixes.
+
+API changes:
+- Added new APIs for mediaTrackSessionStart and mediaTrackSessionEnd for better media tracking
+- Deprecated APIs: mediaTrackLoad, mediatrackStart, mediaTrackUnload
+- Removed ADBVideoPlayer utility for legacy roVideoScreen and roVideoPlayer components
+
 ## 2.0.4 (2 March, 2018)
 What’s new :
 - GDPR compliance

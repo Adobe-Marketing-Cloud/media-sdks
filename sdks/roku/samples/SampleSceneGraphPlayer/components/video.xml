@@ -180,8 +180,7 @@
             mediaContextData = {}
             mediaContextData["videotype"] = "episode"
 
-            m.adbmobile.mediaTrackLoad(mInfo, mediaContextData)
-            m.adbmobile.mediaTrackStart()
+            m.adbmobile.mediaTrackSessionStart(mInfo, mediaContextData)
           endif
 
           m.adbmobile.mediaTrackPlay()
@@ -189,14 +188,14 @@
           else if m.videoPlayer.state = "finished"          
             if m.top.streamStarted = true
               m.adbmobile.mediaTrackComplete()
-              m.adbmobile.mediaTrackUnload()
+              m.adbmobile.mediaTrackSessionEnd()
               m.videoPlayer.visible = false
               m.top.streamStarted = false
             end if
                     
           else if m.videoPlayer.state = "stopped"
             if m.top.streamStarted = true
-              m.adbmobile.mediaTrackUnload()
+              m.adbmobile.mediaTrackSessionEnd()
               m.top.streamStarted = false
             end if
           
