@@ -10,9 +10,11 @@ Documentation for "Video Analytics" is found [here](https://marketing.adobe.com/
 
 To run the sample, place the files on a webserver and access the index.html page.
 
-In order to get Video Analytics working in the sample - 
+In order to get Video Analytics working in the sample -
 1) You need to configure a Launch Web property
 2) Add and configure "Experience Cloud ID Service" Extension to your property.
 3) Add and configure "Adobe Analytics" Extension to your property.
 4) Add and configure "Adobe Analytics for Video" Extension to your property. Make sure to set "Export APIs to Window object" and set variable name to "ADB".
-5) Build the library and include it in "index.html" file.
+5) Build the library and include it as first script tag in "index.html".
+
+Make sure to deploy the script tag synchronously as described [here](https://docs.adobelaunch.com/client-side-information/asynchronous-deployment#synchronous-deployment)
