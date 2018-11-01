@@ -17,8 +17,8 @@
 		"org": "3CE342C75100435B0A490D4C@AdobeOrg"
 	},
 	"analytics": {
-		"rsids": "mobile1vhl.sample.player",
-		"server": "obumobile1.sc.omtrdc.net",
+		"rsids": "mobile5vhl.sample.player",
+		"server": "obumobile5.sc.omtrdc.net",
 		"ssl": false,
 		"offlineEnabled": false,
 		"charset": "UTF-8",

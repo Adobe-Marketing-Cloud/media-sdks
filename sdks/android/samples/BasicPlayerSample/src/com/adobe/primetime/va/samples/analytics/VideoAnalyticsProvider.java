@@ -1,13 +1,19 @@
-/*
- * ADOBE SYSTEMS INCORPORATED
- * Copyright 2014 Adobe Systems Incorporated
- * All Rights Reserved.
-
- * NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the
- * terms of the Adobe license agreement accompanying it.  If you have received this file from a
- * source other than Adobe, then your use, modification, or distribution of it requires the prior
- * written permission of Adobe.
- */
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2015 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
 
 package com.adobe.primetime.va.samples.analytics;
 
@@ -25,7 +31,7 @@ import com.adobe.primetime.va.simple.MediaObject;
 import java.util.*;
 
 public class VideoAnalyticsProvider implements Observer, MediaHeartbeatDelegate {
-    private static final String LOG_TAG = "[VideoHeartbeatSample]::" + VideoAnalyticsProvider.class.getSimpleName();
+    private static final String LOG_TAG = "[MediaSDKSample]::" + VideoAnalyticsProvider.class.getSimpleName();
 
     private VideoPlayer _player;
     private MediaHeartbeat _heartbeat;
@@ -97,7 +103,8 @@ public class VideoAnalyticsProvider implements Observer, MediaHeartbeatDelegate 
                         Configuration.VIDEO_NAME,
                         Configuration.VIDEO_ID,
                         Configuration.VIDEO_LENGTH,
-                        MediaHeartbeat.StreamType.VOD
+                        MediaHeartbeat.StreamType.VOD,
+                        MediaHeartbeat.MediaType.Video
                 );
 
                 // Set standard Video Metadata
@@ -105,7 +112,7 @@ public class VideoAnalyticsProvider implements Observer, MediaHeartbeatDelegate 
                 standardVideoMetadata.put(MediaHeartbeat.VideoMetadataKeys.EPISODE, "Sample Episode");
                 standardVideoMetadata.put(MediaHeartbeat.VideoMetadataKeys.SHOW, "Sample Show");
 
-                mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.StandardVideoMetadata, standardVideoMetadata);
+                mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.StandardMediaMetadata, standardVideoMetadata);
 
                 //Set to true if this is a resume playback scenario (not starting from playhead 0)
 //                mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.VideoResumed, true);
