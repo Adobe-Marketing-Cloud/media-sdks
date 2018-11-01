@@ -1,13 +1,19 @@
-/*
- * ADOBE SYSTEMS INCORPORATED
- * Copyright 2015 Adobe Systems Incorporated
- * All Rights Reserved.
-
- * NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the
- * terms of the Adobe license agreement accompanying it.  If you have received this file from a
- * source other than Adobe, then your use, modification, or distribution of it requires the prior
- * written permission of Adobe.
- */
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ *  Copyright 2015 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
 
 #import "VideoAnalyticsProvider.h"
 #import "ADBMediaHeartbeat.h"
@@ -18,10 +24,10 @@ NSString *const PLAYER_NAME = @"iOS basic media player";
 NSString *const VIDEO_ID	= @"bipbop";
 NSString *const VIDEO_NAME	= @"Bip bop video";
 
-NSString *const HEARTBEAT_TRACKING_SERVER	= @"obumobile1.hb.omtrdc.net";
+NSString *const HEARTBEAT_TRACKING_SERVER	= @"obumobile5.hb.omtrdc.net";
 NSString *const HEARTBEAT_CHANNEL			= @"test-channel";
 NSString *const HEARTBEAT_OVP_NAME			= @"test-ovp";
-NSString *const HEARTBEAT_APP_VERSION		= @"VHL2 Sample Player v1.0";
+NSString *const HEARTBEAT_APP_VERSION		= @"MediaSDK 2.x Sample Player(Obj-C)";
 
 double const VIDEO_LENGTH = 1800;
 
@@ -45,7 +51,7 @@ double const VIDEO_LENGTH = 1800;
 		config.trackingServer = HEARTBEAT_TRACKING_SERVER;
 		config.channel = HEARTBEAT_CHANNEL;
 		config.appVersion = HEARTBEAT_APP_VERSION;
-        config.ovp = HEARTBEAT_OVP_NAME;
+		config.ovp = HEARTBEAT_OVP_NAME;
 		config.playerName = PLAYER_NAME;
 		config.ssl = NO;
 		config.debugLogging = NO;
@@ -82,7 +88,7 @@ double const VIDEO_LENGTH = 1800;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     _mediaHeartbeat = nil;
-	_playerDelegate = nil;
+  _playerDelegate = nil;
 }
 
 
@@ -93,19 +99,20 @@ double const VIDEO_LENGTH = 1800;
     ADBMediaObject *mediaObject = [ADBMediaHeartbeat createMediaObjectWithName:VIDEO_NAME
                                                                        mediaId:VIDEO_ID
                                                                         length:VIDEO_LENGTH
-                                                                    streamType:ADBMediaHeartbeatStreamTypeVOD];
+                                                                    streamType:ADBMediaHeartbeatStreamTypeVOD
+                                                                     mediaType:ADBMediaTypeVideo];
     // Sample implementation for using standard metadata keys
     NSMutableDictionary *standardVideoMetadata = [[NSMutableDictionary alloc] init];
     [standardVideoMetadata setObject:@"Sample show" forKey:ADBVideoMetadataKeySHOW];
     [standardVideoMetadata setObject:@"Sample Season" forKey:ADBVideoMetadataKeySEASON];
-    [mediaObject setValue:standardVideoMetadata forKey:ADBMediaObjectKeyStandardVideoMetadata];
+    [mediaObject setValue:standardVideoMetadata forKey:ADBMediaObjectKeyStandardMediaMetadata];
     
     //Attaching custom metadata
     NSMutableDictionary *videoMetadata = [[NSMutableDictionary alloc] init];
     [videoMetadata setObject:@"false" forKey:@"isUserLoggedIn"];
     [videoMetadata setObject:@"Sample TV station" forKey:@"tvStation"];
     
-	[_mediaHeartbeat trackSessionStart:mediaObject data:videoMetadata];
+    [_mediaHeartbeat trackSessionStart:mediaObject data:videoMetadata];
 }
 
 - (void)onMainVideoUnloaded:(NSNotification *)notification
@@ -170,7 +177,7 @@ double const VIDEO_LENGTH = 1800;
 	id adObject = [ADBMediaHeartbeat createAdObjectWithName:[adData objectForKey:@"name"]
 												   adId:[adData objectForKey:@"id"]
 											   position:[[adData objectForKey:@"position"] doubleValue]
-												 length:[[adData objectForKey:@"time"] doubleValue]];
+												 length:[[adData objectForKey:@"length"] doubleValue]];
 	
     // Sample implementation for using standard metadata keys for Ad
     NSMutableDictionary *standardAdMetadata = [[NSMutableDictionary alloc] init];

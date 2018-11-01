@@ -1,16 +1,23 @@
-# Release Notes for iOS VideoHeartbeat 2.x SDK
+# Release Notes for iOS Media SDK 2.x
 
 Included are notes from the latest major revision to current.
 
 What's new in 2.x:
 
 Lighter, Simpler implementation.
-    - Streamlined implementation and configuration. With VHL 2.x, all the configuration and video tracking API calls are centralized through a single class: ADBMediaHeartbeat.
-    - Error state recovery. VHL 2.x keeps track of the current state of the playback. By having internal state logic, VHL 2.x can ignore wrong API calls.
-    - Clear difference between optional and required video tracking APIs. Optional video tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single video tracking API: trackEvent:.
+    - Streamlined implementation and configuration. With Media SDK 2.x, all the configuration and media tracking API calls are centralized through a single class: ADBMediaHeartbeat.
+    - Error state recovery. Media SDK 2.x keeps track of the current state of the playback. By having internal state logic, Media SDK 2.x can ignore wrong API calls.
+    - Clear difference between optional and required media tracking APIs. Optional media tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single media tracking API: trackEvent:.
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/ios_2.0/
+https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
+
+## 2.2.0 (November 1, 2018)
+- Video Heartbeat Library (VHL) SDK renamed to Media SDK.
+- Added standard audio metadata for audio analytics support.
+- Added buffer events for gaps between Ads during AdBreak.
+- Fixed dependency of executing APIs on main thread.
+- Bug fixes to improve stability and SDK performance.
 
 ## 2.1.0 (February 15, 2018)
 - One second ad tracking: Improved accuracy for video ads.

@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		217327D721062CEA0099CC45 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217327D621062CE90099CC45 /* WebKit.framework */; };
+		217327D921062CF60099CC45 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217327D821062CF60099CC45 /* libstdc++.tbd */; };
+		217327DB21062CFE0099CC45 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217327DA21062CFE0099CC45 /* UserNotifications.framework */; };
+		217327DD21062D050099CC45 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 217327DC21062D050099CC45 /* libz.tbd */; };
+		2EC5A90120F2EF32002EDDF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5A90020F2EF32002EDDF7 /* AppDelegate.swift */; };
+		2EC5A90320F2EF32002EDDF7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5A90220F2EF32002EDDF7 /* ViewController.swift */; };
+		2EC5A90620F2EF32002EDDF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC5A90420F2EF32002EDDF7 /* Main.storyboard */; };
+		2EC5A90820F2EF34002EDDF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC5A90720F2EF34002EDDF7 /* Assets.xcassets */; };
+		2EC5A90B20F2EF34002EDDF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC5A90920F2EF34002EDDF7 /* LaunchScreen.storyboard */; };
+		2EC5A91E20F2F2A0002EDDF7 /* VideoAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5A91D20F2F2A0002EDDF7 /* VideoAnalyticsProvider.swift */; };
+		2EC5A92120F2F2ED002EDDF7 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5A92020F2F2ED002EDDF7 /* VideoPlayer.swift */; };
+		2EC5A92520F2F49E002EDDF7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC5A92420F2F49E002EDDF7 /* SystemConfiguration.framework */; };
+		2EC5A92720F2F4CE002EDDF7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC5A92620F2F4CE002EDDF7 /* libsqlite3.0.tbd */; };
+		CDA435CF2187C74F009E24C5 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */; };
+		CDA435D12187C773009E24C5 /* AdobeMobileLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */; };
+		CDA435D32187C77E009E24C5 /* MediaSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA435D22187C77E009E24C5 /* MediaSDK.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		217327D621062CE90099CC45 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		217327D821062CF60099CC45 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		217327DA21062CFE0099CC45 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		217327DC21062D050099CC45 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		2EC5A8FD20F2EF32002EDDF7 /* BasicSwiftPlayerSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicSwiftPlayerSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EC5A90020F2EF32002EDDF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2EC5A90220F2EF32002EDDF7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2EC5A90520F2EF32002EDDF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2EC5A90720F2EF34002EDDF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2EC5A90A20F2EF34002EDDF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2EC5A90C20F2EF34002EDDF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2EC5A91D20F2F2A0002EDDF7 /* VideoAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAnalyticsProvider.swift; sourceTree = "<group>"; };
+		2EC5A92020F2F2ED002EDDF7 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		2EC5A92220F2F3AF002EDDF7 /* BasicSwiftPlayerSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BasicSwiftPlayerSample-Bridging-Header.h"; sourceTree = "<group>"; };
+		2EC5A92420F2F49E002EDDF7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2EC5A92620F2F4CE002EDDF7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ADBMobileConfig.json; path = libs/AdobeMobile/ADBMobileConfig.json; sourceTree = "<group>"; };
+		CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = AdobeMobileLibrary.a; path = libs/AdobeMobile/AdobeMobileLibrary.a; sourceTree = "<group>"; };
+		CDA435D22187C77E009E24C5 /* MediaSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = MediaSDK.a; path = libs/MediaSDK/MediaSDK.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EC5A8FA20F2EF32002EDDF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDA435D32187C77E009E24C5 /* MediaSDK.a in Frameworks */,
+				CDA435D12187C773009E24C5 /* AdobeMobileLibrary.a in Frameworks */,
+				217327DD21062D050099CC45 /* libz.tbd in Frameworks */,
+				217327D921062CF60099CC45 /* libstdc++.tbd in Frameworks */,
+				2EC5A92720F2F4CE002EDDF7 /* libsqlite3.0.tbd in Frameworks */,
+				217327DB21062CFE0099CC45 /* UserNotifications.framework in Frameworks */,
+				217327D721062CEA0099CC45 /* WebKit.framework in Frameworks */,
+				2EC5A92520F2F49E002EDDF7 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2EC5A8F420F2EF32002EDDF7 = {
+			isa = PBXGroup;
+			children = (
+				CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */,
+				2EC5A8FF20F2EF32002EDDF7 /* BasicSwiftPlayerSample */,
+				2EC5A8FE20F2EF32002EDDF7 /* Products */,
+				2EC5A92320F2F49E002EDDF7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2EC5A8FE20F2EF32002EDDF7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2EC5A8FD20F2EF32002EDDF7 /* BasicSwiftPlayerSample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2EC5A8FF20F2EF32002EDDF7 /* BasicSwiftPlayerSample */ = {
+			isa = PBXGroup;
+			children = (
+				2EC5A93A20F30384002EDDF7 /* Resources */,
+				2EC5A91F20F2F2D6002EDDF7 /* Player */,
+				2EC5A91C20F2F27B002EDDF7 /* Analytics */,
+				2EC5A90020F2EF32002EDDF7 /* AppDelegate.swift */,
+				2EC5A90220F2EF32002EDDF7 /* ViewController.swift */,
+				2EC5A92220F2F3AF002EDDF7 /* BasicSwiftPlayerSample-Bridging-Header.h */,
+			);
+			path = BasicSwiftPlayerSample;
+			sourceTree = "<group>";
+		};
+		2EC5A91C20F2F27B002EDDF7 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				2EC5A91D20F2F2A0002EDDF7 /* VideoAnalyticsProvider.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		2EC5A91F20F2F2D6002EDDF7 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				2EC5A92020F2F2ED002EDDF7 /* VideoPlayer.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		2EC5A92320F2F49E002EDDF7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CDA435D22187C77E009E24C5 /* MediaSDK.a */,
+				CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */,
+				217327DC21062D050099CC45 /* libz.tbd */,
+				217327DA21062CFE0099CC45 /* UserNotifications.framework */,
+				217327D821062CF60099CC45 /* libstdc++.tbd */,
+				217327D621062CE90099CC45 /* WebKit.framework */,
+				2EC5A92620F2F4CE002EDDF7 /* libsqlite3.0.tbd */,
+				2EC5A92420F2F49E002EDDF7 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2EC5A93A20F30384002EDDF7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2EC5A90420F2EF32002EDDF7 /* Main.storyboard */,
+				2EC5A90720F2EF34002EDDF7 /* Assets.xcassets */,
+				2EC5A90920F2EF34002EDDF7 /* LaunchScreen.storyboard */,
+				2EC5A90C20F2EF34002EDDF7 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2EC5A8FC20F2EF32002EDDF7 /* BasicSwiftPlayerSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EC5A90F20F2EF34002EDDF7 /* Build configuration list for PBXNativeTarget "BasicSwiftPlayerSample" */;
+			buildPhases = (
+				2EC5A8F920F2EF32002EDDF7 /* Sources */,
+				2EC5A8FA20F2EF32002EDDF7 /* Frameworks */,
+				2EC5A8FB20F2EF32002EDDF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BasicSwiftPlayerSample;
+			productName = BasicSwiftPlayerSample;
+			productReference = 2EC5A8FD20F2EF32002EDDF7 /* BasicSwiftPlayerSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2EC5A8F520F2EF32002EDDF7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = adobe;
+				TargetAttributes = {
+					2EC5A8FC20F2EF32002EDDF7 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 2EC5A8F820F2EF32002EDDF7 /* Build configuration list for PBXProject "BasicSwiftPlayerSample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2EC5A8F420F2EF32002EDDF7;
+			productRefGroup = 2EC5A8FE20F2EF32002EDDF7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2EC5A8FC20F2EF32002EDDF7 /* BasicSwiftPlayerSample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2EC5A8FB20F2EF32002EDDF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDA435CF2187C74F009E24C5 /* ADBMobileConfig.json in Resources */,
+				2EC5A90B20F2EF34002EDDF7 /* LaunchScreen.storyboard in Resources */,
+				2EC5A90820F2EF34002EDDF7 /* Assets.xcassets in Resources */,
+				2EC5A90620F2EF32002EDDF7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2EC5A8F920F2EF32002EDDF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EC5A92120F2F2ED002EDDF7 /* VideoPlayer.swift in Sources */,
+				2EC5A90320F2EF32002EDDF7 /* ViewController.swift in Sources */,
+				2EC5A90120F2EF32002EDDF7 /* AppDelegate.swift in Sources */,
+				2EC5A91E20F2F2A0002EDDF7 /* VideoAnalyticsProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2EC5A90420F2EF32002EDDF7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EC5A90520F2EF32002EDDF7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2EC5A90920F2EF34002EDDF7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EC5A90A20F2EF34002EDDF7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2EC5A90D20F2EF34002EDDF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/AdobeMobile/**",
+					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LIBRARY_SEARCH_PATHS = "";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2EC5A90E20F2EF34002EDDF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/AdobeMobile/**",
+					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LIBRARY_SEARCH_PATHS = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2EC5A91020F2EF34002EDDF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BasicSwiftPlayerSample/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/AdobeMobile",
+					"$(PROJECT_DIR)/libs/MediaSDK",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicSwiftPlayerSample.BasicSwiftPlayerSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2EC5A91120F2EF34002EDDF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BasicSwiftPlayerSample/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/AdobeMobile",
+					"$(PROJECT_DIR)/libs/MediaSDK",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicSwiftPlayerSample.BasicSwiftPlayerSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2EC5A8F820F2EF32002EDDF7 /* Build configuration list for PBXProject "BasicSwiftPlayerSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC5A90D20F2EF34002EDDF7 /* Debug */,
+				2EC5A90E20F2EF34002EDDF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2EC5A90F20F2EF34002EDDF7 /* Build configuration list for PBXNativeTarget "BasicSwiftPlayerSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC5A91020F2EF34002EDDF7 /* Debug */,
+				2EC5A91120F2EF34002EDDF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2EC5A8F520F2EF32002EDDF7 /* Project object */;
+}

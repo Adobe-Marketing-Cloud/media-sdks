@@ -17,8 +17,8 @@
         "org": "3CE342C75100435B0A490D4C@AdobeOrg"
     },
     "analytics": {
-        "rsids": "mobile1vhl.sample.player",
-        "server": "obumobile1.sc.omtrdc.net",
+        "rsids": "mobile5vhl.sample.player",
+        "server": "obumobile5.sc.omtrdc.net",
         "ssl": false,
         "offlineEnabled": false,
         "charset": "UTF-8",
@@ -31,5 +31,9 @@
         "backdateSessionInfo": false,
         "poi": []
     },
-    "messages": []
+    "messages": [],
+    "remotes": {
+        "analytics.poi": "https://assets.adobedtm.com/b213090c5204bf94318f4ef0539a38b487d10368/scripts/satellite-57520e2064746d64dc00ce3d.json",
+        "messages": "https://assets.adobedtm.com/b213090c5204bf94318f4ef0539a38b487d10368/scripts/satellite-57520e1e64746d2e0200d4dd.json"
+    }
 }
