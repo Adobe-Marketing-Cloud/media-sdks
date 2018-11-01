@@ -11,8 +11,8 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">Adobe Video Heartbeat v2.X reference </a></h1>
-				<a id="developerHome" href="../index.html">Adobe Systems Inc</a>
+				<h1><a id="libraryTitle" href="../index.html">Adobe Media SDK v2.x reference </a></h1>
+				<a id="developerHome" href="../index.html">Adobe Inc</a>
 			</div>
 			
 			<div id="title" role="banner">
@@ -46,6 +46,8 @@
 	<option value="//api/name/createChapterObjectWithName:position:length:startTime:">&nbsp;&nbsp;&nbsp;&nbsp;+ createChapterObjectWithName:position:length:startTime:</option>
 	
 	<option value="//api/name/createMediaObjectWithName:mediaId:length:streamType:">&nbsp;&nbsp;&nbsp;&nbsp;+ createMediaObjectWithName:mediaId:length:streamType:</option>
+	
+	<option value="//api/name/createMediaObjectWithName:mediaId:length:streamType:mediaType:">&nbsp;&nbsp;&nbsp;&nbsp;+ createMediaObjectWithName:mediaId:length:streamType:mediaType:</option>
 	
 	<option value="//api/name/createQoSObjectWithBitrate:startupTime:fps:droppedFrames:">&nbsp;&nbsp;&nbsp;&nbsp;+ createQoSObjectWithBitrate:startupTime:fps:droppedFrames:</option>
 	
@@ -105,6 +107,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createChapterObjectWithName:position:length:startTime:">createChapterObjectWithName:position:length:startTime:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createMediaObjectWithName:mediaId:length:streamType:">createMediaObjectWithName:mediaId:length:streamType:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createMediaObjectWithName:mediaId:length:streamType:mediaType:">createMediaObjectWithName:mediaId:length:streamType:mediaType:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createQoSObjectWithBitrate:startupTime:fps:droppedFrames:">createQoSObjectWithBitrate:startupTime:fps:droppedFrames:</a></span></li>
 	
@@ -241,6 +245,12 @@
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/createMediaObjectWithName:mediaId:length:streamType:mediaType:">+&nbsp;createMediaObjectWithName:mediaId:length:streamType:mediaType:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/createAdBreakObjectWithName:position:startTime:">+&nbsp;createAdBreakObjectWithName:position:startTime:</a></code>
 	</span>
 	
@@ -296,7 +306,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createAdBreakObjectWithName:(NSString *)<em>name</em> position:(double)<em>position</em> startTime:(double)<em>startTime</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createAdBreakObjectWithName:(nonnull NSString *)<em>name</em> position:(double)<em>position</em> startTime:(double)<em>startTime</em></code></div>
 
     
 	
@@ -357,7 +367,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createAdObjectWithName:(NSString *)<em>name</em> adId:(NSString *)<em>adId</em> position:(double)<em>position</em> length:(double)<em>length</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createAdObjectWithName:(nonnull NSString *)<em>name</em> adId:(nonnull NSString *)<em>adId</em> position:(double)<em>position</em> length:(double)<em>length</em></code></div>
 
     
 	
@@ -423,7 +433,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createChapterObjectWithName:(NSString *)<em>name</em> position:(double)<em>position</em> length:(double)<em>length</em> startTime:(double)<em>startTime</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createChapterObjectWithName:(nonnull NSString *)<em>name</em> position:(double)<em>position</em> length:(double)<em>length</em> startTime:(double)<em>startTime</em></code></div>
 
     
 	
@@ -484,12 +494,12 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Creates an instance of the video info object</p>
+		<p>Creates an instance of the media info object for tracking video content. (<b class="deprecated">Deprecated:</b><span class="deprecated"> Use createMediaObjectWithName:mediaId:length:streamType:mediaType: instead.</span>)</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createMediaObjectWithName:(NSString *)<em>name</em> mediaId:(NSString *)<em>mediaId</em> length:(double)<em>length</em> streamType:(NSString *)<em>streamType</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createMediaObjectWithName:(nonnull NSString *)<em>name</em> mediaId:(nonnull NSString *)<em>mediaId</em> length:(double)<em>length</em> streamType:(nonnull NSString *)<em>streamType</em></code></div>
 
     
 	
@@ -526,7 +536,78 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Creates an instance of the video info object</p>
+		<p>Creates an instance of the media info object for tracking video content.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">ADBMediaHeartbeat.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createMediaObjectWithName:mediaId:length:streamType:mediaType:" title="createMediaObjectWithName:mediaId:length:streamType:mediaType:"></a>
+	<h3 class="subsubtitle method-title">createMediaObjectWithName:mediaId:length:streamType:mediaType:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates an instance of the media info object</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createMediaObjectWithName:(nonnull NSString *)<em>name</em> mediaId:(nonnull NSString *)<em>mediaId</em> length:(double)<em>length</em> streamType:(nonnull NSString *)<em>streamType</em> mediaType:(ADBMediaType)<em>mediaType</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>name</em></dt>
+			<dd><p>The name of the media</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mediaId</em></dt>
+			<dd><p>The unqiue identifier for the media</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>length</em></dt>
+			<dd><p>The length of the media in seconds</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>streamType</em></dt>
+			<dd><p>The stream type as a string. Use the pre-defined constants for vod, live, linear, aod, audiobook and podcast content</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mediaType</em></dt>
+			<dd><p>The media type.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Creates an instance of the media info object</p>
 	</div>
 	
 	
@@ -555,7 +636,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createQoSObjectWithBitrate:(double)<em>bitrate</em> startupTime:(double)<em>startupTime</em> fps:(double)<em>fps</em> droppedFrames:(double)<em>droppedFrames</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createQoSObjectWithBitrate:(double)<em>bitrate</em> startupTime:(double)<em>startupTime</em> fps:(double)<em>fps</em> droppedFrames:(double)<em>droppedFrames</em></code></div>
 
     
 	
@@ -621,7 +702,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (ADBMediaObject *)createTimedMetadataObject:(NSString *)<em>metadata</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull ADBMediaObject *)createTimedMetadataObject:(nonnull NSString *)<em>metadata</em></code></div>
 
     
 	
@@ -672,7 +753,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (NSString *)version</code></div>
+	<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)version</code></div>
 
     
 	
@@ -721,9 +802,24 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (instancetype)initWithDelegate:(id&lt;ADBMediaHeartbeatDelegate&gt;)<em>delegate</em> config:(ADBMediaHeartbeatConfig *)<em>config</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (nonnull instancetype)initWithDelegate:(nonnull id&lt;ADBMediaHeartbeatDelegate&gt;)<em>delegate</em> config:(nonnull ADBMediaHeartbeatConfig *)<em>config</em></code></div>
 
     
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>delegate</em></dt>
+			<dd><p><a href="../Protocols/ADBMediaHeartbeatDelegate.html">ADBMediaHeartbeatDelegate</a> instance</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>config</em></dt>
+			<dd><p><a href="../Classes/ADBMediaHeartbeatConfig.html">ADBMediaHeartbeatConfig</a> instance</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -734,9 +830,6 @@
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Creates an instance of ADBMediaHeartbeat class with provided delegate</p>
-
-<p>@param delegate
-@param config</p>
 	</div>
 	
 	
@@ -760,7 +853,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Video playback tracking method to track Video Complete</p>
+		<p>Method to track media complete.</p>
 	</div>		
 	
     
@@ -777,7 +870,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Video playback tracking method to track Video Complete</p>
+		<p>Method to track media complete.</p>
 	</div>
 	
 	
@@ -801,14 +894,24 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Tracking method to track an error in media playback</p>
+		<p>Method to track an error in media playback</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackError:(NSString *)<em>errorId</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackError:(nonnull NSString *)<em>errorId</em></code></div>
 
     
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>errorId</em></dt>
+			<dd><p>A string describing the error</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -818,9 +921,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Tracking method to track an error in media playback</p>
-
-<p>param errorId A string describing the error</p>
+		<p>Method to track an error in media playback</p>
 	</div>
 	
 	
@@ -844,12 +945,12 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Video playback tracking method to track an event</p>
+		<p>Method to track media event.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackEvent:(ADBMediaHeartbeatEvent)<em>event</em> mediaObject:(ADBMediaObject *)<em>mediaObject</em> data:(NSDictionary *)<em>data</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackEvent:(ADBMediaHeartbeatEvent)<em>event</em> mediaObject:(nullable ADBMediaObject *)<em>mediaObject</em> data:(nullable NSDictionary *)<em>data</em></code></div>
 
     
 	
@@ -857,8 +958,18 @@
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
+			<dt><em>event</em></dt>
+			<dd><p><a href="../Constants/ADBMediaHeartbeatEvent.html">ADBMediaHeartbeatEvent</a> type</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mediaObject</em></dt>
+			<dd><p>Optional MediaObject</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
 			<dt><em>data</em></dt>
-			<dd><p>a dictionary pointer containing the context data to be tracked.</p></dd>
+			<dd><p>A dictionary pointer containing the context data to be tracked.</p></dd>
 		</dl>
 		
 	</div>
@@ -871,10 +982,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Video playback tracking method to track an event</p>
-
-<p>@param event
-@param info</p>
+		<p>Method to track media event.</p>
 	</div>
 	
 	
@@ -898,7 +1006,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Video playback tracking method to track Video Pause</p>
+		<p>Method to track media pause.</p>
 	</div>		
 	
     
@@ -915,7 +1023,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Video playback tracking method to track Video Pause</p>
+		<p>Method to track media pause.</p>
 	</div>
 	
 	
@@ -939,7 +1047,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Video playback tracking method to track Video Play and a resume after a previous pause.</p>
+		<p>Method to track media play or resume after a previous pause.</p>
 	</div>		
 	
     
@@ -956,7 +1064,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Video playback tracking method to track Video Play and a resume after a previous pause.</p>
+		<p>Method to track media play or resume after a previous pause.</p>
 	</div>
 	
 	
@@ -980,8 +1088,8 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Tracking method to track the end of a viewing session. This method must be called even if the user
-does not watch the video to completion.</p>
+		<p>Method to track the end of a viewing session. This method must be called even if the user
+does not view the media to completion.</p>
 	</div>		
 	
     
@@ -998,8 +1106,8 @@ does not watch the video to completion.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Tracking method to track the end of a viewing session. This method must be called even if the user
-does not watch the video to completion.</p>
+		<p>Method to track the end of a viewing session. This method must be called even if the user
+does not view the media to completion.</p>
 	</div>
 	
 	
@@ -1023,12 +1131,12 @@ does not watch the video to completion.</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Tracking method to track the start of a viewing session.</p>
+		<p>Method to track the start of a viewing session.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)trackSessionStart:(ADBMediaObject *)<em>mediaObject</em> data:(NSDictionary *)<em>data</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)trackSessionStart:(nonnull ADBMediaObject *)<em>mediaObject</em> data:(nullable NSDictionary *)<em>data</em></code></div>
 
     
 	
@@ -1042,7 +1150,7 @@ does not watch the video to completion.</p>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>data</em></dt>
-			<dd><p>a dictionary pointer containing the context data to be tracked.</p></dd>
+			<dd><p>A dictionary pointer containing the context data to be tracked.</p></dd>
 		</dl>
 		
 	</div>
@@ -1055,7 +1163,7 @@ does not watch the video to completion.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Tracking method to track the start of a viewing session.</p>
+		<p>Method to track the start of a viewing session.</p>
 	</div>
 	
 	
@@ -1087,7 +1195,7 @@ does not watch the video to completion.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2016 Adobe Systems Inc. All rights reserved. (Last updated: 2016-07-15)</span><br />
+						<p><span class="copyright">&copy; 2018 Adobe Inc. All rights reserved. (Last updated: 2018-11-01)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						
