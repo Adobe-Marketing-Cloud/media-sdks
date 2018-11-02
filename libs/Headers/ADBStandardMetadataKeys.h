@@ -1,20 +1,18 @@
 /*************************************************************************
- *
  * ADOBE CONFIDENTIAL
  * ___________________
  *
- *  Copyright 2016 Adobe Systems Incorporated
+ *  Copyright 2015 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
- * the property of Adobe Systems Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Adobe Systems Incorporated and its
- * suppliers and are protected by trade secret or copyright law.
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
  * Dissemination of this information or reproduction of this material
  * is strictly forbidden unless prior written permission is obtained
- * from Adobe Systems Incorporated.
- *
+ * from Adobe.
  **************************************************************************/
 
 /**
@@ -37,6 +35,16 @@ FOUNDATION_EXPORT NSString *const ADBVideoMetadataKeyAUTHORIZED;
 FOUNDATION_EXPORT NSString *const ADBVideoMetadataKeyDAY_PART;
 FOUNDATION_EXPORT NSString *const ADBVideoMetadataKeyFEED;
 FOUNDATION_EXPORT NSString *const ADBVideoMetadataKeySTREAM_FORMAT;
+
+/**
+ * These constant strings define standard metadata keys for audio
+ */
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeyARTIST;
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeyALBUM;
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeyLABEL;
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeyAUTHOR;
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeySTATION;
+FOUNDATION_EXPORT NSString *const ADBAudioMetadataKeyPUBLISHER;
 
 /**
  * These constant strings define standard metadata keys for ad

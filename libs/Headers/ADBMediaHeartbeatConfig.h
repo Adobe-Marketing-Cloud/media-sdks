@@ -1,24 +1,25 @@
 /*************************************************************************
- *
  * ADOBE CONFIDENTIAL
  * ___________________
  *
- *  Copyright 2016 Adobe Systems Incorporated
+ *  Copyright 2015 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
- * the property of Adobe Systems Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Adobe Systems Incorporated and its
- * suppliers and are protected by trade secret or copyright law.
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
  * Dissemination of this information or reproduction of this material
  * is strictly forbidden unless prior written permission is obtained
- * from Adobe Systems Incorporated.
- *
+ * from Adobe.
  **************************************************************************/
 
 #import <Foundation/Foundation.h>
 
+/**
+ * MediaHeartbeat configuration
+ */
 @interface ADBMediaHeartbeatConfig : NSObject
 
 /** @name Properties */
@@ -29,25 +30,25 @@
 
 /** @name Properties */
 /**
- * channel name property, defaults to empty string.
+ * Channel name property. Defaults value is empty string.
  */
 @property (nonatomic, strong) NSString *channel;
 
 /** @name Properties */
 /**
- * Name of the online video platform through which content gets distributed. Default value is "unknown".
+ * Name of the online video platform through which content gets distributed. Default value is empty string.
  */
 @property (nonatomic, strong) NSString *ovp;
 
 /** @name Properties */
 /**
- * Version of the video player app/SDK. Default value is "unknown".
+ * Version of the media player app/SDK. Default value is empty string.
  */
 @property (nonatomic, strong) NSString *appVersion;
 
 /** @name Properties */
 /**
- * Name of the video player on use. i.e. "AVPlayer", "HTML5 Player", "My Custom VideoPlayer".
+ * Name of the media player on use. i.e. "AVPlayer", "HTML5 Player", "My Custom VideoPlayer". Default value is empty string.
  */
 @property (nonatomic, strong) NSString *playerName;
 
@@ -59,8 +60,7 @@
 
 /** @name Properties */
 /**
- * 	@brief Gets the preference for debug log output.
- *  @return a bool value indicating the preference for debug log output.
+ * Property that indicates the preference for debug log output. Default value is NO.
  */
 @property (nonatomic) BOOL debugLogging;
 
