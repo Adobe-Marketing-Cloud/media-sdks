@@ -1,10 +1,37 @@
-# video-heartbeat-v2-Cocoapods
-2.X Video Heartbeat Libraries and sample players.
+# Adobe Media SDK Cocoapods
+
+## Pod Name: AdobeMediaSDK
+Downloads MediaSDK v2.2.0+.
+
+For Swift Project, since Cocoapods generates dynamic framework, use 'import AdobeMediaSDK' to include SDK headers.
+
+### Sample Podfile for iOS and tvOS targets using AdobeMediaSDK Pod
+
+    target ‘iOSPodSample’ do
+      platform :ios, ‘9.0’
+      use_frameworks!
+      pod ‘AdobeMediaSDK’
+    end
+
+    target ‘TvOSPodSample’ do
+      platform :tvos, ‘9.0’
+      use_frameworks!
+      pod ‘AdobeMediaSDK’
+    end
 
 
-To import Video Heartbeat using Cocoapods:
+## Pod Name: AdobeVideoHeartbeatSDK
+Downloads 2.x Video Heartbeat Libraries prior to v2.2.0.
+Important: This Pod will have no further updates post v2.1.0.
 
-    pod 'AdobeVideoHeartbeatSDK', '~>2.1'
+### Sample Podfile for iOS and tvOS targets using AdobeVideoHeartbeatSDK Pod
 
-in your podfile
+    target 'iOSPodSample' do
+      platform :ios, '9.0'
+      pod 'AdobeVideoHeartbeatSDK'
+    end
 
+    target 'TvOSPodSample' do
+      platform :tvos, '9.0'
+      pod 'AdobeVideoHeartbeatSDK/TVOS'
+    end
