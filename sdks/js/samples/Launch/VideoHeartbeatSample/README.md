@@ -2,7 +2,7 @@
 
 Documentation for "Adobe Launch" is found [here](https://docs.adobelaunch.com/getting-started).
 
-Documentation for "Adobe Analytics for Video" extension is found [here](https://docs.adobelaunch.com/extension-reference/adobe-extensions/adobe-analytics-for-video-extension).
+Documentation for "Adobe Analytics for Video" extension is found [here](https://docs.adobelaunch.com/extension-reference/web/adobe-analytics-for-video-extension).
 
 Documentation for "Video Analytics" is found [here](https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/).
 
