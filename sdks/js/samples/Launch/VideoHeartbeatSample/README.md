@@ -17,4 +17,4 @@ In order to get Video Analytics working in the sample -
 4) Add and configure "Adobe Analytics for Video" Extension to your property. Make sure to set "Export APIs to Window object" and set variable name to "ADB".
 5) Build the library and include it as first script tag in "index.html".
 
-Make sure to deploy the script tag synchronously as described [here](https://docs.adobelaunch.com/client-side-information/asynchronous-deployment#synchronous-deployment)
+Make sure to deploy the script tag synchronously as described [here](https://docs.adobelaunch.com/launch-reference/client-side-information/asynchronous-deployment#synchronous-deployment)
