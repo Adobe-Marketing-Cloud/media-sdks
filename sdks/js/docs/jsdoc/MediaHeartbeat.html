@@ -240,6 +240,149 @@
 
         
             
+<h4 class="name" id=".MediaType"><span class="type-signature">(static, readonly) </span>MediaType<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Video</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining media type for Video streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Audio</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining media type for Audio streams</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    <p>These constants define the type of media</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id=".Event"><span class="type-signature">(static, readonly) </span>Event<span class="type-signature"> :string</span></h4>
 
 
@@ -624,7 +767,7 @@
 
             
 
-            <td class="description last"><p>Constant defining event type for TimedMetadata update received from the player</p></td>
+            <td class="description last"><p>Constant defining event type for TimedMetadata updates received from the player</p></td>
         </tr>
 
     
@@ -635,6 +778,10 @@
 
 
 
+
+<div class="description">
+    <p>These constants define the type of tracking event</p>
+</div>
 
 
 
@@ -790,6 +937,75 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>PODCAST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for Podcast streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>AUDIOBOOK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for AudioBook streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>AOD</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for AOD streams</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -797,6 +1013,10 @@
 
 
 
+
+<div class="description">
+    <p>These constants define the stream type of the main content.</p>
+</div>
 
 
 
@@ -902,7 +1122,30 @@
 
             
 
-            <td class="description last"><p>Constant defining Map of Standard Video Metadata to be attached on MediaObject</p></td>
+            <td class="description last"><p>Constant defining Map of Standard Video Metadata to be attached on MediaObject.<br>Deprecated :- Use <a href="MediaHeartbeat.html#.MediaObjectKey#.StandardMediaMetadata">MediaHeartbeat.MediaObjectKey.StandardMediaMetadata</a> instead.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>StandardMediaMetadata</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining Map of Standard Media Metadata to be attached on MediaObject</p></td>
         </tr>
 
     
@@ -948,7 +1191,30 @@
 
             
 
-            <td class="description last"><p>Constant defining explicit video resumed property. Set this to true on MediaObject if resuming a previously closed session.</p></td>
+            <td class="description last"><p>Constant defining explicit video resumed property. Set this to true on MediaObject if resuming a previously closed session.<br>Deprecated :- Use <a href="MediaHeartbeat.html#.MediaObjectKey#.MediaResumed">MediaHeartbeat.MediaObjectKey.MediaResumed</a> instead.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MediaResumed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining explicit media resumed property. Set this to true on MediaObject if resuming a previously closed session.</p></td>
         </tr>
 
     
@@ -971,7 +1237,7 @@
 
             
 
-            <td class="description last"><p>Constant defining the amount of time that MediaHeartbeat will wait between trackPlay and trackEvent(AdBreakStart) before tracking the video start.<br>If set, should be a number else it would be ignored</p></td>
+            <td class="description last"><p>Constant defining the amount of time that MediaHeartbeat will wait between trackPlay and trackEvent(AdBreakStart) before tracking the start of media.<br>If set, should be a number else it would be ignored</p></td>
         </tr>
 
     
@@ -1070,6 +1336,74 @@
 
         
             
+<h4 class="name" id=".AudioMetadataKeys"><span class="type-signature">(static, readonly) </span>AudioMetadataKeys<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Valid audio metadata keys:<br><code>ARTIST</code><br><code>ALBUM</code><br><code>LABEL</code><br><code>AUTHOR</code><br><code>STATION</code><br><code>PUBLISHER</code></p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id=".AdMetadataKeys"><span class="type-signature">(static, readonly) </span>AdMetadataKeys<span class="type-signature"> :string</span></h4>
 
 
@@ -1147,7 +1481,7 @@
 
     
 
-    <h4 class="name" id=".createMediaObject"><span class="type-signature">(static) </span>createMediaObject<span class="signature">(name, mediaId, length, streamType)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".createMediaObject"><span class="type-signature">(static) </span>createMediaObject<span class="signature">(name, mediaId, length, mediaStreamType, mediaType)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1194,7 +1528,7 @@
 
 
 <div class="description">
-    <p>Creates an instance of the video info object</p>
+    <p>Creates an instance of the media info object</p>
 </div>
 
 
@@ -1301,13 +1635,13 @@
 
         <tr>
             
-                <td class="name"><code>streamType</code></td>
+                <td class="name"><code>mediaStreamType</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="MediaHeartbeat.html#.StreamType">MediaHeartbeat.StreamType</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -1317,7 +1651,30 @@
 
             
 
-            <td class="description last"><p>The stream type as a string. Use the pre-defined constants for vod, live, and linear content</p></td>
+            <td class="description last"><p>The stream type of the media. Use <a href="MediaHeartbeat.html#.StreamType">MediaHeartbeat.StreamType</a> or custom values to denote the stream type of media.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="MediaHeartbeat.html#.MediaType">MediaHeartbeat.MediaType</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media type</p></td>
         </tr>
 
     
@@ -2373,7 +2730,7 @@
 
 
 <div class="description">
-    <p>Tracking method to load media information and track the start of a viewing session.</p>
+    <p>Method to load media information and track the start of a viewing session.</p>
 </div>
 
 
@@ -2427,7 +2784,7 @@
 
             
 
-            <td class="description last"><p>An MediaObject instance created using <a href="MediaHeartbeat.html#.createMediaObject">MediaHeartbeat.createMediaObject</a> method</p></td>
+            <td class="description last"><p>MediaObject instance created using <a href="MediaHeartbeat.html#.createMediaObject">MediaHeartbeat.createMediaObject</a> method</p></td>
         </tr>
 
     
@@ -2450,7 +2807,7 @@
 
             
 
-            <td class="description last"><p>an object containing the context data to be tracked.</p></td>
+            <td class="description last"><p>Object containing the context data to be tracked.</p></td>
         </tr>
 
     
@@ -2524,7 +2881,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track Video Play and a resume after a previous pause.</p>
+    <p>Method to track media play or resume after a previous pause.</p>
 </div>
 
 
@@ -2603,7 +2960,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track Video Pause</p>
+    <p>Method to track media pause.</p>
 </div>
 
 
@@ -2682,7 +3039,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track Video Complete</p>
+    <p>Method to track completion of media.</p>
 </div>
 
 
@@ -2761,7 +3118,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track the end of a viewing session. This method must be called even if the user<br>does not watch the video to completion.</p>
+    <p>Method to track the end of a viewing session. This method must be called even if the user<br>does not watch the media to completion.</p>
 </div>
 
 
@@ -2840,7 +3197,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track an error in media playback</p>
+    <p>Method to track an error in media playback</p>
 </div>
 
 
@@ -2894,7 +3251,7 @@
 
             
 
-            <td class="description last"><p>A string describing the error</p></td>
+            <td class="description last"><p>Error Id</p></td>
         </tr>
 
     
@@ -2968,7 +3325,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track an event in video playback.</p>
+    <p>Method to track an event in media playback.</p>
 </div>
 
 
@@ -3045,7 +3402,7 @@
 
             
 
-            <td class="description last"><p>MediaObject of the Event to be tracked.<br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#AdBreakStart        should have MediaObject created using <a href="MediaHeartbeat.html#.createAdBreakObject">MediaHeartbeat.createAdBreakObject</a><br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#AdStart             should have MediaObject created using <a href="MediaHeartbeat.html#.createAdObject">MediaHeartbeat.createAdObject</a><br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#ChapterStart        should have MediaObject created using <a href="MediaHeartbeat.html#.createChapterObject">MediaHeartbeat.createChapterObject</a><br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#TimedMetadataUpdate should have MediaObject created using <a href="MediaHeartbeat.html#.createTimedMetadataObject">MediaHeartbeat.createTimedMetadataObject</a></p></td>
+            <td class="description last"><p>MediaObject of the Event to be tracked.<br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#AdBreakStart        should have MediaObject created using <a href="MediaHeartbeat.html#.createAdBreakObject">MediaHeartbeat.createAdBreakObject</a><br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#AdStart             should have MediaObject created using <a href="MediaHeartbeat.html#.createAdObject">MediaHeartbeat.createAdObject</a><br>               <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#ChapterStart        should have MediaObject created using <a href="MediaHeartbeat.html#.createChapterObject">MediaHeartbeat.createChapterObject</a></p></td>
         </tr>
 
     
@@ -3068,7 +3425,7 @@
 
             
 
-            <td class="description last"><p>Context data.</p></td>
+            <td class="description last"><p>Context data for <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#AdStart and <a href="MediaHeartbeat.html#.Event">MediaHeartbeat.Event</a>#ChapterStart events. Pass null for other events.</p></td>
         </tr>
 
     
@@ -3108,7 +3465,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Fri Sep 21 2018 12:30:16 GMT-0700 (PDT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 12 2019 09:32:13 GMT-0800 (PST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

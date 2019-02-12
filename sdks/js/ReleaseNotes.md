@@ -1,4 +1,4 @@
-# Release Notes for JavaScript VideoHeartbeat 2.x SDK
+# Release Notes for JavaScript Media SDK 2.x
 
 Included are notes from the latest major revision to current.
 
@@ -11,7 +11,13 @@ Lighter, Simpler implementation.
 	- Clear difference between optional and required video tracking APIs. Optional video tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single video tracking API: trackEvent.
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/js_2.0/
+https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
+
+## 2.2.0 (February 12, 2019)
+- Video Heartbeat Library (VHL) SDK renamed to Media SDK.
+- Added standard audio metadata for audio analytics support.
+- Added buffer events for gaps between Ads during AdBreak.
+- Bug fixes to improve stability and SDK performance.
 
 ## 2.1.1 (September 21, 2018)
 - Bug fixes.

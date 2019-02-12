@@ -23,7 +23,7 @@
         this._player = player;
 
         // Set-up the Visitor and AppMeasurement instances.
-        var visitor = new Visitor(Configuration.VISITOR.MARKETING_CLOUD_ORG_ID);
+        var visitor = Visitor.getInstance(Configuration.VISITOR.MARKETING_CLOUD_ORG_ID);
         visitor.trackingServer = Configuration.VISITOR.TRACKING_SERVER;
         visitor.setCustomerIDs({
             "userId": {
@@ -35,10 +35,9 @@
         });
 
         // Set-up the AppMeasurement component.
-        var appMeasurement = new AppMeasurement();
+        var appMeasurement = new AppMeasurement(Configuration.APP_MEASUREMENT.RSID);
         appMeasurement.visitor = visitor;
         appMeasurement.trackingServer = Configuration.APP_MEASUREMENT.TRACKING_SERVER;
-        appMeasurement.account = Configuration.APP_MEASUREMENT.RSID;
         appMeasurement.pageName = Configuration.APP_MEASUREMENT.PAGE_NAME;
         appMeasurement.charSet = "UTF-8";
         appMeasurement.visitorID = "test-vid";
@@ -94,17 +93,17 @@
         };
 
         var videoInfo = this._player.getVideoInfo();
-        var mediaInfo = MediaHeartbeat.createMediaObject(videoInfo.name, videoInfo.id, videoInfo.length,videoInfo.streamType);
+        var mediaInfo = MediaHeartbeat.createMediaObject(videoInfo.name, videoInfo.id, videoInfo.length,videoInfo.streamType, MediaHeartbeat.MediaType.Video);
 
         //Set to true if this is a resume playback scenario (not starting from playhead 0)
-        //mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.VideoResumed, true);
+        //mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.MediaResumed, true);
 
         // Set standard Video Metadata
         var standardVideoMetadata = {};
         standardVideoMetadata[MediaHeartbeat.VideoMetadataKeys.EPISODE] = "Sample Episode";
         standardVideoMetadata[MediaHeartbeat.VideoMetadataKeys.SHOW] = "Sample Show";
+        mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.StandardMediaMetadata, standardVideoMetadata);
 
-        mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.StandardVideoMetadata, standardVideoMetadata);
 
         this._mediaHeartbeat.trackSessionStart(mediaInfo, contextData);
     };
