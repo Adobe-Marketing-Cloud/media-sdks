@@ -12,6 +12,9 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
 
+## 2.2.1 (February 14, 2019)
+- Bug fix around custom metadata for Ads.
+
 ## 2.2.0 (November 1, 2018)
 - Video Heartbeat Library (VHL) SDK renamed to Media SDK.
 - Added standard audio metadata for audio analytics support.
