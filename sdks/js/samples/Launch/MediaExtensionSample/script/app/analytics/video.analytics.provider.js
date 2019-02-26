@@ -124,7 +124,8 @@ configure Adobe Analytics for Video extension to export APIs to window object na
     var mediaInfo = MediaHeartbeat.createMediaObject(videoInfo.name,
       videoInfo.id,
       videoInfo.length,
-      MediaHeartbeat.StreamType.VOD);
+      MediaHeartbeat.StreamType.VOD,
+      MediaHeartbeat.MediaType.Video);
 
     //Set to true if this is a resume playback scenario (not starting from playhead 0)
     //mediaInfo.setValue(MediaHeartbeat.MediaObjectKey.VideoResumed, true);
