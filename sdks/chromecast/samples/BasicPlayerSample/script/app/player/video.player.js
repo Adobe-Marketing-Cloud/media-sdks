@@ -51,6 +51,7 @@
         this._videoId = "clickbaby";
         this._videoName = "sample video click-baby";
         this._streamType = ADBMobile.media.StreamType.VOD;
+        this._mediaType = ADBMobile.media.MediaType.Video;
 
         this._videoLoaded = false;
 
@@ -303,10 +304,9 @@
         var media = this._castplayer.mediaManager_.getMediaInformation();        
 
         // Prepare the main video info.
-        this._videoInfo = new ADBMobile.media.MediaInfo();
         var id = media.metadata.title ? media.metadata.title : "Undefined video id";
         var name = media.metadata.title ? media.metadata.title : "Undefined video name";
-        this._videoInfo = ADBMobile.media.createMediaObject(name, id, this.getDuration(), this._streamType);
+        this._videoInfo = ADBMobile.media.createMediaObject(name, id, this.getDuration(), this._streamType, this._mediaType);
         this._videoLoaded = true;
 
         NotificationCenter().dispatchEvent(PlayerEvent.VIDEO_LOAD);
@@ -332,11 +332,10 @@
     };
 
     VideoPlayer.prototype._startAd = function() {
-         // Prepare the ad break info.
+        // Prepare the ad break info.
         this._adBreakInfo = ADBMobile.media.createAdBreakObject("First Ad-Break", 1, AD_START_POS, this._playerName);
         // Prepare the ad info.        
         this._adInfo = ADBMobile.media.createAdObject("Sample ad", "001", 1, AD_LENGTH);
-       
 
         // Start the ad break.
         NotificationCenter().dispatchEvent(PlayerEvent.AD_BREAK_START);

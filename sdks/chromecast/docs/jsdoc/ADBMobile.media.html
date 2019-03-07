@@ -266,6 +266,214 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>PODCAST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for PODCAST streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>AUDIOBOOK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for AUDIOBOOK streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>AOD</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining stream type for AOD streams</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".MediaType"><span class="type-signature">(static, readonly) </span>MediaType<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Video</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining media type for Video streams</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Audio</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Constant defining media type for Audio streams</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -754,7 +962,7 @@
 
         <tr>
             
-                <td class="name"><code>StandardVideoMetadata</code></td>
+                <td class="name"><code>StandardMediaMetadata</code></td>
             
 
             <td class="type">
@@ -770,7 +978,7 @@
 
             
 
-            <td class="description last"><p>Constant defining Map of Standard Video Metadata to be attached on MediaObject</p></td>
+            <td class="description last"><p>Constant defining Map of Standard Video/Audio Metadata to be attached on MediaObject.</p></td>
         </tr>
 
     
@@ -793,14 +1001,14 @@
 
             
 
-            <td class="description last"><p>Constant defining Map of Standard Ad Metadata to be attached on MediaObject</p></td>
+            <td class="description last"><p>Constant defining Map of Standard Ad Metadata to be attached on AdObject.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>VideoResumed</code></td>
+                <td class="name"><code>MediaResumed</code></td>
             
 
             <td class="type">
@@ -816,7 +1024,7 @@
 
             
 
-            <td class="description last"><p>Constant defining explicit video resumed property. Set this to true on MediaObject if resuming a previously closed session.</p></td>
+            <td class="description last"><p>Constant defining explicit media resumed property. Set this to true on MediaObject if resuming a previously closed session.</p></td>
         </tr>
 
     
@@ -893,7 +1101,75 @@
 
 
 <div class="description">
-    <p>Valid video metadata keys are<br><code>SHOW</code><br><code>SEASON</code><br><code>EPISODE</code><br><code>ASSET_ID</code><br><code>GENRE</code><br><code>FIRST_AIR_DATE</code><br><code>FIRST_DIGITAL_DATE</code><br><code>RATING</code><br><code>ORIGINATOR</code><br><code>NETWORK</code><br><code>SHOW_TYPE</code><br><code>AD_LOAD</code><br><code>MVPD</code><br><code>AUTHORIZED</code><br><code>DAY_PART</code><br><code>FEED</code><br><code>STREAM_FORMAT</code></p>
+    <p>Standard video metadata keys are<br><code>SHOW</code><br><code>SEASON</code><br><code>EPISODE</code><br><code>ASSET_ID</code><br><code>GENRE</code><br><code>FIRST_AIR_DATE</code><br><code>FIRST_DIGITAL_DATE</code><br><code>RATING</code><br><code>ORIGINATOR</code><br><code>NETWORK</code><br><code>SHOW_TYPE</code><br><code>AD_LOAD</code><br><code>MVPD</code><br><code>AUTHORIZED</code><br><code>DAY_PART</code><br><code>FEED</code><br><code>STREAM_FORMAT</code></p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".AudioMetadataKeys"><span class="type-signature">(static, readonly) </span>AudioMetadataKeys<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Standard audio metadata keys are<br><code>ARTIST</code><br><code>ALBUM</code><br><code>LABEL</code><br><code>AUTHOR</code><br><code>STATION</code><br><code>PUBLISHER</code></p>
 </div>
 
 
@@ -961,7 +1237,7 @@
 
 
 <div class="description">
-    <p>Valid ad metadata keys are<br><code>ADVERTISER</code><br><code>CAMPAIGN_ID</code><br><code>CREATIVE_ID</code><br><code>PLACEMENT_ID</code><br><code>SITE_ID</code><br><code>CREATIVE_URL</code></p>
+    <p>Standard ad metadata keys are<br><code>ADVERTISER</code><br><code>CAMPAIGN_ID</code><br><code>CREATIVE_ID</code><br><code>PLACEMENT_ID</code><br><code>SITE_ID</code><br><code>CREATIVE_URL</code></p>
 </div>
 
 
@@ -1008,7 +1284,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1081,7 +1357,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1154,7 +1430,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1227,7 +1503,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1300,7 +1576,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1373,7 +1649,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1446,7 +1722,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1519,7 +1795,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1592,7 +1868,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1665,7 +1941,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1738,7 +2014,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1811,7 +2087,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1884,7 +2160,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -1957,7 +2233,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -2030,7 +2306,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -2103,7 +2379,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -2486,7 +2762,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track video play and resume after a previous pause.</p>
+    <p>Tracking method to track media play and resume after a previous pause.</p>
 </div>
 
 
@@ -2565,7 +2841,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track video pause.</p>
+    <p>Tracking method to track media pause.</p>
 </div>
 
 
@@ -2946,7 +3222,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track video complete.</p>
+    <p>Tracking method to track media complete.</p>
 </div>
 
 
@@ -3025,7 +3301,7 @@
 
 
 <div class="description">
-    <p>Tracking method to track the end of a viewing session.<br>This method must be called even if the user does not watch the video to completion.</p>
+    <p>Tracking method to track the end of a viewing session.<br>This method must be called even if the user does not watch the media to completion.</p>
 </div>
 
 
@@ -3057,7 +3333,7 @@
 
     
 
-    <h4 class="name" id=".createMediaObject"><span class="type-signature">(static) </span>createMediaObject<span class="signature">(name, mediaId, length, streamType)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".createMediaObject"><span class="type-signature">(static) </span>createMediaObject<span class="signature">(name, mediaId, length, streamType, mediaType)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3104,7 +3380,7 @@
 
 
 <div class="description">
-    <p>Creates an instance of the VideoInfo object.</p>
+    <p>Creates an instance of the Media info object.</p>
 </div>
 
 
@@ -3217,7 +3493,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="ADBMobile.media.html#.StreamType">ADBMobile.media.StreamType</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -3227,7 +3503,30 @@
 
             
 
-            <td class="description last"><p>The stream type as a string. Use the pre-defined constants for vod, live, and linear content</p></td>
+            <td class="description last"><p>The stream type of the media. Use the pre-defined constants <a href="ADBMobile.media.html#.StreamType">ADBMobile.media.StreamType</a> or custom values.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mediaType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ADBMobile.media.html#.MediaType">ADBMobile.media.MediaType</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The type of the media</p></td>
         </tr>
 
     
@@ -4068,7 +4367,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -4152,7 +4451,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -4236,7 +4535,7 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.1 release.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Will be removed after 2.2 release.</li></ul></dd>
     
 
     
@@ -4307,7 +4606,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Thu Aug 09 2018 09:54:09 GMT-0700 (PDT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Mar 06 2019 17:45:08 GMT-0800 (PST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

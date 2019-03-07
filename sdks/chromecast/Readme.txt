@@ -1,6 +1,5 @@
 ****************** CONFIDENTIAL ******************
-ADOBE SYSTEMS INCORPORATED
-Copyright 2015 Adobe Systems Incorporated 
+Copyright 2019 Adobe
 All Rights Reserved.
 NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms of the Adobe license agreement accompanying it.  If you have received this file from a source other than Adobe, then your use, modification, or distribution of it requires the prior written permission of Adobe.
 **************************************************
@@ -8,7 +7,7 @@ NOTICE: Adobe permits you to use, modify, and distribute this file in accordance
 ----------------------------------
 Adobe Mobile Library (Chromecast)
 ----------------------------------
-Current Version:2.1.0
+Current Version:2.2.0
 
 =======
 SUMMARY
