@@ -12,6 +12,10 @@
 		"privacyDefault": "optedin",
 		"poi": []
 	},
+	"marketingCloud": {
+			"org": "",
+			"server": ""
+	},
 	"target": {
 		"clientCode": "",
 		"timeout": 5

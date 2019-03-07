@@ -3,7 +3,14 @@
 Included are notes from the latest major revision to current.
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/roku/
+https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
+
+## 2.2.0 (7 March, 2019)
+What's new :
+- Added standard audio metadata for audio analytics support.
+- The server endpoint for visitor ID is now configurable via the config file.
+- Added buffer events for gaps between Ads during AdBreak.
+- Bug fixes to improve stability and SDK performance.
 
 ## 2.1.0 (9 August, 2018)
 What's new :

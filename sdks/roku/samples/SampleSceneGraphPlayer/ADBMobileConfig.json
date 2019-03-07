@@ -14,7 +14,8 @@
         "appid": "d101a5b0346d55efc7ca423a6e63d4ff31a9f2656285f30b261442775a8d9047"
     },
     "marketingCloud": {
-        "org": "972C898555E9F7BC7F000101@AdobeOrg"
+        "org": "972C898555E9F7BC7F000101@AdobeOrg",
+        "server": "obumobile5.demdex.net"
     },
     "analytics": {
         "rsids": "mobile5vhl.sample.player",
@@ -31,7 +32,7 @@
         "backdateSessionInfo": false,
         "poi": []
     },
-    "mediaHeartbeat":{  
+    "mediaHeartbeat":{
       "server":"obumobile5.hb.omtrdc.net",
       "publisher":"972C898555E9F7BC7F000101@AdobeOrg",
       "channel":"test-channel",
@@ -40,9 +41,5 @@
       "sdkVersion":"test-sdk",
       "playerName":"roku"
    },
-    "messages": [],
-    "remotes": {
-        "analytics.poi": "https://assets.adobedtm.com/b213090c5204bf94318f4ef0539a38b487d10368/scripts/satellite-57520e2064746d64dc00ce3d.json",
-        "messages": "https://assets.adobedtm.com/b213090c5204bf94318f4ef0539a38b487d10368/scripts/satellite-57520e1e64746d2e0200d4dd.json"
-    }
+    "messages": []
 }

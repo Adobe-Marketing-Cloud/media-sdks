@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.1.0",
+      version: "2.2.0",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -51,15 +51,15 @@ Function ADBMobile() As Object
 
       processMediaMessages: Function() as Void
           ' do not execute the Media processmessages loop if MediaHeartbeat is in error state
-          if _adb_media_isInErrorState() = false AND _adb_media().isEnabled()
-            
+          if _adb_media_isInErrorState() = false AND NOT(_adb_media()._isMediaDisabled())
+
             ' call the ADB Mobile process message since media uses analytics
             m.processMessages()
-            
+
             _adb_serializeAndSendHeartbeat().processMessage()
             _adb_clockservice_loop()
             _adb_taskscheduler_loop()
-          endif          
+          endif
         End Function,
 
       getAllIdentifiers: Function() as String
@@ -439,7 +439,7 @@ Function _adb_urlEncoder() as Object
           return tempContextData
         End Function,
 
-      ''' serializes context data encoded object into a string format suitible for url inclusion
+      ''' serializes context data encoded object into a string format suitable for url inclusion
       _serializeContextDataObject: Function(contextData as Object) as String
           returnValue = ""
 
@@ -1111,6 +1111,10 @@ Function _adb_serializeAndSendHeartbeat() As Object
         ''' process this message if it's something we need to handle
         msg = wait(1, m._port)
         if type(msg) = "roUrlEvent" AND msg.GetSourceIdentity() = m._http.GetIdentity()
+
+          m._currentHit = invalid
+          m._urlRetry = false
+
           responseCode = msg.GetResponseCode()
             if responseCode = 200
               m._logger.debug("Successfully sent status hit")
@@ -1140,12 +1144,17 @@ Function _adb_serializeAndSendHeartbeat() As Object
                  if setupData.setupCheckInterval <> invalid
                   responseConfig.setupCheckInterval = setupData.setupCheckInterval.GetText().ToInt()
                 endif
+                if setupData.trackingDisabled <> invalid
+                  if setupData.trackingDisabled.GetText().ToInt() = 1
+                    responseConfig.trackingDisabled = true
+                  endif
+                endif
 
                 ''' update the check status timer settings
                 _adb_clockservice().updateCheckStatusInterval(responseConfig)
 
                 ''' handle empty or invalid response
-              else 
+              else
                 m._logger.debug("Empty or invalid XML response received")
               endif
 
@@ -1155,11 +1164,8 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
             else
               m._logger.error("Unable to send hit, Failure Reason: " + msg.GetFailureReason() + " ResponseCode: " + msg.GetResponseCode().ToStr())
-
             endif
 
-            m._currentHit = invalid
-            m._urlRetry = false
             m._sendNextHit()
           endif
         End Function,
@@ -1322,6 +1328,10 @@ Function _adb_clockservice() As Object
           else
             m._logger.debug("UpdateCheckStatusInterval: setupCheckInterval is invalid")
           endif
+
+          if setupData.trackingDisabled <> invalid AND setupData.trackingDisabled = true
+            _adb_media()._disableMedia()
+          endif
         End Function,
 
       restartTimerWithNewInterval: Function(timerName as String, newInterval as Integer, updateDefaultInterval = false as Boolean) as Object
@@ -1401,13 +1411,13 @@ Function _adb_clockservice() As Object
           m.id_checkstatus_timer = "CheckStatusTimer"
           m.id_flushfilter_timer = "FlushFilterTimer"
           m.id_playhead_timer    = "PlayheadTimer"
-          
+
           m._logger = _adb_logger().instanceWithTag("media/ClockService")
           m._active = false
           m._timers = {}
 
           m._addTimer(m.id_reporting_timer, 10000, true)
-          m._addTimer(m.id_checkstatus_timer, 60000, true)
+          m._addTimer(m.id_checkstatus_timer, 180000, true)
           m._addTimer(m.id_flushfilter_timer, 3000, true)
           m._addTimer(m.id_playhead_timer, 1000, false)
       End Function
@@ -1440,17 +1450,28 @@ Function _adb_media_loadconstants(instance as Object)
 End Function
 
 Function _adb_media_loadMediaKeyConstants(instance as Object)
+
+  instance.MEDIA_TYPE_AUDIO      = "audio"
+  instance.MEDIA_TYPE_VIDEO      = "video"
+
   instance.MEDIA_STREAM_TYPE_VOD          = "vod"
   instance.MEDIA_STREAM_TYPE_LIVE         = "live"
-  
   instance.MEDIA_STREAM_TYPE_LINEAR       = "linear"
+
+  instance.MEDIA_STREAM_TYPE_PODCAST      = "podcast"
+  instance.MEDIA_STREAM_TYPE_AUDIOBOOK    = "audiobook"
+  instance.MEDIA_STREAM_TYPE_AOD          = "aod"
 
   instance.ERROR_SOURCE_PLAYER            = "sourceErrorSDK"
 
-  instance.VIDEO_RESUMED                  = "resumed"
+  instance.MEDIA_RESUMED                  = "resumed"
   instance.PREROLL_TRACKING_WAITING_TIME  = "prerolltrackingwaitingtime"
-  instance.MEDIA_STANDARD_VIDEO_METADATA  = "media_standard_content_metadata"
+  instance.MEDIA_STANDARD_MEDIA_METADATA  = "media_standard_content_metadata"
   instance.MEDIA_STANDARD_AD_METADATA     = "media_standard_ad_metadata"
+
+  '@Deprecated
+  instance.MEDIA_STANDARD_VIDEO_METADATA  = "media_standard_content_metadata"
+  instance.VIDEO_RESUMED                  = "resumed"
 End Function
 
 Function _adb_media_loadEventConstants(instance as Object)
@@ -1490,6 +1511,14 @@ Function _adb_media_loadStandardMetadataConstants(instance as Object)
   instance.MEDIA_VideoMetadataKeyFEED                    = "a.media.feed"
   instance.MEDIA_VideoMetadataKeySTREAM_FORMAT           = "a.media.format"
 
+  ' Standard Audio metadata keys
+  instance.MEDIA_AudioMetadataKeyARTIST                  = "a.media.artist"
+  instance.MEDIA_AudioMetadataKeyALBUM                   = "a.media.album"
+  instance.MEDIA_AudioMetadataKeyLABEL                   = "a.media.label"
+  instance.MEDIA_AudioMetadataKeyAUTHOR                  = "a.media.author"
+  instance.MEDIA_AudioMetadataKeySTATION                 = "a.media.station"
+  instance.MEDIA_AudioMetadataKeyPUBLISHER               = "a.media.publisher"
+
   ' Standard Ad metadata keys
   instance.MEDIA_AdMetadataKeyADVERTISER                 = "a.media.ad.advertiser"
   instance.MEDIA_AdMetadataKeyCAMPAIGN_ID                = "a.media.ad.campaign"
@@ -1517,18 +1546,6 @@ Function _adb_media() As Object
           m._ruleEngine = _adb_ruleengine()
           m._setupRules()
           m._resetTrackingState()
-        End Function,
-
-        enable: Function() As Void
-          m._isEnabled = true
-        End Function,
-
-        isEnabled: Function() As Boolean
-          return m._isEnabled
-        End Function,
-
-        disable: Function() As Void
-          m._isEnabled = false
         End Function,
 
         trackSessionStart: Function(mediaInfo as Object, contextData = invalid as Object) As Void
@@ -1689,6 +1706,10 @@ Function _adb_media() As Object
           return _adb_media_isInErrorState()
         End Function,
 
+        _isMediaDisabled: Function(reContext = invalid as Object) As Boolean
+          return NOT(m._isEnabled)
+        End Function,
+
         _isTracking: Function(reContext as Object) As Boolean
           return _adb_mediacontext().isActiveTracking()
         End Function,
@@ -1702,7 +1723,7 @@ Function _adb_media() As Object
         End Function,
 
         _isInAdBreak: Function(reContext as Object) As Boolean
-          return _adb_mediacontext().getAdBreakInfo() <> invalid
+          return _adb_mediacontext().isInAdBreak()
         End Function,
 
         _isInChapter: Function(reContext as Object) As Boolean
@@ -1720,9 +1741,9 @@ Function _adb_media() As Object
         _isValidMediaObject: Function(reContext as Object) As Boolean
           mediaObject = reContext.getData(m._KEY_MEDIA_OBJECT)
           if mediaObject <> invalid AND _adb_media_object().isValidMediaInfoObject(mediaObject)
-            resumedVal = mediaObject[ADBMobile().VIDEO_RESUMED]
+            resumedVal = mediaObject[ADBMobile().MEDIA_RESUMED]
             if resumedVal <> invalid AND type(resumedVal) <> "roBoolean" AND type(resumedVal) <> "Boolean"
-              m._logger.warning("Ignoring value set for ADBMobile().VIDEO_RESUMED in MediaObject as we expect a boolean value")
+              m._logger.warning("Ignoring value set for ADBMobile().MEDIA_RESUMED in MediaObject as we expect a boolean value")
             end if
 
             prerollWaitTimeVal = mediaObject[ADBMobile().PREROLL_TRACKING_WAITING_TIME]
@@ -1730,9 +1751,9 @@ Function _adb_media() As Object
               m._logger.warning("Ignoring value set for ADBMobile().PREROLL_TRACKING_WAITING_TIME in MediaObject as we expect a valid duration as integer in milliseconds.")
             end if
 
-            standardVideoMetadataVal = mediaObject[ADBMobile().MEDIA_STANDARD_VIDEO_METADATA]
-            if standardVideoMetadataVal <> invalid AND type(standardVideoMetadataVal) <> "roAssociativeArray"
-              m._logger.warning("Ignoring value set for ADBMobile().MEDIA_STANDARD_VIDEO_METADATA in MediaObject as we expect a valid object with kv pairs.")
+            standardMediaMetadataVal = mediaObject[ADBMobile().MEDIA_STANDARD_MEDIA_METADATA]
+            if standardMediaMetadataVal <> invalid AND type(standardMediaMetadataVal) <> "roAssociativeArray"
+              m._logger.warning("Ignoring value set for ADBMobile().MEDIA_STANDARD_MEDIA_METADATA in MediaObject as we expect a valid object with kv pairs.")
             end if
 
             return true
@@ -1803,6 +1824,22 @@ Function _adb_media() As Object
           m._processRule(m._Rule.Play)
         End Function,
 
+        _doAllowPlayerStateChange: Function(reContext as Object) As Boolean
+          return Not (_adb_mediacontext().isInAdBreak() AND (NOT _adb_mediacontext().isInAd()))
+        End Function,
+
+        _forceSwitchToBuffering: Function() As Void
+          _adb_mediacontext().forceStateToBuffering(true)
+          _adb_mediacontext().resetAssetRefContext()
+          m._logger.debug("#_forceSwitchToBuffering - Forcing into buffer State.")
+        End Function,
+
+        _restoreToPreviousState: Function() As Void
+          _adb_mediacontext().forceStateToBuffering(false)
+          _adb_mediacontext().resetAssetRefContext()
+          m._logger.debug("#_restoreToPreviousState - Out of forced buffer State.")
+        End Function,
+
         _cmdEnterAction: Function(reContext as Object) As Void
           ruleName = reContext.getRuleName()
           if m._prerollWaitEnabled
@@ -1869,10 +1906,12 @@ Function _adb_media() As Object
             mediaMetadata = {}
           end if
 
-          standardVideoMetadata = mediaObject[ADBMobile().MEDIA_STANDARD_VIDEO_METADATA]
-          if standardVideoMetadata <> invalid AND type(standardVideoMetadata) = "roAssociativeArray"
-            mediaMetadata.append(m._cleanContextData(standardVideoMetadata))
+          standardMediaMetadata = mediaObject[ADBMobile().MEDIA_STANDARD_MEDIA_METADATA]
+          if standardMediaMetadata <> invalid AND type(standardMediaMetadata) = "roAssociativeArray"
+            mediaMetadata.append(m._cleanContextData(standardMediaMetadata))
           end if
+
+          mediaMetadata[m._KEY_CONTEXTDATA_MEDIATYPE] = mediaObject.mediaType
 
           prerollWaitTime = mediaObject[ADBMobile().PREROLL_TRACKING_WAITING_TIME]
           if prerollWaitTime <> invalid AND (type(prerollWaitTime) = "roInt" OR type(prerollWaitTime) = "roInteger" OR type(prerollWaitTime) = "Integer")
@@ -1887,12 +1926,12 @@ Function _adb_media() As Object
 
           _adb_mediacontext().setIsActiveTracking(true)
           _adb_mediacontext().setIsActiveSession(true)
-       
+
           m._trackInternal(_adb_paramsResolver()._media_start)
 
           ' Send resume ping if set in metadata.
-          videoResumed = mediaObject[ADBMobile().VIDEO_RESUMED]
-          if videoResumed <> invalid AND (type(videoResumed) = "roBoolean" OR type(resumedVal) = "Boolean") AND videoResumed = true
+          mediaResumed = mediaObject[ADBMobile().MEDIA_RESUMED]
+          if mediaResumed <> invalid AND (type(mediaResumed) = "roBoolean" OR type(resumedVal) = "Boolean") AND mediaResumed = true
             m._trackInternal(_adb_paramsResolver()._media_resume)
           end if
 
@@ -1929,13 +1968,20 @@ Function _adb_media() As Object
         _cmdAdBreakStart: Function(reContext as Object) As Void
           adBreakObject = reContext.getData(m._KEY_ADBREAK_OBJECT)
           _adb_mediacontext().setAdBreakInfo(adBreakObject)
+
+          m._forceSwitchToBuffering()
         End Function,
 
         _cmdAdBreakComplete: Function(reContext as Object) As Void
           _adb_mediacontext().setAdBreakInfo(invalid)
+
+          m._restoreToPreviousState()
         End Function,
 
         _cmdAdStart: Function(reContext as Object) As Void
+          'We force send main:buffer calls within AdBreak and outside Ad and we revert back the playback state before entering Ad.
+          m._restoreToPreviousState()
+
           adObject = reContext.getData(m._KEY_AD_OBJECT)
           adMetadata = reContext.getData(m._KEY_CUSTOM_METADATA)
           if adMetadata = invalid
@@ -1974,10 +2020,11 @@ Function _adb_media() As Object
           _adb_mediacontext().setInAdTo(false)
           _adb_mediacontext().setAdInfo(invalid)
           _adb_mediacontext().setAdContextData(invalid)
-
           _adb_mediacontext().resetAssetRefContext()
 
           _adb_clockservice().restartTimerWithNewInterval(_adb_clockservice().id_reporting_timer, m._DEFAULT_CONTENT_TRACKING_INTERVAL)
+
+          m._forceSwitchToBuffering()
         End Function,
 
         _cmdAdSkip: Function(reContext as Object) As Void
@@ -1985,10 +2032,11 @@ Function _adb_media() As Object
             _adb_mediacontext().setInAdTo(false)
             _adb_mediacontext().setAdInfo(invalid)
             _adb_mediacontext().setAdContextData(invalid)
-
             _adb_mediacontext().resetAssetRefContext()
 
             _adb_clockservice().restartTimerWithNewInterval(_adb_clockservice().id_reporting_timer, m._DEFAULT_CONTENT_TRACKING_INTERVAL)
+
+            m._forceSwitchToBuffering()
           end if
         End Function,
 
@@ -2135,6 +2183,11 @@ Function _adb_media() As Object
           _adb_mediacontext().setQoSInfo(qosObject)
         End Function,
 
+        _cmdDisableMedia: Function(reContext as Object) As Void
+          m._logger.debug("#_cmdDisableMedia: Media tracking disabled remotely.")
+          m._isEnabled = false
+        End Function,
+
         _cmdDetectVideoIdle: Function(reContext as Object) As Void
           if m._isTrackingSuspended
             if (NOT _adb_mediacontext().isVideoIdle())
@@ -2219,7 +2272,7 @@ Function _adb_media() As Object
         End Function,
 
         _cmdDetectVideoStall: Function(reContext as Object) As Void
-          if NOT _adb_mediacontext().isInAd()
+          if NOT _adb_mediacontext().isInAdBreak()
             currentPlayhead = reContext.getData(m._KEY_PLAYHEAD)
             if currentPlayhead <> m._previousContentPlayhead
                 ' Get out of stall state if we are in it.
@@ -2232,6 +2285,9 @@ Function _adb_media() As Object
             end if
 
             m._previousContentPlayhead = currentPlayhead
+          else
+            ' Get out of stall state if we are in it.
+            m._cmdStallComplete()
           end if
         End Function,
 
@@ -2268,6 +2324,13 @@ Function _adb_media() As Object
           end if
         End Function,
 
+        _disableMedia: Function() As Void
+          m._logger.debug("#::disableMedia()")
+
+          m._processRule(m._Rule.DisableMedia)
+          m._processRule(m._Rule.SessionEnd)
+        End Function,
+
         _processRule: Function(rule as String, reContext = invalid as Object) as Boolean
           m._ruleEngine.processRule(rule, reContext)
         End Function,
@@ -2277,6 +2340,7 @@ Function _adb_media() As Object
 
           m._ruleEngine.registerRule(m._Rule.SessionStart, "API:trackSessionStart", [
             m._ruleEngine.createPredicate("_isError", false, m._ErrorMessage.ErrInConfigErrorState),
+            m._ruleEngine.createPredicate("_isMediaDisabled", false, m._ErrorMessage.ErrMediaDisabled),
             m._ruleEngine.createPredicate("_isTracking", false, m._ErrorMessage.ErrInTracking),
             m._ruleEngine.createPredicate("_isValidMediaObject", true, m._ErrorMessage.ErrInvalidMediaObject),
           ], [
@@ -2318,6 +2382,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.Play, "API:trackPlay", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
           ], [
             "_cmdFlushQuantum",
             "_cmdSeekComplete",
@@ -2331,6 +2396,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.Pause, "API:trackPause", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
             m._ruleEngine.createPredicate("_isInBuffer", false, m._ErrorMessage.ErrInBuffer),
             m._ruleEngine.createPredicate("_isInSeek", false, m._ErrorMessage.ErrInSeek),
           ], [
@@ -2343,6 +2409,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.BufferStart, "API:trackEvent(BufferStart)", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
             m._ruleEngine.createPredicate("_isInBuffer", false, m._ErrorMessage.ErrInBuffer),
             m._ruleEngine.createPredicate("_isInSeek", false, m._ErrorMessage.ErrInSeek),
           ], [
@@ -2355,6 +2422,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.BufferComplete, "API:trackEvent(BufferComplete)", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
             m._ruleEngine.createPredicate("_isInBuffer", true, m._ErrorMessage.ErrNotInBuffer),
           ], [
             "_cmdFlushQuantum",
@@ -2366,6 +2434,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.SeekStart, "API:trackEvent(SeekStart)", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
             m._ruleEngine.createPredicate("_isInBuffer", false, m._ErrorMessage.ErrInBuffer),
             m._ruleEngine.createPredicate("_isInSeek", false, m._ErrorMessage.ErrInSeek),
           ], [
@@ -2377,6 +2446,7 @@ Function _adb_media() As Object
           m._ruleEngine.registerRule(m._Rule.SeekComplete, "API:trackEvent(SeekComplete)", [
             m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
             m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
+            m._ruleEngine.createPredicate("_doAllowPlayerStateChange", true, m._ErrorMessage.ErrInvalidPlayerState),
             m._ruleEngine.createPredicate("_isInSeek", true, m._ErrorMessage.ErrNotInSeek),
           ], [
             "_cmdFlushQuantum",
@@ -2475,6 +2545,12 @@ Function _adb_media() As Object
               "_cmdBitrate"
           ], m)
 
+          m._ruleEngine.registerRule(m._Rule.DisableMedia, "DisableMedia", [
+              m._ruleEngine.createPredicate("_isMediaDisabled", false, m._ErrorMessage.ErrNotInTracking)
+          ], [
+              "_cmdDisableMedia"
+          ], m)
+
           m._ruleEngine.registerRule(m._Rule.PlayheadUpdate, "API:updatePlayhead", [
               m._ruleEngine.createPredicate("_isTracking", true, m._ErrorMessage.ErrNotInTracking),
               m._ruleEngine.createPredicate("_isInMedia", true, m._ErrorMessage.ErrNotInMedia),
@@ -2566,6 +2642,7 @@ Function _adb_media() As Object
 
         _setConstants: Function() As Void
           ' Context Keys
+          m._KEY_CONTEXTDATA_MEDIATYPE = "a.media.streamType"
           m._KEY_MEDIA_OBJECT = "key_media_object"
           m._KEY_ADBREAK_OBJECT = "key_adbreak_object"
           m._KEY_AD_OBJECT = "key_ad_object"
@@ -2598,11 +2675,13 @@ Function _adb_media() As Object
             BitrateChange: "bitratechange",
             TimedMetadataUpdate: "timedmetadataupdate",
             QosUpdate : "qosupdate",
-            PlayheadUpdate : "playheadupdate"
+            PlayheadUpdate : "playheadupdate",
+            DisableMedia : "disablemedia"
           }
 
           m._ErrorMessage = {
-            ErrInConfigErrorState : "Media module is in error state and can not start a tracking session. Make sure the Adobe Mobile config is valid."
+            ErrInConfigErrorState : "Media module is in error state and can not start a tracking session. Make sure the Adobe Mobile config is valid.",
+            ErrMediaDisabled : "Media module is disabled for this publisher. Please contact Adobe Representative to enable tracking.",
             ErrNotInTracking: "Media module is not in active tracking session, call 'API:mediaTrackSessionStart' to begin a new tracking session.",
             ErrInTracking: "Media module is in active tracking session, call 'API:mediaTrackSessionEnd' to end current tracking session.",
             ErrNotInMedia: "Media module has completed tracking session, call 'API:mediaTrackSessionEnd' first to end current session and then begin a new tracking session.",
@@ -2621,7 +2700,8 @@ Function _adb_media() As Object
             ErrDuplicateAdObject: "Media module is currently tracking the Ad passed into 'API:mediaTrackEvent(MediaAdStart)'.",
             ErrInvalidChapterObject: "ChapterInfo passed into 'API:mediaTrackEvent(MediaChapterStart)' is invalid.",
             ErrDuplicateChapterObject: "Media module is currently tracking the Chapter passed into 'API:mediaTrackEvent(MediaChapterStart)'.",
-            ErrInvalidQoSInfo : "QosInfo passed into 'API:mediaUpdateQoS' is invalid"
+            ErrInvalidQoSInfo : "QosInfo passed into 'API:mediaUpdateQoS' is invalid",
+            ErrInvalidPlayerState : "Media module is tracking an AdBreak but not tracking any Ad and will drop any calls to track player state (Play, Pause, Buffer or Seek) in this state."
         }
 
           ' Constant to enable/disable GranularAdTracking. When enabled we sent a tracking ping every second for the Ad.
@@ -2701,6 +2781,10 @@ Function _adb_mediacontext() As Object
 
         isInAd: Function() As Boolean
           return m["isInAdValue"]
+        End Function,
+
+        isInAdBreak: Function() As Boolean
+          return _adb_mediacontext().getAdBreakInfo() <> invalid
         End Function,
 
         isInChapter: Function() As Boolean
@@ -2833,7 +2917,7 @@ Function _adb_mediacontext() As Object
           m.setInAdTo(false)
           m.setAdInfo(invalid)
           m.setAdContextData(invalid)
-          
+
           m.setInChapterTo(false)
           m.setChapterInfo(invalid)
           m.setChapterContextData(invalid)
@@ -2853,6 +2937,8 @@ Function _adb_mediacontext() As Object
 
           m["playhead"] = 0
           m["currQoSInfo"] = invalid
+
+          m["forcedBufferState"] = false
 
           m.setMediaInfo(invalid)
           m.setMediaContextData(invalid)
@@ -2892,8 +2978,19 @@ Function _adb_mediacontext() As Object
           return m["playhead"]
         End Function,
 
+        isInForcedBufferState: Function() As Boolean
+          return m["forcedBufferState"]
+        End Function,
+
+        forceStateToBuffering: Function(flag As Boolean) As Void
+          m["forcedBufferState"] = flag
+        End Function,
+
         getCurrentPlaybackState: Function() As Object
-          if m.isInStall()
+
+          if m.isInForcedBufferState()
+            return _adb_paramsResolver()._media_event_buffer
+          else if m.isInStall()
             return _adb_paramsResolver()._media_event_stall
           else if m.isBuffering()
             return _adb_paramsResolver()._media_event_buffer
@@ -3067,12 +3164,20 @@ Function _adb_media_object() As Object
   return GetGlobalAA()._adb_media_object
 End Function
 
-Function adb_media_init_mediainfo(name As String, id As String, length As Double, streamType As String) As Object
+Function adb_media_init_mediainfo(name As String, id As String, length As Double, streamType As String, mediaType = invalid As Dynamic) As Object
     o = CreateObject("roAssociativeArray")
     o.id            = id
     o.name          = name
     o.length        = length
     o.streamType    = streamType
+
+    dataType = type(mediaType)
+    if (dataType = "String" OR dataType="roString") AND mediaType = ADBMobile().MEDIA_TYPE_AUDIO
+      o.mediaType = ADBMobile().MEDIA_TYPE_AUDIO
+    else
+      o.mediaType = ADBMobile().MEDIA_TYPE_VIDEO
+    end if
+
     return o
 End Function
 
@@ -3224,7 +3329,14 @@ Function _adb_paramsResolver() As Object
             contextData["a.media.channel"] = _adb_config().mChannel
             contextData["a.media.view"] = "true"
             contextData["a.media.vsid"] = m._mediaSessionId()
-            contextData["&&pev3"] = "video"
+
+            if mediaInfo.mediaType = ADBMobile().MEDIA_TYPE_AUDIO
+              contextData["&&pev3"] = "audio"
+              contextData["&&ms_a"] = "1"
+            else
+              contextData["&&pev3"] = "video"
+            endif
+
             contextData["&&pe"] = "ms_s"
 
             ' appending customer ids to support AAM's declared id
@@ -3268,7 +3380,14 @@ Function _adb_paramsResolver() As Object
             contextData["a.media.ad.podPosition"] = adInfo.position
             contextData["a.media.ad.podSecond"] = adBreakInfo.startTime
             contextData["a.media.ad.view"] = "true"
-            contextData["&&pev3"] = "videoAd"
+
+            if mediaInfo.mediaType = ADBMobile().MEDIA_TYPE_AUDIO
+              contextData["&&pev3"] = "audioAd"
+              contextData["&&ms_a"] = "1"
+            else
+              contextData["&&pev3"] = "videoAd"
+            endif
+
             contextData["&&pe"] = "msa_s"
 
             ' appending customer ids to support AAM's declared id
@@ -5376,6 +5495,7 @@ Function _adb_config() as Object
       ''' marketing cloud
       marketingCloudOrganizationIdentifier: invalid,
       visitorIDServiceEnabled: false,
+      mcServer: "dpm.demdex.net"
 
       ''' Media Heartbeat
       mHeartbeatConfigUrl: invalid,
@@ -5473,6 +5593,13 @@ Function _adb_config() as Object
             if m._config.marketingCloud.org <> invalid
               m["marketingCloudOrganizationIdentifier"] = m._config.marketingCloud.org
             endif
+
+            if m._config.marketingCloud.server <> invalid AND m._config.marketingCloud.server.Len() > 0
+              m["mcServer"] = m._config.marketingCloud.server
+            else
+              _adb_logger().debug("Config - Visitor ID Service custom endpoint not found in config, using default endpoint.")
+            endif
+
           endif
 
           ''' remote urls
@@ -5549,7 +5676,7 @@ Function _adb_config() as Object
       getAnalyticsResponseType: Function() as Integer
           if m.aamAnalyticsForwardingEnabled = true
             return 10
-          else 
+          else
             return 0
           endif
         End Function,
@@ -5845,8 +5972,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "84"
-          m["_gitHash"] = "f637d8"
+          m["_buildNumber"] = "101"
+          m["_gitHash"] = "b034db"
           m["_api_level"] = 4
         End Function
     }
@@ -6100,7 +6227,7 @@ Function _adb_visitor() as Object
             url = "http"
           endif
 
-          url = url + "://dpm.demdex.net/id?d_rtbd=json&d_ver=2&d_orgid=" + orgId
+          url = url + "://" + _adb_config().mcServer + "/id?d_rtbd=json&d_ver=2&d_orgid=" + orgId
 
           ''' apply url parameters
           if m._blob <> invalid

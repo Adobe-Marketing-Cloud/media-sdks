@@ -44,7 +44,7 @@ End Function
 
 Function _adb_player_SetContent(content as Object, ContextData as Object) as Boolean
 
-  mInfo = adb_media_init_mediainfo(content.title, content.contentid, 0, ADBMobile().MEDIA_STREAM_TYPE_VOD)
+  mInfo = adb_media_init_mediainfo(content.title, content.contentid, 0, ADBMobile().MEDIA_STREAM_TYPE_VOD, ADBMobile().MEDIA_TYPE_VIDEO)
 
   if content.length <> invalid
     mInfo.length = content.length

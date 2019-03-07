@@ -176,7 +176,7 @@
           if m.top.streamStarted = false
             m.top.streamStarted = true           
 
-            mInfo = adb_media_init_mediainfo("test_media_name", "test_media_id", 10, "vod")
+            mInfo = adb_media_init_mediainfo("test_media_name", "test_media_id", 10, "vod", ADBMobile().MEDIA_TYPE_VIDEO)
             mediaContextData = {}
             mediaContextData["videotype"] = "episode"
 
