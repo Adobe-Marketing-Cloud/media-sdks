@@ -12,6 +12,9 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
 
+## 2.2.3 (April 3, 2019)
+- Bug fix in parsing error code for trackError API.
+
 ## 2.2.2 (February 22, 2019)
 - Fix User-Agent string in http requests.
 
