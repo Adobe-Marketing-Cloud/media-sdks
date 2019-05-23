@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.2.0",
+      version: "2.2.1",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -122,6 +122,9 @@ Function ADBMobile() As Object
       visitorMarketingCloudID: Function() as Dynamic
         return _adb_visitor()["_mid"]
       End Function,
+      setAdvertisingIdentifier: Function(identifier as String) As void
+        _adb_visitor().setAdvertisingIdentifier(identifier)
+      End Function,
 
       ''' audience manager
       audienceSubmitSignal: Function(traits as Object) As Void
@@ -146,10 +149,10 @@ Function ADBMobile() As Object
           _adb_media().trackSessionStart(mediaInfo, ContextData)
       End Function,
 
-      mediaTrackSessionEnd: Function() As Void 
+      mediaTrackSessionEnd: Function() As Void
           _adb_media().trackSessionEnd()
       End Function,
-      
+
       mediaTrackLoad: Function(mediaInfo as Object, ContextData = invalid as Object) As Void
           _adb_media().trackLoad(mediaInfo, ContextData)
         End Function,
@@ -162,7 +165,7 @@ Function ADBMobile() As Object
           _adb_media().trackUnload()
         End Function,
 
-      mediaTrackPlay: Function() As Void        
+      mediaTrackPlay: Function() As Void
           _adb_media().trackPlay()
         End Function,
 
@@ -219,9 +222,9 @@ Function _adbMobileSGConnector() As Object
           AUDIENCE_DPID:                "audienceDpid",
           AUDIENCE_DPUUID:              "audienceDpuuid"
         }
-      End Function,    
-  
-      
+      End Function,
+
+
       ''' Return an instance of this object to make API calls to ADBMobile using Scene Graph
       ''' This object maps SG API calls to ADBMobile API calls
       getADBMobileConnectorInstance: Function(adbmobiletask as Object) as Object
@@ -259,6 +262,9 @@ Function _adbMobileSGConnector() As Object
                                   End Function,
           visitorSyncIdentifiers: Function(identifiers as Object) as void
                                     m.invokeFunction("visitorSyncIdentifiers", [identifiers])
+                                  End Function,
+          setAdvertisingIdentifier: Function(identifiers as String) as void
+                                    m.invokeFunction("setAdvertisingIdentifier", [identifiers])
                                   End Function,
           visitorMarketingCloudID:  Function() as void
                                       m.invokeFunction("getter/visitorMarketingCloudID", [])
@@ -382,7 +388,9 @@ Function _adb_buildAndSendRequest(data, vars, timestamp)
 
   ''' create our query string
   encoder = _adb_urlEncoder()
-  queryString = "ndh=1" + encoder.serializeParameters(mutableVars) + encoder.serializeContextData(mutableData)
+  queryString = "ndh=1" + getSyncedIDString(_adb_visitor().getAllSyncedIdentifiers()) + encoder.serializeParameters(mutableVars) + encoder.serializeContextData(mutableData)
+
+
 
   ''' enqueue the hit
   _adb_worker().queue(queryString, timestamp)
@@ -392,6 +400,27 @@ Function _adb_buildAndSendRequest(data, vars, timestamp)
   thirdPartyMutableData = mutableData
   _adb_messages().checkFor3rdPartyCallbacks(thirdPartyMutableVars,thirdPartyMutableData)
 
+End Function
+
+Function getSyncedIDString(allSyncedIdentifiers as Dynamic) as String
+  responseString = ""
+
+  if allSyncedIdentifiers <> invalid AND allSyncedIdentifiers.Count() > 0
+    idString = ""
+    for each idType in allSyncedIdentifiers
+      idString = idString + "&" + idType + "."
+
+      if allSyncedIdentifiers[idType] <> invalid AND allSyncedIdentifiers[idType] <> ""
+        idString = idString + "&" + "id=" + allSyncedIdentifiers[idType]
+      endif
+
+       idString = idString + "&as=0" + "&" + "." + idType
+    end for
+
+    responseString = "&cid" + "." + idString + "&" +"." + "cid"
+  end if
+
+  return responseString
 End Function
 
 Function _adb_urlEncoder() as Object
@@ -926,7 +955,7 @@ Function _adb_audienceManager() As Object
 
         ''' sends the next signal waiting in the queue to AAM (async)
         _sendNextSignal: Function() As Void
-            if m._queue.count() > 0 AND m._currentHit = invalid
+            if _adb_config().aamServer <> invalid AND m._queue.count() > 0 AND m._currentHit = invalid
               ''' grab oldest hit in the queue
               m.["_currentHit"] = m._queue.Shift()
 
@@ -1931,7 +1960,7 @@ Function _adb_media() As Object
 
           ' Send resume ping if set in metadata.
           mediaResumed = mediaObject[ADBMobile().MEDIA_RESUMED]
-          if mediaResumed <> invalid AND (type(mediaResumed) = "roBoolean" OR type(resumedVal) = "Boolean") AND mediaResumed = true
+          if mediaResumed <> invalid AND (type(mediaResumed) = "roBoolean" OR type(mediaResumed) = "Boolean") AND mediaResumed = true
             m._trackInternal(_adb_paramsResolver()._media_resume)
           end if
 
@@ -5573,7 +5602,7 @@ Function _adb_config() as Object
 
           ''' audience manager
           if m._config.audienceManager <> invalid
-            if m._config.audienceManager.server <> invalid
+            if m._config.audienceManager.server <> invalid AND m._config.audienceManager.server <> ""
               m["aamServer"] = m._config.audienceManager.server
             endif
 
@@ -5806,6 +5835,14 @@ Function _adb_identities() as Object
             userIds.Push(dsids)
           endif
 
+          customIds = m._getAllCustomIdentifiers()
+          if customIds <> invalid
+            For each id in customIds
+              userIds.Push(id)
+            End For
+          endif
+
+
           if userIds.Count() > 0
             userIdsObject = {"userIDs":userIds}
             users = []
@@ -5871,6 +5908,19 @@ Function _adb_identities() as Object
           endif
 
           return invalid
+        End Function,
+
+        _getAllCustomIdentifiers: Function() as Object
+          syncedIds =  _adb_visitor().getAllSyncedIdentifiers()
+          response = []
+
+          if syncedIds <> invalid
+            For each idType in syncedIds
+              responseObject = {"namespace":idType,"value":syncedIds[idType],"type":"integrationCode"}
+              response.Push(responseObject)
+            End For
+          endif
+          return response
         End Function,
 
         _getCompanyContexts: Function() as Object
@@ -5972,8 +6022,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "101"
-          m["_gitHash"] = "b034db"
+          m["_buildNumber"] = "120"
+          m["_gitHash"] = "86ee28"
           m["_api_level"] = 4
         End Function
     }
@@ -6005,10 +6055,66 @@ Function _adb_persistenceLayer() as Object
 
           return invalid
         End Function,
+
       removeValue: Function(key as String) as Void
           m._registry.Delete(key)
           m._registry.Flush()
+        End Function,
+
+        writeMap: Function(mapName as String, map as Dynamic) as Dynamic
+          mapRegistry = CreateObject("roRegistrySection", "adbmobileMap_" + mapName)
+          '_adb_logger().debug("Persistence - writeMap() writing to map: adbmobileMap_" + mapName)
+
+          if map <> invalid AND map.Count() > 0
+            For each key in map
+              if map[key] <> invalid
+                '_adb_logger().debug("Persistence - writeMap() writing " + key + ":" + map[key] + " to map: adbmobileMap_" + mapName)
+                mapRegistry.Write(key, map[key])
+                mapRegistry.Flush()
+              End if
+            End For
+          End if
+        End Function,
+
+        readMap: Function(mapName as String) as Dynamic
+          mapRegistry = CreateObject("roRegistrySection", "adbmobileMap_" + mapName)
+          keyList = mapRegistry.GetKeyList()
+          result = {}
+          if keyList <> invalid
+            '_adb_logger().debug("Persistence - readMap() reading from map: adbmobileMap_" + mapName + " with size:" + keyList.Count().toStr())
+            For each key in keyList
+              result[key] = mapRegistry.Read(key)
+            End For
+          End if
+
+          return result
         End Function
+
+        readValueFromMap: Function(mapName as String, key as String) as Dynamic
+          mapRegistry = CreateObject("roRegistrySection", "adbmobileMap_" + mapName)
+          '_adb_logger().debug("Persistence - readValueFromMap() reading Value for key:" + key + " from map: adbmobileMap_" + mapName)
+          if mapRegistry.Exists(key) AND mapRegistry.Read(key).Len() > 0
+            return mapRegistry.Read(key)
+          endif
+          '_adb_logger().debug("Persistence - readValueFromMap() did not get Value for key:" + key + " from map: adbmobileMap_" + mapName)
+          return invalid
+        End Function,
+
+        removeValueFromMap: Function(mapName as String, key as String) as Void
+            mapRegistry = CreateObject("roRegistrySection", "adbmobileMap_" + mapName)
+            '_adb_logger().debug("Persistence - removeValueFromMap() removing key:" + key + " from map: adbmobileMap_" + mapName)
+            mapRegistry.Delete(key)
+            mapRegistry.Flush()
+        End Function,
+
+        removeMap: Function(mapName as String) as Void
+          mapRegistry = CreateObject("roRegistrySection", "adbmobileMap_" + mapName)
+          '_adb_logger().debug("Persistence - removeMap() deleting map: adbmobileMap_" + mapName)
+          keyList = mapRegistry.GetKeyList()
+          For each key in keyList
+            m.removeValueFromMap(mapName, key)
+          End For
+      End Function
     }
     GetGlobalAA()["_adb_persistenceLayer"] = instance
   endif
@@ -6161,10 +6267,20 @@ Function _adb_visitor() as Object
       _lastSync: _adb_persistenceLayer().readValue("visitor_sync"),
       _urlEncoder: CreateObject("roUrlTransfer"),
 
+      ''' constants
+      ADVERTISING_IDENTIFIER_DSID: "DSID_121963",
+      ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY: "all_visitor_synced_identifiers",
+
+
       ''' init Function
       _init: Function() as Void
+
+          m._allIdentifiers = _adb_persistenceLayer().readMap(m.ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY)
+          m._adID = _adb_persistenceLayer().readValueFromMap(m.ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY, m.ADVERTISING_IDENTIFIER_DSID)
           if m._lastSync = invalid : m._lastSync = "0" : endif
           if m._ttl = invalid : m._ttl = "0" : endif
+          if m._allIdentifiers = invalid : m._allIdentifiers = {} : endif
+          if m._adID = invalid : m._adID = "" : endif
 
           m.idSync({})
         End Function,
@@ -6185,6 +6301,12 @@ Function _adb_visitor() as Object
           endif
         End Function,
 
+      _saveMapIfValid: Function(map as Dynamic) as void
+        if map <> invalid
+          _adb_persistenceLayer().writeMap(m.ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY, map)
+        End if
+      End Function,
+
       ''' generate 63 bit random integer as a strong (64 bit signed positive only)
       _makeRandInt: Function() as String
           ''' ensure that we don't get 9 as a starting value, which could make an out of bounds int
@@ -6204,10 +6326,23 @@ Function _adb_visitor() as Object
 
       ''' public methods
 
+      setAdvertisingIdentifier: Function(adIdentifier as String) as void
+        if (m._adID <> adIdentifier)
+          m._adID = adIdentifier
+          adIDSyncObject = {}
+          adIDSyncObject[m.ADVERTISING_IDENTIFIER_DSID] =  m._adID
+          _adb_logger().debug("ID Service - setAdvertisingIdentifier() setting advertisingIdentifier=" + m._adId)
+          m.idSync(adIDSyncObject)
+        else
+          _adb_logger().debug("ID Service - setAdvertisingIdentifier() not setting advertisingIdentifier:" + m._adId + " as it is already persisted on the device")
+        end if
+      End Function,
+
       ''' performs an identifier sync
       idSync: Function(identifiers as Dynamic) as Void
           ''' fail fast if we're not provisioned for visitor id service
           if _adb_config().visitorIDServiceEnabled() = false
+            _adb_logger().debug("ID Service - not Enabled.")
             return
           endif
 
@@ -6243,10 +6378,37 @@ Function _adb_visitor() as Object
           endif
 
           ''' append identifiers
-          ''' ToDo(): If we ever decide to persist these custom ids, add them to _getVisitorIdentifiers() in identifiers.brs
-          for each key in identifiers
-            url = url + "&d_cid_ic=" + m._urlEncoder.Escape(key) + "%01" + m._urlEncoder.Escape(identifiers[key])
-          end for
+          doSendSyncRequest = false
+          if identifiers <> invalid AND identifiers.Count() > 0
+            for each key in identifiers
+              if key <> invalid AND key <> ""
+                if identifiers[key] = invalid
+                  identifiers[key] = ""
+                endif
+
+                if m.doSync(key, identifiers[key])
+                  doSendSyncRequest = true
+                  url = url + "&d_cid_ic=" + m._urlEncoder.Escape(key) + "%01" + m._urlEncoder.Escape(identifiers[key])
+                  m._allIdentifiers[key] = identifiers[key]
+                  _adb_logger().debug("ID Service - idSync() Adding Key value for idsync to map {" + key + ":" + identifiers[key] +"}")
+                else
+                  _adb_logger().debug("ID Service - idSync() Already Synced ID:" + key + " with value:" + identifiers[key])
+                endif
+              else
+                _adb_logger().debug("ID Service - idSync() Invalid Key passed to idsync, will not sync/save")
+              endif
+            End for
+
+            ''' All IDs already synced, No new IDs to sync so just return
+            if Not doSendSyncRequest
+              _adb_logger().debug("ID Service - idSync() Already Synced all IDs, so not sending ID Sync request")
+              return
+            endif
+
+            ''' persist
+              _adb_logger().debug("ID Service - idSync() Saving map of Synced IDs to persistence")
+              m._saveMapIfValid(m._allIdentifiers)
+          End if
 
           ''' create connection for syncing ids
           mp = CreateObject("roMessagePort")
@@ -6325,6 +6487,23 @@ Function _adb_visitor() as Object
 
         End Function,
 
+        doSync: Function(key as String, value as String) as Boolean
+          savedIds = m.getAllSyncedIdentifiers()
+          if savedIds <> invalid
+            if savedIds[key] <> invalid AND savedIds[key] = value
+                return false
+            endif
+          endif
+
+          return true
+        End Function
+
+      ''' Returns all custom Identifiers set using idSync
+      getAllSyncedIdentifiers: Function() as Dynamic
+        ids = _adb_persistenceLayer().readMap(m.ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY)
+        return ids
+      End Function,
+
       ''' getter Function for marketing cloud id
       marketingCloudID: Function () as Dynamic
           return m._mid
@@ -6378,6 +6557,7 @@ Function _adb_visitor() as Object
       purgeIdentities: Function() as Void
         m._mid = invalid
         _adb_persistenceLayer().removeValue("visitor_mid")
+        _adb_persistenceLayer().removeMap(m.ALL_VISISTOR_SYNCED_IDENTIFIERS_MAP_KEY)
       End Function
     }
 

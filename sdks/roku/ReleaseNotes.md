@@ -5,6 +5,13 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
 
+
+## 2.2.1 (23 May, 2019)
+What's new :
+- Added setAdvertisingIdentifier API.
+- Added support to save all the custom Identifiers and append it with Analytics hits.
+- Bug fixes to improve stability and SDK performance.
+
 ## 2.2.0 (7 March, 2019)
 What's new :
 - Added standard audio metadata for audio analytics support.
@@ -22,7 +29,7 @@ What's new :
 
 API changes:
 - Added new APIs for mediaTrackSessionStart and mediaTrackSessionEnd for better media tracking
-- Deprecated APIs: mediaTrackLoad, mediatrackStart, mediaTrackUnload
+- Deprecated APIs: mediaTrackLoad, mediaTrackStart, mediaTrackUnload
 - Removed ADBVideoPlayer utility for legacy roVideoScreen and roVideoPlayer components
 
 ## 2.0.4 (2 March, 2018)
