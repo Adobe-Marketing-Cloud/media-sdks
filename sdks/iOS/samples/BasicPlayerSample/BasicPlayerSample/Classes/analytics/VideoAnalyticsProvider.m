@@ -53,7 +53,7 @@ double const VIDEO_LENGTH = 1800;
 		config.appVersion = HEARTBEAT_APP_VERSION;
 		config.ovp = HEARTBEAT_OVP_NAME;
 		config.playerName = PLAYER_NAME;
-		config.ssl = NO;
+		config.ssl = YES;
 		config.debugLogging = NO;
 		
 		_mediaHeartbeat = [[ADBMediaHeartbeat alloc] initWithDelegate:self config:config];

@@ -54,7 +54,7 @@ public class VideoAnalyticsProvider implements Observer, MediaHeartbeatDelegate 
         config.appVersion = Configuration.HEARTBEAT_SDK;
         config.ovp = Configuration.HEARTBEAT_OVP;
         config.playerName = Configuration.PLAYER_NAME;
-        config.ssl = false;
+        config.ssl = true;
         config.debugLogging = true;
 
         _heartbeat = new MediaHeartbeat(this, config);
