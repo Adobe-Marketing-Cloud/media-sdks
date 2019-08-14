@@ -44,7 +44,7 @@ public class VideoAnalyticsProvider implements Observer, MediaHeartbeatDelegate 
         _player.addObserver(this);
 
         // Setup the visitor id - optional parameter to be set by the player
-        Config.setUserIdentifier("test-vid");
+        // Config.setUserIdentifier("test-vid");
 
         // Media Heartbeat initialization
         MediaHeartbeatConfig config = new MediaHeartbeatConfig();
