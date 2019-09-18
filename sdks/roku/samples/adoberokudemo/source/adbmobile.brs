@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.2.1",
+      version: "2.2.2",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -1102,7 +1102,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
       queueRequestsForResponse: Function(data As Object) As Void
           '''vhl does not even queue hits if the status is not opt in (no offline tracking support yet)
-          
+
           if ADBMobile().getPrivacyStatus() = ADBMobile().PRIVACY_STATUS_OPT_IN
             m._logger.debug("Queued Hit")
             m._queue.Push(data)
@@ -1116,10 +1116,10 @@ Function _adb_serializeAndSendHeartbeat() As Object
       End Function,
 
       flushAsyncRequests: Function() As Void
-          while true  
-            ''' video complete will close video screen and stop processMessage. 
+          while true
+            ''' video complete will close video screen and stop processMessage.
             ''' keep this alive until all hits are sent
-            m.processMessage()     
+            m.processMessage()
 
             if m._currentHit <> invalid
               if _adb_clockservice().isActive() = true AND _adb_clockservice().timerTicked(_adb_clockservice().id_flushfilter_timer)
@@ -1131,7 +1131,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
             ''' break the while loop when nothing is left to process in the queue
             if m._queue.count() = 0 AND m._currentHit = invalid
-              exit while              
+              exit while
             endif
           end while
         End Function,
@@ -1146,7 +1146,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
           responseCode = msg.GetResponseCode()
             if responseCode = 200
-              m._logger.debug("Successfully sent status hit")
+              m._logger.debug("#processMessage() - Successfully sent status hit")
 
               ''' parse response
               responseXML = msg.GetString()
@@ -1155,14 +1155,14 @@ Function _adb_serializeAndSendHeartbeat() As Object
               if responseXML <> invalid AND Len(responseXML) > 0
                 setupData = CreateObject("roXMLElement")
                 if not setupData.Parse(responseXML) then
-                  m._logger.debug("XML response could not be parsed (" + responseXML + ")")
+                  m._logger.debug("#processMessage() - XML response could not be parsed (" + responseXML + ")")
                 endif
               endif
 
               ''' if we have a response
               if setupData <> invalid
                 responseConfig = {}
-                m._logger.debug("XML response (" + responseXML + ")")
+                m._logger.debug("#processMessage() - XML response (" + responseXML + ")")
 
                 if setupData.trackingInterval <> invalid
                   responseConfig.trackingInterval = setupData.trackingInterval.GetText().ToInt()
@@ -1184,15 +1184,15 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
                 ''' handle empty or invalid response
               else
-                m._logger.debug("Empty or invalid XML response received")
+                m._logger.debug("#processMessage() - Empty or invalid XML response received")
               endif
 
             ''' handle non 200 response code, 204 is received for heartbeat calls
             else if responseCode = 204
-              m._logger.debug("Successfully sent heartbeat hit")
+              m._logger.debug("#processMessage() - Successfully sent heartbeat hit")
 
             else
-              m._logger.error("Unable to send hit, Failure Reason: " + msg.GetFailureReason() + " ResponseCode: " + msg.GetResponseCode().ToStr())
+              m._logger.error("#processMessage() - Unable to send hit, Failure Reason: " + msg.GetFailureReason() + " ResponseCode: " + msg.GetResponseCode().ToStr())
             endif
 
             m._sendNextHit()
@@ -1204,7 +1204,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
             msg = wait(1, m._port)
             if msg = invalid AND m._urlRetry = false
               url = m._http.GetUrl()
-              if url <> invalid 
+              if url <> invalid
                 m._http.AsyncCancel()
 
                 ''' retry the URL one more time
@@ -1212,7 +1212,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
               endif
 
             else if msg = invalid AND m._urlRetry = true
-              m._logger.error("URL dropped after retry (" + m._http.GetUrl() + ")")
+              m._logger.error("#timeOutActiveRequest() - URL dropped after retry (" + m._http.GetUrl() + ")")
               m._http.AsyncCancel()
 
               m._currentHit = invalid
@@ -1242,7 +1242,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
             m["_currentHit"] = m._queue.Shift()
 
             ''' set url and send it asynchronously
-            url = m._buildHeartbeatUrl(m._currentHit)         
+            url = m._buildHeartbeatUrl(m._currentHit)
             m._sendUrlRequest(false, url)
           endif
         End Function,
@@ -1253,26 +1253,32 @@ Function _adb_serializeAndSendHeartbeat() As Object
             retry = "Retry: "
           endif
 
-          m._http.SetUrl(url)
+          m._http = m._createMediaHeartbeatNetworkRequestObject()  ''' create a roUrlTransfer Object for every request
 
-          if (m._http.AsyncGetToString())
-            m._logger.debug(retry + "Sent Media Heartbeat Hit (" + url + ")")
-            if _adb_clockservice().isActive() = true
-              _flushFilterTimer = _adb_clockservice().getTimerHandle(_adb_clockservice().id_flushfilter_timer)
-              _flushFilterTimer.reset()
+          if(m._http <> invalid)
+            m._http.SetUrl(url)
+
+            if (m._http.AsyncGetToString())
+              m._logger.debug(retry + "#_sendUrlRequest() - Sent Media Heartbeat Hit (" + url + ")")
+              if _adb_clockservice().isActive() = true
+                _flushFilterTimer = _adb_clockservice().getTimerHandle(_adb_clockservice().id_flushfilter_timer)
+                _flushFilterTimer.reset()
+              endif
+              m._urlRetry = retryFlag
+            else
+              m._logger.error(retry + "#_sendUrlRequest() - Unable to execute GET request for URL (" + url + ")")
+
+              m._http.AsyncCancel()
+              m._currentHit = invalid
             endif
-            m._urlRetry = retryFlag
-          else
-            m._logger.error(retry + "Unable to execute GET request for URL (" + url + ")")
-
-            m._http.AsyncCancel()
-            m._currentHit = invalid            
+            else
+              m._logger.error(retry + "#_sendUrlRequest() - Unable to make MediaHeartbeatRequest (request object null/invalid)")
           endif
         End Function,
 
       _buildHeartbeatUrl: Function(data as Object) As String
          checkStatus = false
-       
+
          ''' check if Hit is for check status, if yes form a different Base URL
          if data.r <> invalid
           checkStatus = true
@@ -1290,7 +1296,7 @@ Function _adb_serializeAndSendHeartbeat() As Object
 
       _generateURLPrefix: Function(checkStatus as Boolean) As String
           urlBase = ""
-            
+
           ''' assuming the media SSSL mediaTrackingServer parameters for now.
           if _adb_config().mTrackingServer <> INVALID
             if _adb_config().mSSL
@@ -1320,15 +1326,23 @@ Function _adb_serializeAndSendHeartbeat() As Object
           m["_queue"] = []
           m["_currentHit"] = invalid
           m["_urlRetry"] = false
-          m["_http"] = CreateObject("roUrlTransfer")          
-          m["_port"] = CreateObject("roMessagePort")
-
           m["_logger"] = _adb_logger().instanceWithTag("media/networkService")
-          ''' configure
-          m._http.SetRequest("GET")
-          m._http.SetMessagePort(m._port)
-          m._http.EnableFreshConnection(true)
-          m._http.SetCertificatesFile("common:/certs/ca-bundle.crt")
+
+          m._port = CreateObject("roMessagePort")
+          ''' we need _logger instance and _port initialized before creating MediaHeartbeat request
+          m._http = m._createMediaHeartbeatNetworkRequestObject()
+
+        End Function
+
+        _createMediaHeartbeatNetworkRequestObject: Function() As Object
+          m._logger.debug("#_createMediaHeartbeatNetworkRequestObject() - Creating new MediaHeartbeat request")
+          httpRequest = CreateObject("roUrlTransfer")
+          httpRequest.SetRequest("GET")
+          httpRequest.EnableFreshConnection(true)
+          httpRequest.SetCertificatesFile("common:/certs/ca-bundle.crt")
+          httpRequest.SetMessagePort(m._port)
+          return httpRequest
+
         End Function
 
     }
@@ -1878,6 +1892,7 @@ Function _adb_media() As Object
               if ruleName = m._Rule.Play
                 m._logger.debug("Deferring API:trackPlay for" + Str(m._prerollWaitTime) + " ms.")
                 m._playReceived = true
+                m._playUnhandledFromPrerollWaitTime = true
                 m._playTaskHandle = _adb_task_scheduler().scheduleTask("_deferredTrackPlay", m, m._prerollWaitTime)
                 reContext.stopProcessingAction()
               else if ruleName = m._Rule.AdBreakStart
@@ -1919,6 +1934,16 @@ Function _adb_media() As Object
 
           if ruleName = m._Rule.AdStart AND _adb_mediacontext().hasPlaybackStarted() = false
             m._processRule(m._Rule.Play)
+          end if
+
+          ''' This case happens when AdBreakStart and AdBreakComplete is called with out any Ads.
+          ''' We dropped the trackPlay when waiting for preroll AdBreak
+          ''' and we have to issue it when we did not get a chance to execute deferred trackPlay.
+          if (NOT m._prerollWaitEnabled)  AND  m._playUnhandledFromPrerollWaitTime AND (ruleName = m._Rule.BufferComplete OR ruleName = m._Rule.SeekComplete OR ruleName = m._Rule.AdBreakComplete)
+            if (NOT _adb_mediacontext().hasPlaybackStarted()) AND (NOT _adb_mediacontext().isBuffering()) AND (NOT _adb_mediacontext().isSeeking())
+              m._logger.debug("#_cmdExitAction() - Executing pending API:trackPlay. This case most likely happens tracking Preroll AdBreak without any Ads.")
+              m._processRule(m._Rule.Play)
+            end if
           end if
         End Function,
 
@@ -2110,6 +2135,7 @@ Function _adb_media() As Object
         _cmdPlay: Function(reContext as Object) As Void
           _adb_mediacontext().setInPaused(false)
           _adb_mediacontext().resetAssetRefContext()
+          m._playUnhandledFromPrerollWaitTime = false
         End Function,
 
         _cmdPause: Function(reContext as Object) As Void
@@ -2610,7 +2636,9 @@ Function _adb_media() As Object
           m._prerollWaitEnabled = true
           m._prerollWaitTime = m._CONST_PREROLL_WAIT_TIME
           m._playReceived = false
+          m._playUnhandledFromPrerollWaitTime = false
           m._playTaskHandle = invalid
+
 
           _adb_task_scheduler().clearTasks()
           _adb_mediacontext().resetState()
@@ -6022,8 +6050,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "120"
-          m["_gitHash"] = "86ee28"
+          m["_buildNumber"] = "135"
+          m["_gitHash"] = "deb122"
           m["_api_level"] = 4
         End Function
     }
