@@ -43,7 +43,7 @@ class VideoAnalyticsProvider: NSObject, ADBMediaHeartbeatDelegate {
         config.appVersion = HEARTBEAT_APP_VERSION
         config.ovp = HEARTBEAT_OVP_NAME
         config.playerName = PLAYER_NAME
-        config.ssl = false
+        config.ssl = true
         config.debugLogging = false
         
         _mediaHeartbeat = ADBMediaHeartbeat.init(delegate: self as ADBMediaHeartbeatDelegate, config: config)

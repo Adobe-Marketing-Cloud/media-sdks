@@ -49,7 +49,7 @@
         mediaConfig.channel = Configuration.HEARTBEAT.CHANNEL;
         mediaConfig.debugLogging = true;
         mediaConfig.appVersion = Configuration.HEARTBEAT.SDK;
-        mediaConfig.ssl = false;
+        mediaConfig.ssl = true;
         mediaConfig.ovp = Configuration.HEARTBEAT.OVP;
 
         // Implement the sample MediaHeartbeatDelegate to provide Playhead information and QoS information from the player

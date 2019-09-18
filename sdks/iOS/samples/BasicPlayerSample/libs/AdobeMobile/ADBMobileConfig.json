@@ -19,7 +19,7 @@
     "analytics": {
         "rsids": "mobile5vhl.sample.player",
         "server": "obumobile5.sc.omtrdc.net",
-        "ssl": false,
+        "ssl": true,
         "offlineEnabled": false,
         "charset": "UTF-8",
         "lifecycleTimeout": 300,

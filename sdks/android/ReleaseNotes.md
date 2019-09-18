@@ -17,6 +17,9 @@ https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/set-u
 For full API documentation, please visit:
 https://adobe-marketing-cloud.github.io/media-sdks/reference/android/index.html
 
+## 2.2.3 (August 14, 2019)
+- Bug fixes to improve stability and performance.
+
 ## 2.2.2 (June 20, 2019)
 - Make SSL requests over TLS 1.1 or TLS 1.2 on API levels 20 and below.
 
