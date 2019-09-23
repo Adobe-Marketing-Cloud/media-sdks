@@ -1,0 +1,9 @@
+platform :ios, '10.0'
+
+project 'BasicPlayerSample.xcodeproj'
+
+target 'BasicPlayerSample' do
+  pod 'ACPCore'
+  pod 'ACPAnalytics'
+  pod 'ACPMedia'
+end
