@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MediaSDK Sample</string>
+    <string name="ad_overlay_text">Ad</string>
+</resources>
