@@ -12,10 +12,13 @@ Lighter, Simpler implementation.
 - Clear difference between optional and required media tracking APIs. Optional media tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single media tracking API: trackEvent.
 
 For full documentation, please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/set-up-android.html
+https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-android.html
 
 For full API documentation, please visit:
 https://adobe-marketing-cloud.github.io/media-sdks/reference/android/index.html
+
+## 2.2.4 (Oct 11, 2019)
+- Bug fixes to improve stability and performance.
 
 ## 2.2.3 (August 14, 2019)
 - Bug fixes to improve stability and performance.
