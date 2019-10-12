@@ -40,7 +40,6 @@
         appMeasurement.trackingServer = Configuration.APP_MEASUREMENT.TRACKING_SERVER;
         appMeasurement.pageName = Configuration.APP_MEASUREMENT.PAGE_NAME;
         appMeasurement.charSet = "UTF-8";
-        appMeasurement.visitorID = "test-vid";
 
         //Media Heartbeat initialization
         var mediaConfig = new MediaHeartbeatConfig();

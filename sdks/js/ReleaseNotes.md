@@ -11,7 +11,11 @@ Lighter, Simpler implementation.
 	- Clear difference between optional and required video tracking APIs. Optional video tracking features such as chapter tracking, ad tracking, bitrate change, etc. are now tracked through a single video tracking API: trackEvent.
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
+https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-js.html
+
+## 2.2.1 (October 11, 2019)
+- Added support for [Adobe Opt In service](https://docs.adobe.com/content/help/en/id-service/using/implementation-guides/opt-in-service/getting-started.html).
+- Bug fixes to improve stability and SDK performance.
 
 ## 2.2.0 (February 12, 2019)
 - Video Heartbeat Library (VHL) SDK renamed to Media SDK.
