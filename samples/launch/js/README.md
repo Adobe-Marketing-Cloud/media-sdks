@@ -1,10 +1,10 @@
-# MediaExtensionSample (JS)
+# Adobe Media Analytics Extension
 
 Documentation for "Adobe Launch" is found [here](https://docs.adobelaunch.com/getting-started).
 
 Documentation for "Adobe Media Analytics for Audio and Video" extension is found [here](https://docs.adobe.com/content/help/en/launch/using/extensions-ref/adobe-extension/media-analytics-extension/overview.html).
 
-Documentation for "Media SDK" is found [here](https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/).
+Documentation for "Media SDK" is found [here](https://docs.adobe.com/content/help/en/media-analytics/using/media-overview.html).
 
 ## Running the sample
 
