@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.2.2",
+      version: "2.2.3",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -1338,7 +1338,6 @@ Function _adb_serializeAndSendHeartbeat() As Object
           m._logger.debug("#_createMediaHeartbeatNetworkRequestObject() - Creating new MediaHeartbeat request")
           httpRequest = CreateObject("roUrlTransfer")
           httpRequest.SetRequest("GET")
-          httpRequest.EnableFreshConnection(true)
           httpRequest.SetCertificatesFile("common:/certs/ca-bundle.crt")
           httpRequest.SetMessagePort(m._port)
           return httpRequest
@@ -6050,8 +6049,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "135"
-          m["_gitHash"] = "deb122"
+          m["_buildNumber"] = "141"
+          m["_gitHash"] = "2ba755"
           m["_api_level"] = 4
         End Function
     }

@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/download-sdks.html
 
+## 2.2.3 (16 December, 2019)
+What's new :
+- Bug fixes to improve stability and SDK performance.
+
 ## 2.2.2 (18 September, 2019)
 What's new :
 - Bug fixes to improve stability and SDK performance.
