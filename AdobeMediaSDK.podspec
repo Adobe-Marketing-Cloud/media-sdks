@@ -1,7 +1,8 @@
+# coding: utf-8
 
 Pod::Spec.new do |s|
   s.name         = "AdobeMediaSDK"
-  s.version      = "2.2.6"
+  s.version      = "2.2.7"
   s.summary      = "AdobeMediaSDK is Adobe’s standardized Analytics solution for Audio and Video. This is the only official Adobe MediaSDK Pod."
   s.description  = <<-DESC
                     Adobe Analytics for Media enables clients to track the full customer journey across their site, which includes audio and video consumption, and these measures are easily integrated into Analytics reporting and other Experience Cloud products.
@@ -15,7 +16,8 @@ Pod::Spec.new do |s|
   s.author       = "Adobe Media Analytics SDK Team"
   s.source       = { :git => 'https://github.com/Adobe-Marketing-Cloud/media-sdks.git', :tag => "ios-v#{s.version}-cocoapod"}
 
-
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-all_load' }
+  
   s.ios.deployment_target = '6.0'
   s.ios.source_files  = "libs/Headers/*.h", "libs/Headers/Empty.m"
   s.ios.vendored_libraries = "libs/libMediaSDK.a"
