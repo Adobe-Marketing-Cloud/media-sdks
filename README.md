@@ -5,6 +5,9 @@ Downloads MediaSDK v2.2.0+.
 
 For Swift Project, since Cocoapods generates dynamic framework, use 'import AdobeMediaSDK' to include SDK headers.
 
+## Documentation
+Documentation for the MediaSDK can be found [here](https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-ios.html).
+
 ### Sample Podfile for iOS and tvOS targets using AdobeMediaSDK Pod
 
     target ‘iOSPodSample’ do
