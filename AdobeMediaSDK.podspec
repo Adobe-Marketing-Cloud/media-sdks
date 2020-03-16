@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/Adobe-Marketing-Cloud/media-sdks/releases/tag/ios-v#{s.version}"
-  s.documentation_url = "https://github.com/Adobe-Marketing-Cloud/media-sdks/blob/cocoapod/README.md"
+  s.documentation_url = "https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-ios.html"
 
   s.license      = {:type => "Commercial", :text => "Adobe Inc. All Rights Reserved"}
   s.author       = "Adobe Media Analytics SDK Team"
