@@ -23,10 +23,10 @@ ADB.Media.configure(mediaConfig, appMeasurement);
 
 ```javascript
 var mediaConfig = new ADB.MediaConfig();
-mediaConfig.trackingServer = "collection_api_server"
-mediaConfig.playerName = "player_name"
-mediaConfig.channel = "sample_channel"
-mediaConfig.appVersion = "app_version"
+mediaConfig.trackingServer = "company.hb-api.omtrdc.net";
+mediaConfig.playerName = "player_name";
+mediaConfig.channel = "sample_channel";
+mediaConfig.appVersion = "app_version";
 mediaConfig.debugLogging = true;
 mediaConfig.ssl = true;
 
@@ -230,7 +230,7 @@ var mediaObject = ADB.Media.createMediaObject("media-name", "media-id", 60, ADB.
 var contextData = {};
 contextData[ADB.Media.VideoMetadataKeys.EPISODE] = "Sample Episode";
 contextData[ADB.Media.VideoMetadataKeys.SHOW] = "Sample Show";
-contextData["isUserLoggedIn] = "false";
+contextData["isUserLoggedIn"] = "false";
 contextData["tvStation"] = "Sample TV Station";
 
 tracker.trackSessionStart(mediaObject, contextData);
@@ -424,17 +424,17 @@ ADB.Media.trackEvent(event, info, contextData);
   tracker.updateQoEObject(qoeObject);
 
 // Bitrate change
-  tracker.trackEvent(ADB.Media.Event.B);
+  tracker.trackEvent(ADB.Media.Event.BitrateChange);
 ```
 
-#### updateCurrentPlayhead
+#### updatePlayhead
 
 Provide current media playhead to media tracker. For accurate tracking, call this method whenever playhead changes during playback.
 
 **Syntax**
 
 ```javascript
-ADB.Media.updateCurrentPlayhead(time);
+ADB.Media.updatePlayhead(time);
 ```
 
 | Variable Name | Description |
@@ -444,7 +444,7 @@ ADB.Media.updateCurrentPlayhead(time);
 **Example**
 
 ```javascript
-tracker.updateCurrentPlayhead(13.3);
+tracker.updatePlayhead(13.3);
 ```
 
 #### updateQoEObject

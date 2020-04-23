@@ -2,18 +2,18 @@
 
 ## New Features
 
-  - Use MediaCollection APIs
-  - Custom state tracking
+- Use MediaCollection APIs
+- Custom state tracking
 
 ## Improvements
 
-  - Provide global configuration for media library
-  - Easier tracker creation
-  - Added APIs to providing playhead and QoE information.
-  - API to destroy tracker instance.
-  - Simplify setting standard/custom metadata for media and ads. 
+- Provide global configuration for media library
+- Simple tracker creation
+- Added APIs to providing playhead and QoE information.
+- API to destroy tracker instance.
+- Simplify setting standard/custom metadata for media and ads.
 
-## API Comparision
+## API Comparison
 
 ### Media Class 
 
