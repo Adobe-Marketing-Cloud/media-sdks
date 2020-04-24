@@ -15,7 +15,7 @@
 
 ## API Comparison
 
-### Media Class 
+### Media Class
 
 | Functionality | 2.x | 3.x |
 | ------ | ------ | ------ |
@@ -41,8 +41,8 @@
 || N/A | **updateQoEObject(qoeObject)** |
 |**Destroy Tracker**| N/A | **destroy()** |
 
-### MediaConfig Class 
-## Code comparision
+### MediaConfig Class
+
 | Functionality | 2.x | 3.x |
 | ------ | ------ | ------ |
 | **Namespace** | ADB.va.MediaHeartbeatConfig | **ADB.MediaConfig** |
@@ -55,14 +55,17 @@
 | | playerName | playerName |
 | | ssl | ssl |
 | | debugLogging | debugLogging |
+
+## Code comparison
+
 ### Configuration and tracker creation
 
-#### 2.x 
+#### 2.x
 ```javascript
     var MediaHeartbeat = ADB.va.MediaHeartbeat;
     var MediaHeartbeatConfig = ADB.va.MediaHeartbeatConfig;
     var MediaHeartbeatDelegate = ADB.va.MediaHeartbeatDelegate;
-    
+
     // Create MediaHeartbeatConfig object
     var mediaConfig = new MediaHeartbeatConfig();
     mediaConfig.trackingServer = "tracking_server";
@@ -74,7 +77,7 @@
     mediaConfig.ssl = true;
 
     // Instance of MediaHeartbeatDelegate to return playhead and qosInfo to the tracker
-    ADB.core.extend(SampleMediaHeartbeatDelegate.prototype, 
+    ADB.core.extend(SampleMediaHeartbeatDelegate.prototype,
                          MediaHeartbeatDelegate.prototype);
     function SampleMediaHeartbeatDelegate() { ... }
     SampleMediaHeartbeatDelegate.prototype.getCurrentPlaybackTime = function() {
@@ -83,19 +86,19 @@
     SampleMediaHeartbeatDelegate.prototype.getQoSObject = function() {
         // Returns the current QOS information if available from the player.
     }
-    
+
     // Create tracker instance by passing mediaConfig, appMeasurement instancee and player delegate
-    var tracker = new MediaHeartbeat( new SampleMediaHeartbeatDelegate(), 
-                                      mediaConfig, 
+    var tracker = new MediaHeartbeat( new SampleMediaHeartbeatDelegate(),
+                                      mediaConfig,
                                       appMeasurement);
 ```
 
-#### 3.x 
+#### 3.x
 ```javascript
 
     var Media = ADB.Media;
     var MediaConfig = ADB.MediaConfig;
-    
+
     // Create MediaConfig object (same as above)
     var mediaConfig = new MediaConfig();
     mediaConfig.trackingServer = "tracking_server";
@@ -105,7 +108,7 @@
     mediaConfig.debugLogging = true;
     mediaConfig.ssl = true;
 
-    // Configuration is only done once per page 
+    // Configuration is only done once per page
     // and applies to all tracker instances created.
     Media.configure(mediaConfig, appMeasurement);
 
@@ -115,11 +118,11 @@
 
 ### Provide Playhead and QoE information to tracker
 
-#### 2.x 
+#### 2.x
 ```javascript
-    
+
     // Instance of MediaHeartbeatDelegate to return playhead and qosInfo to the tracker
-    ADB.core.extend(SampleMediaHeartbeatDelegate.prototype, 
+    ADB.core.extend(SampleMediaHeartbeatDelegate.prototype,
                          MediaHeartbeatDelegate.prototype);
     function SampleMediaHeartbeatDelegate(player) { this.player = player }
     SampleMediaHeartbeatDelegate.prototype.getCurrentPlaybackTime = function() {
@@ -128,43 +131,42 @@
     };
     SampleMediaHeartbeatDelegate.prototype.getQoSObject = function() {
         // Returns the current QOS information if available from the player.
-        var qosInfo = MediaHeartbeat.createQoSObject(this._player.bitrate, 
-                                                     this._player.startupTime, 
-                                                     this._player.fps, 
+        var qosInfo = MediaHeartbeat.createQoSObject(this._player.bitrate,
+                                                     this._player.startupTime,
+                                                     this._player.fps,
                                                      this._player.droppedFrames);
         return qosInfo;
     };
 
     // Pass the delegate instance when creating the tracker.
-    var tracker = new MediaHeartbeat( new SampleMediaHeartbeatDelegate(), 
-                                      mediaConfig, 
+    var tracker = new MediaHeartbeat( new SampleMediaHeartbeatDelegate(),
+                                      mediaConfig,
                                       appMeasurement);
-                                      
+
 ```
 
-#### 3.x 
+#### 3.x
 ```javascript
-        
-        // When playhead changes, call 
+
+        // When playhead changes, call
         tracker.updatePlayhead(this._player.playhead)
-        
+
         // When new QoE information is available, call
-        var qoeInfo = Media.createQoEObject(this._player.bitrate, 
-                                                     this._player.startupTime, 
-                                                     this._player.fps, 
+        var qoeInfo = Media.createQoEObject(this._player.bitrate,
+                                                     this._player.startupTime,
+                                                     this._player.fps,
                                                      this._player.droppedFrames);
         tracker.updateQoEObject(qoeInfo)
 ```
-    
+
 ### Standard and custom metadata for Media and Ads
 
-#### Media 
+#### Media
 
-#### 2.x 
-
+#### 2.x
 ```javascript
-    var mediaObject = MediaHeartbeat.createMediaObject("name", 
-                                                       "id", 
+    var mediaObject = MediaHeartbeat.createMediaObject("name",
+                                                       "id",
                                                        60.0,
                                                        MediaHeartbeat.StreamType.VOD,
                                                        MediaHeartbeat.MediaType.Video);
@@ -173,22 +175,22 @@
     standardMetadata[MediaHeartbeat.VideoMetadataKeys.SEASON] = "sample season";
     standardMetadata[MediaHeartbeat.VideoMetadataKeys.SHOW] = "sample show";
     // Set standard metadata on media object.
-    mediaObject.setValue(MediaHeartbeat.MediaObjectKey.StandardMediaMetadata, 
-                               standardMetadata); 
-     
+    mediaObject.setValue(MediaHeartbeat.MediaObjectKey.StandardMediaMetadata,
+                               standardMetadata);
+
     // custom metadata
     var customMetadata = {
         "customKey1" : "custom value",
         "customKey2" : "custom value"
     };
-    
+
     mediaTracker.trackSessionStart(mediaObject, customMetadata);
 ```
 
-#### 3.x 
+#### 3.x
 ```javascript
-    var mediaObject = Media.createMediaObject("name", 
-                                           "id", 
+    var mediaObject = Media.createMediaObject("name",
+                                           "id",
                                            60.0,
                                            Media.StreamType.VOD,
                                            Media.MediaType.Video);
@@ -200,45 +202,45 @@
     // custom metadata
     metadata["customKey1"] = "custom value";
     metadata["customKey2"] = "custom value";
-    
+
     mediaTracker.trackSessionStart(mediaObject, metadata);
 ```
 
-#### Ads 
+#### Ads
 
-#### 2.x 
+#### 2.x
 ```javascript
-    var adObject = MediaHeartbeat.createAdObject("adName", 
+    var adObject = MediaHeartbeat.createAdObject("adName",
                                                  "adId",
                                                   1,
                                                   15.0);
-                                               
+
     // standard metadata
     var standardAdMetadata = {};
     standardAdMetadata[MediaHeartbeat.AdMetadataKeys.ADVERTISER] = "Sample Advertiser";
     standardAdMetadata[MediaHeartbeat.AdMetadataKeys.CAMPAIGN_ID] = "Sample Campaign";
     // Set standard metadata on ad object.
-    adObject.setValue(MediaHeartbeat.MediaObjectKey.StandardAdMetadata, 
-                               standardAdMetadata); 
-     
+    adObject.setValue(MediaHeartbeat.MediaObjectKey.StandardAdMetadata,
+                               standardAdMetadata);
+
     // custom metadata
     var customMetadata = {
         "customKey1" : "custom value",
         "customKey2" : "custom value"
     };
-    
+
     mediaTracker.trackEvent(MediaHeartbeat.Event.AdStart, adObject, customMetadata);
 ```
 
-#### 3.x 
+#### 3.x
 ```javascript
-    
-    var adObject = Media.createAdObject("adName", 
+
+    var adObject = Media.createAdObject("adName",
                                                  "adId",
                                                   1,
                                                   15.0);
-                                               
-    
+
+
     var metadata = {};
     // standard metadata
     metadata[Media.AdMetadataKeys.Advertiser] = "Sample Advertiser";
@@ -246,6 +248,6 @@
     // custom metadata
     metadata["customKey1"] = "custom value";
     metadata["customKey2"] = "custom value";
-    
+
     mediaTracker.trackEvent(Media.Event.AdStart, adObject, metadata);
 ```
