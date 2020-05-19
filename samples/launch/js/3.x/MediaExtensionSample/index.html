@@ -1,0 +1,38 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>Media Extension Sample</title>
+
+        <link rel="stylesheet" href="style/base.css" />
+
+        <!-- 
+            Include your Launch generated library here.
+        -->        
+        <script src="script/app/notification.center.js"></script>
+        <script src="script/app/player/video.player.js"></script>
+        <script src="script/app/analytics/video.analytics.provider.js"></script>
+
+        <script src="script/main.js"></script>
+    </head>
+
+    <body>
+
+    <h2>HTML5 Basic Sample Player - Tracking With Adobe Media Analytics (3.x SDK) for Audio and Video Extension</h2>
+
+    <div class="container">
+        <video id="movie" width="600" preload controls muted>
+            <source src="vid/clickbaby.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+            <source src="vid/clickbaby.webm" type='video/webm; codecs="vp8, vorbis"'>
+            <source src="vid/clickbaby.ogv" type='video/ogg; codes="theora, vorbis"'>
+        </video>
+
+        <div class="overlay" id="pub-label" hidden>AD</div>
+    </div>
+
+    <p>
+        More info. about media events in html5 players can be found at <a href="http://www.w3.org/2010/05/video/mediaevents.html">the w3c</a>
+    </p>
+    <script type="text/javascript">_satellite.pageBottom();</script>
+    </body>
+</html>
