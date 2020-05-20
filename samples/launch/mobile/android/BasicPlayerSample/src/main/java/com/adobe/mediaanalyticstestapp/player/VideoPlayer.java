@@ -25,12 +25,13 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.MediaController;
+import android.media.AudioManager;
+import android.content.Context;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
-import com.adobe.marketing.mobile.Media;
 import com.adobe.marketing.mobile.MediaConstants;
 import com.adobe.mediaanalyticstestapp.Configuration;
 import com.adobe.mediaanalyticstestapp.R;
@@ -59,6 +60,9 @@ public class VideoPlayer extends Observable {
 	private Boolean _seeking = false;
 	private Boolean _buffering = false;
 	private Boolean _paused = true;
+	private Boolean _isMute = false;
+
+	private AudioManager _audio;
 
 	private Map<String, Object> _adBreakInfo, _adInfo, _chapterInfo, _qosInfo;
 
@@ -69,6 +73,9 @@ public class VideoPlayer extends Observable {
 	private final String _streamType;
 
 	public VideoPlayer(Activity parentActivity) {
+
+		_audio = (AudioManager) parentActivity.getSystemService(Context.AUDIO_SERVICE);
+
 		_videoView = (ObservableVideoView) parentActivity.findViewById(R.id.videoView);
 
 		_videoView.setVideoPlayer(this);
@@ -409,7 +416,20 @@ public class VideoPlayer extends Observable {
 		}
 	}
 
+	private void _detectMute() {
+		boolean mute = _audio.getStreamVolume(AudioManager.STREAM_MUSIC) == 0;
+
+		if (_isMute != mute) {
+			_isMute = mute;
+			PlayerEvent state = mute ? PlayerEvent.PLAYER_STATE_MUTE_START : PlayerEvent. PLAYER_STATE_MUTE_END;
+			setChanged();
+			notifyObservers(state);
+		}
+	}
+
 	private void _onTick() {
+		_detectMute();
+
 		if (_seeking || _buffering || _paused) {
 			return;
 		}

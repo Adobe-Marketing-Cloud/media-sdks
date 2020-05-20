@@ -20,6 +20,7 @@ package com.adobe.mediaanalyticstestapp.analytics;
 import android.util.Log;
 import com.adobe.marketing.mobile.Media;
 import com.adobe.marketing.mobile.MediaConstants;
+import com.adobe.marketing.mobile.MediaTracker;
 import com.adobe.mediaanalyticstestapp.Configuration;
 import com.adobe.mediaanalyticstestapp.player.*;
 
@@ -29,7 +30,7 @@ public class VideoAnalyticsProvider implements Observer {
 	private static final String LOG_TAG = "[Sample]::" + VideoAnalyticsProvider.class.getSimpleName();
 
 	private VideoPlayer _player;
-	private MediaTrackerHelper _heartbeat;
+	private MediaTracker _tracker;
 
 	public VideoAnalyticsProvider(VideoPlayer player) {
 		if (player == null) {
@@ -41,15 +42,15 @@ public class VideoAnalyticsProvider implements Observer {
 		config.put(MediaConstants.Config.CHANNEL, "android_v5_sample");
 		// Enable this for tracking downloaded content.
 		// config.put(MediaConstants.Config.DOWNLOADED_CONTENT, true);		
-		_heartbeat = new MediaTrackerHelper(config);
+		_tracker = Media.createTracker(config);
 
 		_player.addObserver(this);
 	}
 
 	public void destroy() {
 		if (_player != null) {
-			_heartbeat.trackSessionEnd();
-			_heartbeat = null;
+			_tracker.trackSessionEnd();
+			_tracker = null;
 
 			_player.destroy();
 			_player.deleteObserver(this);
@@ -83,42 +84,42 @@ public class VideoAnalyticsProvider implements Observer {
 				//Set to true if this is a resume playback scenario (not starting from playhead 0)
 				// mediaInfo.put(MediaConstants.MediaObjectKey.RESUMED, true);
 
-				_heartbeat.trackSessionStart(mediaInfo, videoMetadata);
+				_tracker.trackSessionStart(mediaInfo, videoMetadata);
 				break;
 
 			case VIDEO_UNLOAD:
 				Log.d(LOG_TAG, "Video unloaded.");
-				_heartbeat.trackSessionEnd();
+				_tracker.trackSessionEnd();
 				break;
 
 			case PLAY:
 				Log.d(LOG_TAG, "Playback started.");
-				_heartbeat.trackPlay();
+				_tracker.trackPlay();
 				break;
 
 			case PAUSE:
 				Log.d(LOG_TAG, "Playback paused.");
-				_heartbeat.trackPause();
+				_tracker.trackPause();
 				break;
 
 			case SEEK_START:
 				Log.d(LOG_TAG, "Seek started.");
-				_heartbeat.trackEvent(Media.Event.SeekStart, null, null);
+				_tracker.trackEvent(Media.Event.SeekStart, null, null);
 				break;
 
 			case SEEK_COMPLETE:
 				Log.d(LOG_TAG, "Seek completed.");
-				_heartbeat.trackEvent(Media.Event.SeekComplete, null, null);
+				_tracker.trackEvent(Media.Event.SeekComplete, null, null);
 				break;
 
 			case BUFFER_START:
 				Log.d(LOG_TAG, "Buffer started.");
-				_heartbeat.trackEvent(Media.Event.BufferStart, null, null);
+				_tracker.trackEvent(Media.Event.BufferStart, null, null);
 				break;
 
 			case BUFFER_COMPLETE:
 				Log.d(LOG_TAG, "Buffer completed.");
-				_heartbeat.trackEvent(Media.Event.BufferComplete, null, null);
+				_tracker.trackEvent(Media.Event.BufferComplete, null, null);
 				break;
 
 			case AD_START:
@@ -146,14 +147,14 @@ public class VideoAnalyticsProvider implements Observer {
 				Double adLength = (Double) adData.get("length");
 
 				HashMap<String, Object> adInfo = Media.createAdObject(adName, adId, adPosition, adLength);
-				_heartbeat.trackEvent(Media.Event.AdBreakStart, adBreakInfo, null);
-				_heartbeat.trackEvent(Media.Event.AdStart, adInfo, adMetadata);
+				_tracker.trackEvent(Media.Event.AdBreakStart, adBreakInfo, null);
+				_tracker.trackEvent(Media.Event.AdStart, adInfo, adMetadata);
 				break;
 
 			case AD_COMPLETE:
 				Log.d(LOG_TAG, "Ad completed.");
-				_heartbeat.trackEvent(Media.Event.AdComplete, null, null);
-				_heartbeat.trackEvent(Media.Event.AdBreakComplete, null, null);
+				_tracker.trackEvent(Media.Event.AdComplete, null, null);
+				_tracker.trackEvent(Media.Event.AdBreakComplete, null, null);
 				break;
 
 			case CHAPTER_START:
@@ -171,23 +172,35 @@ public class VideoAnalyticsProvider implements Observer {
 				HashMap<String, Object> chapterDataInfo = Media.createChapterObject(chapterName, chapterPosition, chapterLength,
 						chapterStartTime);
 
-				_heartbeat.trackEvent(Media.Event.ChapterStart, chapterDataInfo, chapterMetadata);
+				_tracker.trackEvent(Media.Event.ChapterStart, chapterDataInfo, chapterMetadata);
 				break;
 
 			case CHAPTER_COMPLETE:
 				Log.d(LOG_TAG, "Chapter completed.");
-				_heartbeat.trackEvent(Media.Event.ChapterComplete, null, null);
+				_tracker.trackEvent(Media.Event.ChapterComplete, null, null);
 				break;
 
 			case COMPLETE:
 				Log.d(LOG_TAG, "Playback completed.");
 
-				_heartbeat.trackComplete();
+				_tracker.trackComplete();
 				break;
 
 			case PLAYHEAD_UPDATE:
 				// Log.d(LOG_TAG, "Playhead update.");
-				_heartbeat.updateCurrentPlayhead(_player.getCurrentPlaybackTime());
+				_tracker.updateCurrentPlayhead(_player.getCurrentPlaybackTime());
+				break;
+
+			case PLAYER_STATE_MUTE_START:
+				Log.d(LOG_TAG, "Player State(Mute).");
+				HashMap<String, Object>stateInfo = Media.createStateObject(MediaConstants.PlayerState.MUTE);
+				_tracker.trackEvent(Media.Event.StateStart, stateInfo, null);
+				break;
+
+			case PLAYER_STATE_MUTE_END:
+				Log.d(LOG_TAG, "Player State End.");
+				stateInfo = Media.createStateObject(MediaConstants.PlayerState.MUTE);
+				_tracker.trackEvent(Media.Event.StateEnd, stateInfo, null);
 				break;
 
 			default:

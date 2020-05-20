@@ -1,9 +1,9 @@
-# Adobe Media Analytics Extension
+# Adobe Analytics - Media Analytics for Audio and Video Extension
 
-There is a great deal of information available to learn more about the Adobe Experience Platform Mobile SDK and Launch. Below are some resources that may be helpful to implement media analytics in mobile apps:
+Here are some helpful resources to implement media analytics extension in mobile apps:
 
-- [Launch documentation](https://docs.adobe.com/content/help/en/launch/using/overview.html)
-- [Adobe Media Analytics extension](https://docs.adobe.com/content/help/en/launch/using/extensions-ref/adobe-extension/media-analytics-extension/overview.html)
-- [Media SDK](https://docs.adobe.com/content/help/en/media-analytics/using/media-overview.html).
+- [Setup mobile property in Launch](https://aep-sdks.gitbook.io/docs/getting-started/create-a-mobile-property).
+
+- [Adobe Media Analytics extension](https://aep-sdks.gitbook.io/docs/using-mobile-extensions/adobe-media-analytics).
 
 The following samples showcases how to implement media extension in android and iOS.
