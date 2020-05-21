@@ -14,4 +14,4 @@ Documentation for "Media SDK" is found [here](https://adobe-marketing-cloud.gith
     - Add and configure "Experience Cloud ID Service" Extension to your property.
     - Add and configure "Adobe Analytics" Extension to your property.
     - Add and configure "Adobe Media Analytics for Audio and Video" Extension to your property. Make sure to set "Export APIs to Window object" and set variable name to "ADB".
-    - Currently for this sample to work, build the library and deploy the script tag synchronously in "index.html" file. Follow this [link](hhttps://docs.adobe.com/content/help/en/launch/using/reference/publish/environments.html) to learn about embedding launch code in your web page.
+    - Currently for this sample to work, build the library and deploy the script tag synchronously in "index.html" file. Follow this [link](https://docs.adobe.com/content/help/en/launch/using/reference/publish/environments.html) to learn about embedding launch code in your web page.
