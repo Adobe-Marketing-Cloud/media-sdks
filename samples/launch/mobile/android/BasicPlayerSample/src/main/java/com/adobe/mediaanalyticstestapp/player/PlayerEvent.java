@@ -31,7 +31,9 @@ public enum PlayerEvent {
 	CHAPTER_START("chapter_start"),
 	CHAPTER_COMPLETE("chapter_complete"),
 	COMPLETE("complete"),
-	PLAYHEAD_UPDATE("playhead_update");
+	PLAYHEAD_UPDATE("playhead_update"),
+	PLAYER_STATE_MUTE_START("player_state_mute_start"),
+	PLAYER_STATE_MUTE_END("player_state_mute_end");
 
 	private final String _type;
 
