@@ -33,6 +33,9 @@ NSString *const PLAYER_EVENT_AD_COMPLETE = @"player_ad_complete";
 NSString *const PLAYER_EVENT_CHAPTER_START = @"player_chapter_start";
 NSString *const PLAYER_EVENT_CHAPTER_COMPLETE = @"player_chapter_complete";
 NSString *const PLAYER_EVENT_PLAYHEAD_UPDATE = @"player_playhead_update";
+NSString *const PLAYER_EVENT_CC_CHANGE = @"player_cc_change";
+NSString *const PLAYER_EVENT_MUTE_CHANGE = @"player_mute_change";
+
 
 NSUInteger const AD_START_POS = 15;
 NSUInteger const AD_END_POS = 30;
@@ -53,6 +56,7 @@ static void *VHLMediaPlayerKVOContext = &VHLMediaPlayerKVOContext;
 NSString *kStatusKey				= @"status";
 NSString *kRateKey					= @"rate";
 NSString *kDurationKey				= @"duration";
+NSString *kMuteKey                  = @"muted";
 NSString *kPlaybackBufferEmpty      = @"playbackBufferEmpty";
 NSString *kPlaybackBufferFull       = @"playbackBufferFull";
 NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
@@ -60,6 +64,8 @@ NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
 @interface VideoPlayer ()
 
 @property(nonatomic) BOOL videoLoaded;
+@property(nonatomic) BOOL isMuted;
+@property(nonatomic) BOOL isCCActive;
 @property(nonatomic, getter=isSeeking) BOOL seeking;
 @property(nonatomic, getter=isPaused) BOOL paused;
 
@@ -83,11 +89,12 @@ NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
 	AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
 	
 	playerViewController.player = [AVPlayer playerWithURL:url];
-  playerViewController.player.muted = true;
+    //playerViewController.player.muted = true;
 	self.avPlayerViewcontroller = playerViewController;
 	
 	[self.avPlayerViewcontroller.player addObserver:self forKeyPath:kStatusKey options:0 context:VHLMediaPlayerKVOContext];
 	[self.avPlayerViewcontroller.player addObserver:self forKeyPath:kRateKey  options:0 context:VHLMediaPlayerKVOContext];
+    [self.avPlayerViewcontroller.player addObserver:self forKeyPath:kMuteKey  options:0 context:VHLMediaPlayerKVOContext];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(onMediaFinishedPlaying:)
@@ -96,6 +103,8 @@ NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
 	
 	_videoLoaded = NO;
 	_seeking = NO;
+    _isMuted = NO;
+    _isCCActive = NO;
 	_paused = YES;
 }
 
@@ -143,6 +152,17 @@ NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
 			[self pausePlayback];
 		}
 	}
+    else if ([keyPath isEqualToString:kMuteKey])
+    {
+        if (_isMuted != self.avPlayerViewcontroller.player.muted) {
+            _isMuted = self.avPlayerViewcontroller.player.muted;
+            [[NSNotificationCenter defaultCenter] postNotificationName:PLAYER_EVENT_MUTE_CHANGE
+                                                                object:self
+                                                              userInfo:@{
+                                                                        @"muted" : [NSNumber numberWithBool:_isMuted]
+                                                                         }];
+        }
+    }
 	else if ([keyPath isEqualToString:kRateKey])
 	{
 		if (self.avPlayerViewcontroller.player.rate == 0.0f)
@@ -444,6 +464,25 @@ NSString *kPlaybackLikelyToKeepUp   = @"playbackLikelyToKeepUp";
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@(vTime), @"time",nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:PLAYER_EVENT_PLAYHEAD_UPDATE object:self userInfo:userInfo];
+    
+    [self detectCCChange];
+}
+
+- (void) detectCCChange {
+AVPlayerItem* currentItem = self.avPlayerViewcontroller.player.currentItem;
+AVAsset* asset = currentItem.asset;
+
+AVMediaSelectionGroup* group = [asset mediaSelectionGroupForMediaCharacteristic:AVMediaCharacteristicLegible];
+AVMediaSelectionOption* option = [currentItem.currentMediaSelection selectedMediaOptionInMediaSelectionGroup:group];
+bool ccStatus = (option != NULL);
+if (_isCCActive != ccStatus) {
+    _isCCActive = ccStatus;
+    [[NSNotificationCenter defaultCenter] postNotificationName:PLAYER_EVENT_CC_CHANGE
+                                                        object:self
+                                                      userInfo:@{
+                                                                 @"ccActive" : [NSNumber numberWithBool:_isCCActive]
+                                                                 }];
+    }
 }
 
 @end

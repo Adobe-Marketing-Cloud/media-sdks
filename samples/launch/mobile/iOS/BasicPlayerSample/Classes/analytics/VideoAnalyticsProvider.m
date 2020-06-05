@@ -16,7 +16,6 @@
  **************************************************************************/
 
 #import "VideoAnalyticsProvider.h"
-#import "MediaTrackerHelper.h"
 
 NSString *const VIDEO_ID    = @"bipbop";
 NSString *const VIDEO_NAME    = @"Bip bop video";
@@ -25,22 +24,22 @@ double const VIDEO_LENGTH = 1800;
 
 @implementation VideoAnalyticsProvider
 {
-    MediaTrackerHelper* _tracker;
-    __weak id<VideoPlayerDelegate> _playerDelegate;
+    ACPMediaTracker* _tracker;
     
     NSDictionary* _videoInfo;
     NSMutableDictionary *_videoMetadata;
     BOOL _pendingSessionStart;
     BOOL _pendingPlay;
+    VideoPlayer* _player;
 }
 
 #pragma mark Initializer & dealloc
 
-- (instancetype)initWithPlayerDelegate:(id<VideoPlayerDelegate>)playerDelegate
+- (instancetype)initWithPlayer:(nonnull VideoPlayer*) player;
 {
     if (self = [super init])
     {
-        _playerDelegate = playerDelegate;
+        _player = player;
         
         NSMutableDictionary* config = [NSMutableDictionary dictionary];
         // To update the channel to something different from global config
@@ -49,7 +48,7 @@ double const VIDEO_LENGTH = 1800;
         // For downloaded content tracking.
         //config[ACPMediaKeyConfigDownloadedContent] = [NSNumber numberWithBool:true];
         
-        _tracker = [[MediaTrackerHelper alloc] initWithConfig:config];
+        _tracker = [ACPMedia createTrackerWithConfig:config];
         [self setupPlayerNotifications];
     }
 
@@ -69,9 +68,7 @@ double const VIDEO_LENGTH = 1800;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     _tracker = nil;
-    _playerDelegate = nil;
 }
-
 
 #pragma mark VideoPlayer notification handlers
 
@@ -113,12 +110,12 @@ double const VIDEO_LENGTH = 1800;
 
 - (void)onSeekStart:(NSNotification *)notification
 {
-    [_tracker trackEvent:ACPMediaEventSeekStart mediaObject:nil data:nil];
+    [_tracker trackEvent:ACPMediaEventSeekStart info:nil data:nil];
 }
 
 - (void)onSeekComplete:(NSNotification *)notification
 {
-    [_tracker trackEvent:ACPMediaEventSeekComplete mediaObject:nil data:nil];
+    [_tracker trackEvent:ACPMediaEventSeekComplete info:nil data:nil];
 }
 
 - (void)onComplete:(NSNotification *)notification
@@ -138,12 +135,12 @@ double const VIDEO_LENGTH = 1800;
                                                         startTime:[[chapterData objectForKey:@"time"] doubleValue]];
     
     
-    [_tracker trackEvent:ACPMediaEventChapterStart mediaObject:chapterObject    data:chapterDictionary];
+    [_tracker trackEvent:ACPMediaEventChapterStart info:chapterObject    data:chapterDictionary];
 }
 
 - (void)onChapterComplete:(NSNotification *)notification
 {
-    [_tracker trackEvent:ACPMediaEventChapterComplete mediaObject:nil data:nil];
+    [_tracker trackEvent:ACPMediaEventChapterComplete info:nil data:nil];
 }
 
 - (void)onAdStart:(NSNotification *)notification
@@ -168,20 +165,39 @@ double const VIDEO_LENGTH = 1800;
     //Attach custom metadata parameters (context data)    
     [adDictionary setObject:@"Sample affiliate" forKey:@"affiliate"];
     
-    [_tracker trackEvent:ACPMediaEventAdBreakStart mediaObject:adBreakObject data:nil];
-    [_tracker trackEvent:ACPMediaEventAdStart mediaObject:adObject data:adDictionary];
+    [_tracker trackEvent:ACPMediaEventAdBreakStart info:adBreakObject data:nil];
+    [_tracker trackEvent:ACPMediaEventAdStart info:adObject data:adDictionary];
 }
 
 - (void)onAdComplete:(NSNotification *)notification
 {
-    [_tracker trackEvent:ACPMediaEventAdComplete mediaObject:nil data:nil];
-    [_tracker trackEvent:ACPMediaEventAdBreakComplete mediaObject:nil data:nil];
+    [_tracker trackEvent:ACPMediaEventAdComplete info:nil data:nil];
+    [_tracker trackEvent:ACPMediaEventAdBreakComplete info:nil data:nil];
 }
 
 - (void)onPlayheadUpdate:(NSNotification *)notification
 {
     NSNumber *time = [notification.userInfo objectForKey:@"time"];
     [_tracker updateCurrentPlayhead:[time doubleValue]];
+}
+
+- (void)onMuteUpdate:(NSNotification *)notification
+{
+    NSNumber* muted = [notification.userInfo objectForKey:@"muted"];
+    NSLog(@"[VideoAnalyticsProvider] Player muted : %@", [muted boolValue] ? @"Yes" : @"No");
+    NSDictionary* muteState = [ACPMedia createStateObjectWithName:ACPMediaPlayerStateMute];
+    ACPMediaEvent event = [muted boolValue] ? ACPMediaEventStateStart : ACPMediaEventStateEnd;
+    [_tracker trackEvent:event info:muteState data:NULL];
+   
+}
+
+- (void)onCCUpdate:(NSNotification *)notification
+{
+    NSNumber* ccActive = [notification.userInfo objectForKey:@"ccActive"];
+    NSLog(@"[VideoAnalyticsProvider] Closed caption active : %@", [ccActive boolValue] ? @"Yes" : @"No");
+        NSDictionary* ccState = [ACPMedia createStateObjectWithName:ACPMediaPlayerStateClosedCaption];
+        ACPMediaEvent event = [ccActive boolValue] ? ACPMediaEventStateStart : ACPMediaEventStateEnd;
+        [_tracker trackEvent:event info:ccState data:NULL];
 }
 
 #pragma mark - Private helper methods
@@ -246,6 +262,16 @@ double const VIDEO_LENGTH = 1800;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onPlayheadUpdate:)
                                                  name:PLAYER_EVENT_PLAYHEAD_UPDATE
+                                               object:NULL];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onCCUpdate:)
+                                                 name:PLAYER_EVENT_CC_CHANGE
+                                               object:NULL];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onMuteUpdate:)
+                                                 name:PLAYER_EVENT_MUTE_CHANGE
                                                object:NULL];
 }
 
