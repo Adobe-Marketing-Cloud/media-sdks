@@ -65,7 +65,7 @@ NSString *const CONTENT_URL = @"http://devimages.apple.com.edgekey.net/streaming
     // Create the VideoAnalyticsProvider instance and attach it to the VideoPlayer instance.
     if (!self.videoAnalyticsProvider)
     {
-        self.videoAnalyticsProvider = [[VideoAnalyticsProvider alloc] initWithPlayerDelegate:self.videoPlayer];
+        self.videoAnalyticsProvider = [[VideoAnalyticsProvider alloc] initWithPlayer:self.videoPlayer];
     }
 }
 

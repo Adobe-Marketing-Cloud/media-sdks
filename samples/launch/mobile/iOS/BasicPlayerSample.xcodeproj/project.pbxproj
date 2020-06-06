@@ -28,7 +28,6 @@
 		C9606B3518D9E6EE00A8F275 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606B3418D9E6EE00A8F275 /* SystemConfiguration.framework */; };
 		C9606B3718D9E6FF00A8F275 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606B3618D9E6FF00A8F275 /* libsqlite3.dylib */; };
 		CD87105C2336D338009A117B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD87105B2336D338009A117B /* Default-568h@2x.png */; };
-		CDFCF77C214A44090079ECAB /* MediaTrackerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFCF77B214A44090079ECAB /* MediaTrackerHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,8 +59,6 @@
 		C9606B3418D9E6EE00A8F275 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9606B3618D9E6FF00A8F275 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CD87105B2336D338009A117B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "BasicPlayerSample/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		CDFCF77A214A43F50079ECAB /* MediaTrackerHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaTrackerHelper.h; sourceTree = "<group>"; };
-		CDFCF77B214A44090079ECAB /* MediaTrackerHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaTrackerHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +103,6 @@
 			children = (
 				3A50C0831C615D0C00288017 /* VideoAnalyticsProvider.h */,
 				3A50C0841C615D0C00288017 /* VideoAnalyticsProvider.m */,
-				CDFCF77A214A43F50079ECAB /* MediaTrackerHelper.h */,
-				CDFCF77B214A44090079ECAB /* MediaTrackerHelper.m */,
 			);
 			path = analytics;
 			sourceTree = "<group>";
@@ -259,7 +254,6 @@
 				3A50C08C1C615D0C00288017 /* VideoAnalyticsProvider.m in Sources */,
 				C9606AF818D9E22B00A8F275 /* main.m in Sources */,
 				3A50C08E1C615D0C00288017 /* AppDelegate.m in Sources */,
-				CDFCF77C214A44090079ECAB /* MediaTrackerHelper.m in Sources */,
 				3A50C0901C615D0C00288017 /* VideoPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

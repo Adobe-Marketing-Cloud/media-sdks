@@ -25,7 +25,7 @@
 /**
  * Initialization
  */
-- (instancetype)initWithPlayerDelegate:(id<VideoPlayerDelegate>)playerDelegate;
+- (nonnull instancetype)initWithPlayer:(nonnull VideoPlayer*) player;
 
 /**
  * Release the resources
