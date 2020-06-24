@@ -13,6 +13,9 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-js.html
 
+## 2.2.2 (June 24, 2020)
+- Bug fixes to improve stability and SDK performance.
+
 ## 2.2.1 (October 11, 2019)
 - Added support for [Adobe Opt In service](https://docs.adobe.com/content/help/en/id-service/using/implementation-guides/opt-in-service/getting-started.html).
 - Bug fixes to improve stability and SDK performance.
