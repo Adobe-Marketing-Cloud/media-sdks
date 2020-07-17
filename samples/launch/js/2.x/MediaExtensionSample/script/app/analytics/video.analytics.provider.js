@@ -38,7 +38,7 @@ configure Adobe Analytics for Video extension to export APIs to window object na
         self._tracker = tracker;
 
         self._queuedAPICalls.forEach(function(apiCall) {
-          self[apiCall].apply(self._tracker, apiCall.arguments);
+          self[apiCall.name].apply(self, apiCall.arguments);
         });
       }).catch(function(error) {
         console.log(error);
