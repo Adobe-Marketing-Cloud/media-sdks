@@ -4,7 +4,7 @@
 
 Adobe Analytics for Audio and Video is an add-on to the base Analytics offering that provides clients with robust measurement for audio, video and advertisements.
 
-Starting with v2.2.0 release, the Video Heartbeat Library (VHL) SDKs are renamed to Media SDKs to support Audio and Video tracking. The Media 2.2.0 SDK is fully backwards compatible with the VHL 2.x SDK series. The name change does not represent a functional break, simply a change in naming convention.
+Starting with v2.2 release, the Video Heartbeat Library (VHL) SDKs are renamed to Media SDKs to support Audio and Video tracking. The Media 2.2 SDK is fully backwards compatible with the VHL 2.x SDK series. The name change does not represent a functional break, simply a change in naming convention.
 
 Starting with v3.0, the SDK uses Media Collection API for tracking. The 3.x SDK is not backward compatible with 2.x SDK series.
 For more information on media collection endpoint, contact your Adobe representative.
