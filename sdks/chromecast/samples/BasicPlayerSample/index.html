@@ -1,5 +1,5 @@
 <!--
-Copyright 2014 Google Inc. All Rights Reserved.
+Copyright 2019 Google LLC. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,128 +16,75 @@ limitations under the License.
 <!--
 This sample demonstrates how to build your own Receiver for use with Google
 Cast.
-
-A receiver is typically an HTML5 application with a html, css, and JavaScript
-components.
-
-In this HTML5 page, we include our style sheet, the Receiver SDK, and our player
-JavaScript code.
-
-We Then define two layers within the player:
-
-1. The media layers
-2. The Overlay layers
-The overlay layer holds:
-   a. Logo for startup page
-   b. Media Artwork and information during loading
-   c. controls for Pause / Seek
  -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Cast Reference Receiver</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style/player.css" />
-  <script>
-    var ADBMobileConfig = {
-      "marketingCloud": {
-        "org": "972C898555E9F7BC7F000101@AdobeOrg"
-      },
-      "target": {
-        "clientCode": "",
-        "timeout": 5
-      },
-      "audienceManager": {
-        "server": "obumobile5.demdex.net"
-      },
-      "analytics": {
-        "rsids": "mobile5vhl.sample.player",
-        "server": "obumobile5.sc.omtrdc.net",
-        "ssl": true,
-        "offlineEnabled": false,
-        "charset": "UTF-8",
-        "lifecycleTimeout": 300,
-        "privacyDefault": "optedin",
-        "batchLimit": 0,
-        "timezone": "MDT",
-        "timezoneOffset": -360,
-        "referrerTimeout": 0,
-        "poi": []
-      },
-      "mediaHeartbeat": {
-        "server": "obumobile5.hb.omtrdc.net",
-        "publisher": "972C898555E9F7BC7F000101@AdobeOrg",
-        "channel": "test-channel-chromecast",
-        "ssl": true,
-        "ovp": "chromecast-player",
-        "sdkVersion": "chromecast-sdk",
-        "playerName": "Chromecast"
-      }
-    };
-  </script>
-  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
-  <script type="text/javascript" src="script/lib/adbmobile-chromecast.min.js"></script>
-  <script type="text/javascript" src="script/google/player.js"></script>
-  <script src="script/app/notification.center.js"></script>
-  <script src="script/app/player/video.player.js"></script>
-  <script src="script/app/analytics/video.analytics.provider.js"></script>
-
-</head>
-<body style="margin: 0">
-    <div id="player" class="player">
-        <div class="media">
-            <video></video>
-        </div>
-        <div class="logo"></div>
-        <div class="spinner"></div>
-        <div class="watermark"></div>
-        <div class="gradient"></div>
-        <div class="overlay">
-            <div class="media-info">
-                <div class="media-artwork"></div>
-                <div class="media-text">
-                    <div class="media-title"></div>
-                    <div class="media-subtitle"></div>
-                </div>
-            </div>
-            <div class="preview-mode-info">
-                <div class="preview-mode-artwork"></div>
-                <div class="preview-mode-text">
-	                <div class="preview-mode-timer">
-                        <div class="preview-mode-timer-starts">Up next in&nbsp;</div>
-                        <div class="preview-mode-timer-countdown"></div>
-                        <div class="preview-mode-timer-sec">&nbsp;secs...</div>
-                    </div>
-                    <div class="preview-mode-title"></div>
-                    <div class="preview-mode-subtitle"></div>
-                </div>
-            </div>
-            <div class="controls">
-                <span class="controls-play-pause"></span>
-                <span class="controls-cur-time"></span>
-                <span class="controls-total-time"></span>
-                <div class="controls-progress">
-                    <div class="controls-progress-inner progressBar"></div>
-                    <div class="controls-progress-thumb"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-      var playerDiv = document.getElementById('player');
-
-      //Create the VideoPlayer (From Chromecast sample player receiver)
-      var castplayer = new sampleplayer.CastPlayer(playerDiv);
-
-      // Create the VideoPlayer wrapper.
-      var videoPlayer = new VideoPlayer(castplayer);
-
-      // Create the AnalyticsProvider instance and attach it to the VideoPlayer instance.
-      var analyticsProvider = new VideoAnalyticsProvider(videoPlayer);
-
-      //Start the CastPlayer
-      castplayer.start();
-    </script>
-</body>
-</html>
+ 
+ <!DOCTYPE html>
+<<html>
+ <head>
+   <link rel="stylesheet" href="css/receiver.css" media="screen" />
+   <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>  
+    <!-- Cast Debug Logger -->
+    <script src="//www.gstatic.com/cast/sdk/libs/devtools/debug_layer/caf_receiver_logger.js"></script>
+   <script>
+     var ADBMobileConfig = {
+       "marketingCloud": {
+         "org": "972C898555E9F7BC7F000101@AdobeOrg"
+       },
+       "target": {
+         "clientCode": "",
+         "timeout": 5
+       },
+       "audienceManager": {
+         "server": "obumobile5.demdex.net"
+       },
+       "analytics": {
+         "rsids": "mobile5vhl.sample.player",
+         "server": "obumobile5.sc.omtrdc.net",
+         "ssl": true,
+         "offlineEnabled": false,
+         "charset": "UTF-8",
+         "lifecycleTimeout": 300,
+         "privacyDefault": "optedin",
+         "batchLimit": 0,
+         "timezone": "MDT",
+         "timezoneOffset": -360,
+         "referrerTimeout": 0,
+         "poi": []
+       },
+       "mediaHeartbeat": {
+         "server": "obumobile5.hb-api.omtrdc.net",
+         "publisher": "972C898555E9F7BC7F000101@AdobeOrg",
+         "channel": "test-channel-chromecast",
+         "ssl": true,
+         "ovp": "chromecast-player",
+         "sdkVersion": "chromecast-sdk",
+         "playerName": "Chromecast"
+       }
+     };
+   </script>
+   <script src="script/lib/adbmobile-chromecast.min.js"></script>  
+   <script src="script/app/notification.center.js"></script>
+   <script src="script/app/player/video.player.js"></script>  
+   <script src="script/app/analytics/video.analytics.provider.js"></script>
+ </head>
+ 
+ <body>
+ 
+   <cast-media-player></cast-media-player>
+ 
+   <script>    
+     const context = cast.framework.CastReceiverContext.getInstance();
+     
+     // Create the VideoPlayer wrapper.
+     const videoPlayer = new VideoPlayer(context);
+ 
+     // Create the AnalyticsProvider instance and attach it to the VideoPlayer instance.
+     const analyticsProvider = new VideoAnalyticsProvider(videoPlayer);    
+     
+     const options = cast.framework.CastReceiverOptions();    
+     context.start(options);
+     
+   </script>    
+ </body>
+ 
+ </html>

@@ -28,7 +28,10 @@
         AD_BREAK_START: "ad_break_start",
         AD_BREAK_COMPLETE: "ad_break_complete",
         CHAPTER_START: "chapter_start",
-        CHAPTER_COMPLETE: "chapter_complete"
+        CHAPTER_COMPLETE: "chapter_complete",
+        MUTE_CHANGE : "mute_change",
+        FULLSCREEN_CHANGE : "fullscreen_change",
+        QOS_UPDATE: "qos_update"
     };
 
     // This sample VideoPlayer simulates a mid-roll ad at time 15:
@@ -45,11 +48,9 @@
 
     var MONITOR_TIMER_INTERVAL = 500;
 
-    function VideoPlayer(castplayer) {
-        this._playerName = "Chromecast Custom Cast Player";
-
-        this._videoId = "clickbaby";
-        this._videoName = "sample video click-baby";
+    function VideoPlayer(context) {        
+        this._playerManager = context.getPlayerManager();
+        this._playerName = "Chromecast Sample player";
         this._streamType = ADBMobile.media.StreamType.VOD;
         this._mediaType = ADBMobile.media.MediaType.Video;
 
@@ -61,123 +62,49 @@
         this._chapterInfo = null;
 
         // Build a static/hard-coded QoS info here.
-        this._qosInfo = ADBMobile.media.createQoSObject(50000, 0, 24, 10);
+        this._qosInfo = {
+            bitrate: 50000,
+            startupTime : 1.0,
+            fps: 23,
+            droppedFrames: 0,
+        };        
         this._clock = null;
-
-        this._castplayer = castplayer;
-        this._state = "created";
-        this._isPaused = true;
-        this._reachedEnd = false;
         
-        this._setupEventListeners();
+
+        this._muted = false;
+        
+        var self = this;
+        this._playerManager.addEventListener(cast.framework.events.EventType.PLAY, function() {
+            self._onPlay();
+        });
+
+        this._playerManager.addEventListener(cast.framework.events.EventType.SEEKING, function() {
+            self._onSeekStart();
+        });
+
+        this._playerManager.addEventListener(cast.framework.events.EventType.SEEKED, function() {            
+            self._onSeekComplete();
+        });
+
+        this._playerManager.addEventListener(cast.framework.events.EventType.PAUSE, function() {                        
+            self._onPause();
+        });
+
+        this._playerManager.addEventListener(cast.framework.events.EventType.MEDIA_FINISHED, function() {
+            self._onComplete();
+        });
+                
+        context.addEventListener(cast.framework.system.EventType.SYSTEM_VOLUME_CHANGED, function(volumeEventData) {
+                var volume = volumeEventData.data;
+                var mute = volume.level === 0 || volume.muted;
+                if (self._muted != mute) {
+                    self._muted = mute;
+                    self._onMuteChange();
+                }
+        });
     }
 
-    VideoPlayer.prototype._setupEventListeners = function(){
-        var self = this;
-
-        //Use the setState function in CastPlayer to identify the current state of the playback
-        this._castplayer.setState_ = function(state, opt_crossfade, opt_delay){
-
-            //Call the prototype setState
-            sampleplayer.CastPlayer.prototype.setState_.call(self._castplayer, state, opt_crossfade, opt_delay);
-
-            //When the state is set (After delay/transitions).
-            if(!opt_crossfade && !opt_delay && state){
-                if(state === sampleplayer.State.LOADING){
-
-                }
-                else if(state === sampleplayer.State.BUFFERING)
-                {
-                    if(self._state != "buffering"){
-                        self._onBufferStart();
-                        self._state = "buffering";
-                    }
-                }
-                else if(state === sampleplayer.State.PLAYING)
-                {
-                    if(self._state == "buffering"){
-                        self._onBufferComplete();
-                    }else if(self._state != "playing"){
-                        self._onPlay();
-                    }
-
-                    self._state = "playing";
-                    self._isPaused = false;
-                }
-                else if(state === sampleplayer.State.PAUSED)
-                {
-                    if(self._state != "paused")
-                    {
-                        self._onPause();
-                        self._state = "paused";
-                        self._isPaused = true;
-                    }
-                }
-                else if(state === sampleplayer.State.DONE)
-                {
-                    if(self._state != "completed")
-                    {
-                        self._onComplete();
-                        self._state = "completed";
-                    }
-                }
-                else if(state === sampleplayer.State.IDLE)
-                {
-                    //Either the player is ready, in error state, or the App went idle
-                    if(self._state == "created")
-                    {
-                        //Player is ready
-                        self._state = "ready";
-                    }
-                    //1 Second of offset. If the current playhead is close to the end we consider this scenario as completed
-                    else if(self._reachedEnd)
-                    {
-                        self._onComplete();
-                        self._state = "completed";
-                    }
-                    else
-                    {
-                        //Player is in error state or went idle (pause tracking for now)
-                        self._onPause();
-                        self._state = "paused";
-                        self._isPaused = true;
-                    }
-                }
-            }
-        };
-
-        this._castplayer.onSeekStart_ = function(){
-
-            //Call the prototype setState
-            sampleplayer.CastPlayer.prototype.onSeekStart_.call(self._castplayer);
-
-            if(self._state != "seeking"){
-                self._onSeekStart();
-                self._state = "seeking";
-            }
-        };
-
-        this._castplayer.onSeekEnd_ = function(){
-
-            //Call the prototype setState
-            sampleplayer.CastPlayer.prototype.onSeekEnd_.call(self._castplayer);
-
-            if(self._state == "seeking"){
-                self._onSeekComplete();
-                self._state = self._isPaused ? "paused" : "playing";
-            }
-        };
-    };
-
     VideoPlayer.prototype.getVideoInfo = function() {
-        if (this._adInfo) { // During ad playback the main video playhead remains
-           // constant at where it was when the ad started
-           this._videoInfo.playhead = AD_START_POS;
-        } else {
-           var vTime = this.getPlayhead();
-           this._videoInfo.playhead = (vTime < AD_START_POS) ? vTime : vTime - AD_LENGTH;
-        }
-
         return this._videoInfo;
     };
 
@@ -198,14 +125,14 @@
     };
 
     VideoPlayer.prototype.getDuration = function() {
-        return this._castplayer.mediaElement_.duration - AD_LENGTH;;
+        return this._playerManager.getDurationSec() - AD_LENGTH;
     };
 
     VideoPlayer.prototype.getPlayhead = function() {
-        return this._castplayer.mediaElement_.currentTime;
+        return this._playerManager.getCurrentTimeSec();
     };
 
-     VideoPlayer.prototype.getCurrentPlaybackTime = function() {
+    VideoPlayer.prototype.getCurrentPlaybackTime = function() {
         var vTime = this.getPlayhead();
         var time;
         if(vTime < AD_START_POS){
@@ -220,46 +147,63 @@
 
         return time;
     };
+    
+    VideoPlayer.prototype.isMuted = function() {
+        return this._muted;
+    };
 
+    VideoPlayer.prototype.isFullscreen = function() {
+        return this._fullScreen;
+    };
+
+    VideoPlayer.prototype._onMuteChange = function(e) {   
+        if (this._videoLoaded) {     
+            NotificationCenter().dispatchEvent(PlayerEvent.MUTE_CHANGE);
+        }
+    };
+
+    VideoPlayer.prototype._onFullScreenChange = function(e) {        
+        if (this._videoLoaded) {
+            NotificationCenter().dispatchEvent(PlayerEvent.FULLSCREEN_CHANGE);
+        }
+    };
+    
     VideoPlayer.prototype._onPlay = function(e) {
         this._openVideoIfNecessary();
+        this._paused = false;
+        this._seeking = false;
         NotificationCenter().dispatchEvent(PlayerEvent.PLAY);
     };
 
     VideoPlayer.prototype._onPause = function(e) {
+        this._paused = true;
         NotificationCenter().dispatchEvent(PlayerEvent.PAUSE);
     };
 
     VideoPlayer.prototype._onSeekStart = function(e) {
         this._openVideoIfNecessary();
+        this._seeking = true;
         NotificationCenter().dispatchEvent(PlayerEvent.SEEK_START);
     };
 
     VideoPlayer.prototype._onSeekComplete = function(e) {
+        this._seeking = false;
         this._doPostSeekComputations();
         NotificationCenter().dispatchEvent(PlayerEvent.SEEK_COMPLETE);
-    };
-
-    VideoPlayer.prototype._onBufferStart = function(e) {
-        this._openVideoIfNecessary();
-        NotificationCenter().dispatchEvent(PlayerEvent.BUFFER_START);
-    };
-
-    VideoPlayer.prototype._onBufferComplete = function(e) {
-        this._doPostSeekComputations();
-        NotificationCenter().dispatchEvent(PlayerEvent.BUFFER_COMPLETE);
     };
 
     VideoPlayer.prototype._onComplete = function(e) {
         this._completeVideo();
     };
+    
 
     VideoPlayer.prototype._openVideoIfNecessary = function() {
         if (!this._videoLoaded) {
             this._resetInternalState();
+
             this._startVideo();
 
-            //Start the monitor timer.
+            // Start the monitor timer.
             var self = this;
             this._clock = setInterval(function() {
                 self._onTick();
@@ -288,39 +232,50 @@
     VideoPlayer.prototype._resetInternalState = function() {
         this._videoLoaded = false;
         this._clock = null;
-
-        this._videoInfo = null;
-        this._adBreakInfo = null;
-        this._adInfo = null;
-        this._chapterInfo = null;
-
-        this._state = "created";
-        this._isPaused = true;
-        this._reachedEnd = false;
     };
 
     VideoPlayer.prototype._startVideo = function() {
-
-        var media = this._castplayer.mediaManager_.getMediaInformation();        
-
         // Prepare the main video info.
-        var id = media.metadata.title ? media.metadata.title : "Undefined video id";
+        var media = this._playerManager.getMediaInformation();
+        var id = media.contentId ? media.contentId : "Undefined video id";
         var name = media.metadata.title ? media.metadata.title : "Undefined video name";
-        this._videoInfo = ADBMobile.media.createMediaObject(name, id, this.getDuration(), this._streamType, this._mediaType);
+        this._videoInfo = {
+            id : id,
+            name : name,
+            duration: this.getDuration(),
+            streamType : this._streamType,
+            mediaType : this._mediaType
+        }        
         this._videoLoaded = true;
 
         NotificationCenter().dispatchEvent(PlayerEvent.VIDEO_LOAD);
+
+        NotificationCenter().dispatchEvent(PlayerEvent.QOS_UPDATE);
+
+         if (this._muted) {
+            this._onMuteChange();
+        }        
     };
 
     VideoPlayer.prototype._startChapter1 = function() {
         // Prepare the chapter info.
-        this._chapterInfo = ADBMobile.media.createChapterObject("First Chapter", 1, CHAPTER1_LENGTH, CHAPTER1_START_POS);        
+        this._chapterInfo = {
+            name : "First Chapter",
+            position: 1,
+            length: CHAPTER1_LENGTH,
+            startTime: CHAPTER1_START_POS
+        };
         NotificationCenter().dispatchEvent(PlayerEvent.CHAPTER_START);
     };
 
     VideoPlayer.prototype._startChapter2 = function() {
         // Prepare the chapter info.
-        this._chapterInfo = ADBMobile.media.createChapterObject("Second Chapter", 2, CHAPTER2_LENGTH, CHAPTER2_START_POS);        
+        this._chapterInfo = {
+            name : "Second Chapter",
+            position: 2,
+            length: CHAPTER2_LENGTH,
+            startTime: CHAPTER2_START_POS
+        };        
         NotificationCenter().dispatchEvent(PlayerEvent.CHAPTER_START);
     };
 
@@ -333,10 +288,20 @@
 
     VideoPlayer.prototype._startAd = function() {
         // Prepare the ad break info.
-        this._adBreakInfo = ADBMobile.media.createAdBreakObject("First Ad-Break", 1, AD_START_POS, this._playerName);
-        // Prepare the ad info.        
-        this._adInfo = ADBMobile.media.createAdObject("Sample ad", "001", 1, AD_LENGTH);
+        this._adBreakInfo = {
+          name :   "First Ad-Break",
+          position : 1,
+          startTime : AD_START_POS,
+        };
 
+        // Prepare the ad info.        
+        this._adInfo =  {
+            name : "Sample ad",
+            id : "001",
+            position : 1,
+            length: AD_LENGTH   
+        };
+        
         // Start the ad break.
         NotificationCenter().dispatchEvent(PlayerEvent.AD_BREAK_START);
         NotificationCenter().dispatchEvent(PlayerEvent.AD_START);
@@ -397,22 +362,12 @@
         NotificationCenter().dispatchEvent(PlayerEvent.PLAYHEAD_UPDATE);
     };
 
-    VideoPlayer.prototype._onTick = function() {
-
-        if(this._state == "seeking" || this._state == "paused"){
+    VideoPlayer.prototype._onTick = function() {        
+        if (this.seeking || this.paused) {
             return;
         }
 
         var vTime = this.getPlayhead();
-
-        //Chromecast player uses playhead 0 before and after the video plays. Ignoring playhead 0.
-        if(vTime == 0){
-            return
-        }
-
-        if(Math.abs(this.getDuration() - vTime) <= 1.0){
-            this._reachedEnd = true;
-        }
 
         // If we're inside the ad content:
         if (vTime >= AD_START_POS && vTime < AD_END_POS) {

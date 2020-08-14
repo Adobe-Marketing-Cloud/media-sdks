@@ -22,7 +22,7 @@
 
         // Sample to set the privacy status
         //ADBMobile.config.setPrivacyStatus(ADBMobile.config.PRIVACY_STATUS_OPT_IN);
-
+        
         //Enable logging
         ADBMobile.config.setDebugLogging(true);
 
@@ -37,7 +37,7 @@
 
     VideoAnalyticsProvider.prototype.destroy = function() {
         if (this._player) {
-           // Remove delegate reference
+            // Remove delegate reference
             ADBMobile.media.setDelegate(null);
 
             this._uninstallEventListeners();            
@@ -53,7 +53,7 @@
     };
 
     VideoAnalyticsProvider.prototype.getQoSObject = function() {
-        return this._player.getQoSInfo();
+        return this._qosInfo;        
     };
 
     /////////
@@ -64,26 +64,23 @@
 
         console.log('Player event: VIDEO_LOAD');
 
-        var VideoMetadataKeys = ADBMobile.media.VideoMetadataKeys;
-
         var mediaMetadata = {
             isUserLoggedIn: "false",
             tvStation: "Sample TV station",
             programmer: "Sample programmer"
         };
 
-        var mediaObject = this._player.getVideoInfo();
+        var info = this._player.getVideoInfo();        
+        var mediaInfo  = ADBMobile.media.createMediaObject(info.name, info.id, info.duration, info.streamType, info.mediaType);
 
         var standardVideoMetadata = {};
-        standardVideoMetadata[VideoMetadataKeys.SHOW] = "Sample show";
-        standardVideoMetadata[VideoMetadataKeys.SEASON] = "Sample season";
+        standardVideoMetadata[ADBMobile.media.VideoMetadataKeys.SHOW] = "Sample show";
+        standardVideoMetadata[ADBMobile.media.VideoMetadataKeys.SEASON] = "Sample season";
+        mediaInfo[ADBMobile.media.MediaObjectKey.StandardMediaMetadata] = standardVideoMetadata;
 
-        mediaObject[ADBMobile.media.MediaObjectKey.StandardVideoMetadata] = standardVideoMetadata;
+        //mediaInfo[ADBMobile.media.MediaObjectKey.MediaResumed] = true;
 
-        //Set to true if this video session is a resumed session
-        //mediaObject[ADBMobile.media.MediaObjectKey.VideoResumed] = true;
-
-        ADBMobile.media.trackSessionStart(mediaObject, mediaMetadata);
+        ADBMobile.media.trackSessionStart(mediaInfo, mediaMetadata);
     };
 
     VideoAnalyticsProvider.prototype._onUnload = function() {
@@ -97,14 +94,14 @@
     };
 
     VideoAnalyticsProvider.prototype._onUpdate = function() {
-        console.log('Player event: PLAYHEAD UPDATE');
+        console.log('Player event: PLAYHEAD UPDATE');        
     };
 
     VideoAnalyticsProvider.prototype._onPause = function() {
         console.log('Player event: PAUSE');
         ADBMobile.media.trackPause();
     };
-
+ 
     VideoAnalyticsProvider.prototype._onSeekStart = function() {
         console.log('Player event: SEEK_START');
         ADBMobile.media.trackEvent(ADBMobile.media.Event.SeekStart);
@@ -133,21 +130,31 @@
             campaign: "Sample ad campaign"
         };
 
-        ADBMobile.media.trackEvent(ADBMobile.media.Event.AdStart, this._player.getAdInfo(), adContextData);
+        var info = this._player.getAdInfo();
+        var adInfo = ADBMobile.media.createAdObject(info.name, info.id, info.position, info.length);
+        
+        var standardAdMetadata = {};
+        standardAdMetadata[ADBMobile.media.AdMetadataKeys.ADVERTISER] = "Sample advertiser";
+        standardAdMetadata[ADBMobile.media.AdMetadataKeys.CAMPAIGN_ID] = "Sample campaign id";
+        adInfo[ADBMobile.media.MediaObjectKey.StandardAdMetadata] = standardAdMetadata;
+
+        ADBMobile.media.trackEvent(ADBMobile.media.Event.AdStart, adInfo, adContextData);
     };
 
     VideoAnalyticsProvider.prototype._onAdComplete = function() {
-        console.log('Player event: AD_BREAK_COMPLETE');
+        console.log('Player event: AD_COMPLETE');
         ADBMobile.media.trackEvent(ADBMobile.media.Event.AdComplete);
     };
 
     VideoAnalyticsProvider.prototype._onAdBreakStart = function() {
         console.log('Player event: AD_BREAK_START');
-        ADBMobile.media.trackEvent(ADBMobile.media.Event.AdBreakStart, this._player.getAdBreakInfo());
+        var info = this._player.getAdBreakInfo();
+        var adBreakInfo = ADBMobile.media.createAdBreakObject(info.name, info.position, info.startTime);
+        ADBMobile.media.trackEvent(ADBMobile.media.Event.AdBreakStart, adBreakInfo );
     };
 
     VideoAnalyticsProvider.prototype._onAdBreakComplete = function() {
-        console.log('Player event: AD_BREAK_START');
+        console.log('Player event: AD_BREAK_COMPLETE');
         ADBMobile.media.trackEvent(ADBMobile.media.Event.AdBreakComplete);
     };
 
@@ -156,7 +163,10 @@
         var chapterContextData = {
             segmentType: "Sample segment type"
         };
-        ADBMobile.media.trackEvent(ADBMobile.media.Event.ChapterStart, this._player.getChapterInfo(), chapterContextData);
+
+        var info = this._player.getChapterInfo();
+        var chapterInfo = ADBMobile.media.createChapterObject(info.name, info.position, info.length, info.startTime);
+        ADBMobile.media.trackEvent(ADBMobile.media.Event.ChapterStart, chapterInfo, chapterContextData);
     };
 
     VideoAnalyticsProvider.prototype._onChapterComplete = function() {
@@ -167,6 +177,33 @@
     VideoAnalyticsProvider.prototype._onComplete = function() {
         console.log('Player event: COMPLETE');
         ADBMobile.media.trackComplete();
+    };
+
+    VideoAnalyticsProvider.prototype._onQoSUpdate = function () {
+        console.log('Player event: QOS_UPDATE');
+        var info = this._player.getQoSInfo();
+        this._qosInfo = ADBMobile.media.createQoSObject(info.bitrate, info.droppedFrames, info.fps, info.startupTime);
+    };
+
+    VideoAnalyticsProvider.prototype._onMuteChange = function () {
+        var muted = this._player.isMuted()
+        console.log('Player event: MUTE_CHANGE to ' + muted);
+
+        var info = ADBMobile.media.createStateObject(ADBMobile.media.PlayerState.Mute);
+        var event = muted ? ADBMobile.media.Event.StateStart : ADBMobile.media.Event.StateEnd;
+
+        ADBMobile.media.trackEvent(event, info);        
+    };
+    
+
+    VideoAnalyticsProvider.prototype._onFullscreenChange = function () {
+        var fullscreen = this._player.isFullscreen()
+        console.log('Player event: FULLSCREEN_CHANGE to ' + fullscreen);
+
+        var info = ADBMobile.media.createStateObject(ADBMobile.media.PlayerState.FullScreen);
+        var event = fullscreen ? ADBMobile.media.Event.StateStart : ADBMobile.media.Event.StateEnd;
+
+        ADBMobile.media.trackEvent(event, info);    
     };
 
 
@@ -192,6 +229,9 @@
         NotificationCenter().addEventListener(PlayerEvent.CHAPTER_START, this._onChapterStart, this);
         NotificationCenter().addEventListener(PlayerEvent.CHAPTER_COMPLETE, this._onChapterComplete, this);
         NotificationCenter().addEventListener(PlayerEvent.COMPLETE, this._onComplete, this);
+        NotificationCenter().addEventListener(PlayerEvent.QOS_UPDATE, this._onQoSUpdate, this);
+        NotificationCenter().addEventListener(PlayerEvent.MUTE_CHANGE, this._onMuteChange, this);
+        NotificationCenter().addEventListener(PlayerEvent.FULLSCREEN_CHANGE, this._onFullscreenChange, this);
     };
 
     VideoAnalyticsProvider.prototype._uninstallEventListeners = function() {
@@ -212,6 +252,9 @@
         NotificationCenter().removeEventListener(PlayerEvent.CHAPTER_START, this._onChapterStart, this);
         NotificationCenter().removeEventListener(PlayerEvent.CHAPTER_COMPLETE, this._onChapterComplete, this);
         NotificationCenter().removeEventListener(PlayerEvent.COMPLETE, this._onComplete, this);
+        NotificationCenter().removeEventListener(PlayerEvent.QOS_UPDATE, this._onQoSUpdate, this);
+        NotificationCenter().removeEventListener(PlayerEvent.MUTE_CHANGE, this._onMuteChange, this);
+        NotificationCenter().removeEventListener(PlayerEvent.FULLSCREEN_CHANGE, this._onFullscreenChange, this);
     };
 
     // Export symbols.

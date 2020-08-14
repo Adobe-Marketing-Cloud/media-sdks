@@ -3,7 +3,15 @@
 Included are notes from the latest major revision to current.
 
 For full documentation please visit:
-https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/chromecast/
+https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-chromecast.html
+
+## 3.0.0 (14 August, 2020)
+What's new :
+- Breaking change - 3.x SDK uses collection API endpoint for media tracking. Make sure to update "mediaHeartbeat.server" in ADBMobileConfig to correct endpoint. Contact your adobe representative for more information.
+- Removed deprecated APIs from earlier version.
+- Implement player state tracking.
+- Expose standard player state constants
+- Bug fixes to improve stability and SDK performance.
 
 ## 2.2.0 (7 March, 2019)
 What's new :
