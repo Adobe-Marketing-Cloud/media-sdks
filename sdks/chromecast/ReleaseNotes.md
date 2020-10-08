@@ -5,6 +5,11 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-chromecast.html
 
+## 3.0.1 (8 October, 2020)
+What's new :
+- Changed the default ad tracking granularity to 10 seconds. Added configuration key to enable 1 sec ad tracking.
+- Restart tracking session every 24 hours for long-running sessions.
+
 ## 3.0.0 (14 August, 2020)
 What's new :
 - Breaking change - 3.x SDK uses collection API endpoint for media tracking. Make sure to update "mediaHeartbeat.server" in ADBMobileConfig to correct endpoint. Contact your adobe representative for more information.

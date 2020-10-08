@@ -20,14 +20,11 @@
 
         this._player = player;
 
-        // Sample to set the privacy status
-        //ADBMobile.config.setPrivacyStatus(ADBMobile.config.PRIVACY_STATUS_OPT_IN);
-        
         //Enable logging
         ADBMobile.config.setDebugLogging(true);
 
-        //If needed, set Custom User unique identifier
-        //ADBMobile.config.setUserIdentifier("test-UserId");
+        //Set User Id
+        ADBMobile.config.setUserIdentifier("test-UserId");
 
         //Set media delegate
         ADBMobile.media.setDelegate(this);
