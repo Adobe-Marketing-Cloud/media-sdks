@@ -228,8 +228,8 @@ ADB.Media.trackSessionStart(mediaObject, contextData);
 var mediaObject = ADB.Media.createMediaObject("media-name", "media-id", 60, ADB.Media.StreamType.VOD, ADB.Media.MediaType.Video);
 
 var contextData = {};
-contextData[ADB.Media.VideoMetadataKeys.EPISODE] = "Sample Episode";
-contextData[ADB.Media.VideoMetadataKeys.SHOW] = "Sample Show";
+contextData[ADB.Media.VideoMetadataKeys.Episode] = "Sample Episode";
+contextData[ADB.Media.VideoMetadataKeys.Show] = "Sample Show";
 contextData["isUserLoggedIn"] = "false";
 contextData["tvStation"] = "Sample TV Station";
 
@@ -357,8 +357,8 @@ ADB.Media.trackEvent(event, info, contextData);
 
   var adMetadata = {};
   // Standard metadata keys provided by adobe.
-  adMetadata[ADB.Media.AdMetadataKeys.ADVERTISER]  ="Sample Advertiser";
-  adMetadata[ADB.Media.AdMetadataKeys.CAMPAIGN_ID] = "Sample Campaign";
+  adMetadata[ADB.Media.AdMetadataKeys.Advertiser]  ="Sample Advertiser";
+  adMetadata[ADB.Media.AdMetadataKeys.CampaignId] = "Sample Campaign";
   // Custom metadata keys  
   adMetadata["affiliate"] = "Sample affiliate";
   

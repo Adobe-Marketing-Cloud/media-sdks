@@ -1,14 +1,19 @@
 # Release Notes for JavaScript Media SDK 3.x
 
+## 3.0.1 (October 8, 2020)
+
+- Changed the default ad tracking granularity to 10 seconds. Added configuration key to enable 1 sec ad tracking.
+- Restart tracking session every 24 hours for long-running sessions.
+
 ## 3.0.0 (April 22, 2020)
 
-- Renamed PlayerState constant CloseCaption to ClosedCaption
-- Minor bug fixes
+- Renamed PlayerState constant CloseCaption to ClosedCaption.
+- Minor bug fixes.
 
 ## 3.0.0-beta.0 (April 13, 2020)
 
 - Breaking API change : Renamed StandardMetadata and StreamType keys from upper case for consistency.
-- Expose standard player state constants
+- Expose standard player state constants.
 - Bug fixes around privacy settings.
 
 ## 3.0.0-alpha.1 (March 30, 2020)
