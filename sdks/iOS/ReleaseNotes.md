@@ -12,6 +12,9 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
 
+## 2.2.8 (December 1, 2020)
+- Fix race conditions to improve SDK stability.
+
 ## 2.2.7 (January 15, 2020)
 - Fix race conditions to improve SDK stability.
 
