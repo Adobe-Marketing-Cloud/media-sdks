@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "AdobeMediaSDK"
-  s.version      = "2.2.7"
+  s.version      = "2.2.8"
   s.summary      = "AdobeMediaSDK is Adobe’s standardized Analytics solution for Audio and Video. This is the only official Adobe MediaSDK Pod."
   s.description  = <<-DESC
                     Adobe Analytics for Media enables clients to track the full customer journey across their site, which includes audio and video consumption, and these measures are easily integrated into Analytics reporting and other Experience Cloud products.
