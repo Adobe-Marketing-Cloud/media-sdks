@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2155C60120F7F35E00367FA8 /* MediaSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2155C5E520F7F35E00367FA8 /* MediaSDK.a */; };
 		2155C61220F7F45900367FA8 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2155C61120F7F45900367FA8 /* libc++.tbd */; };
 		2155C61420F7F46500367FA8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2155C61320F7F46500367FA8 /* WebKit.framework */; };
 		2155C61620F7F47000367FA8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2155C61520F7F47000367FA8 /* UserNotifications.framework */; };
@@ -37,6 +36,11 @@
 		3A50C09D1C615D5E00288017 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A50C0991C615D5E00288017 /* InfoPlist.strings */; };
 		3A50C09E1C615D5E00288017 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A50C09B1C615D5E00288017 /* Images.xcassets */; };
 		3A50C09F1C615D5E00288017 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A50C09B1C615D5E00288017 /* Images.xcassets */; };
+		AC0B4FAF258CB8B700A9EA91 /* MediaSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FAD258CB8B700A9EA91 /* MediaSDK.xcframework */; };
+		AC0B4FB0258CB8B700A9EA91 /* AdobeMobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FAE258CB8B700A9EA91 /* AdobeMobile.xcframework */; };
+		AC0B4FB5258CB9E900A9EA91 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CDB957732187CA800078F434 /* ADBMobileConfig.json */; };
+		AC0B4FC4258CBB3800A9EA91 /* MediaSDKTV.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FC2258CBB3800A9EA91 /* MediaSDKTV.xcframework */; };
+		AC0B4FC5258CBB3800A9EA91 /* AdobeMobileTV.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FC3258CBB3800A9EA91 /* AdobeMobileTV.xcframework */; };
 		C9606AEC18D9E22B00A8F275 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606AEB18D9E22B00A8F275 /* Foundation.framework */; };
 		C9606AEE18D9E22B00A8F275 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606AED18D9E22B00A8F275 /* CoreGraphics.framework */; };
 		C9606AF018D9E22B00A8F275 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606AEF18D9E22B00A8F275 /* UIKit.framework */; };
@@ -44,19 +48,10 @@
 		C9606B3318D9E6E300A8F275 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606B3218D9E6E300A8F275 /* MediaPlayer.framework */; };
 		C9606B3518D9E6EE00A8F275 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606B3418D9E6EE00A8F275 /* SystemConfiguration.framework */; };
 		C9606B3718D9E6FF00A8F275 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606B3618D9E6FF00A8F275 /* libsqlite3.dylib */; };
-		CD6E9CBE2182C1FC00C24775 /* MediaSDK_TV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2155C5E420F7F35E00367FA8 /* MediaSDK_TV.a */; };
-		CD6E9CBF2182C20E00C24775 /* AdobeMobileLibrary_TV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA4DA9E2182BA2400BC77AC /* AdobeMobileLibrary_TV.a */; };
-		CDA4DA9F2182BA2400BC77AC /* AdobeMobileLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA4DA9C2182BA2400BC77AC /* AdobeMobileLibrary.a */; };
-		CDB957742187CA810078F434 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CDB957732187CA800078F434 /* ADBMobileConfig.json */; };
 		CDB957752187CAB10078F434 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CDB957732187CA800078F434 /* ADBMobileConfig.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2155C5E420F7F35E00367FA8 /* MediaSDK_TV.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = MediaSDK_TV.a; sourceTree = "<group>"; };
-		2155C5E520F7F35E00367FA8 /* MediaSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = MediaSDK.a; sourceTree = "<group>"; };
-		2155C5E720F7F35E00367FA8 /* ADBMediaHeartbeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMediaHeartbeat.h; sourceTree = "<group>"; };
-		2155C5E820F7F35E00367FA8 /* ADBMediaHeartbeatConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMediaHeartbeatConfig.h; sourceTree = "<group>"; };
-		2155C5E920F7F35E00367FA8 /* ADBStandardMetadataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBStandardMetadataKeys.h; sourceTree = "<group>"; };
 		2155C61120F7F45900367FA8 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2155C61320F7F46500367FA8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2155C61520F7F47000367FA8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -78,6 +73,10 @@
 		3A50C0961C615D4800288017 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.1.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		3A50C09A1C615D5E00288017 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3A50C09B1C615D5E00288017 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AC0B4FAD258CB8B700A9EA91 /* MediaSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MediaSDK.xcframework; path = libs/MediaSDK.xcframework; sourceTree = "<group>"; };
+		AC0B4FAE258CB8B700A9EA91 /* AdobeMobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AdobeMobile.xcframework; path = libs/AdobeMobile.xcframework; sourceTree = "<group>"; };
+		AC0B4FC2258CBB3800A9EA91 /* MediaSDKTV.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MediaSDKTV.xcframework; path = libs/MediaSDKTV.xcframework; sourceTree = "<group>"; };
+		AC0B4FC3258CBB3800A9EA91 /* AdobeMobileTV.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AdobeMobileTV.xcframework; path = libs/AdobeMobileTV.xcframework; sourceTree = "<group>"; };
 		C9606AE818D9E22B00A8F275 /* BasicPlayerSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicPlayerSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9606AEB18D9E22B00A8F275 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9606AED18D9E22B00A8F275 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -88,10 +87,7 @@
 		C9606B3218D9E6E300A8F275 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		C9606B3418D9E6EE00A8F275 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9606B3618D9E6FF00A8F275 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CDA4DA9C2182BA2400BC77AC /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary.a; sourceTree = "<group>"; };
-		CDA4DA9D2182BA2400BC77AC /* ADBMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADBMobile.h; sourceTree = "<group>"; };
-		CDA4DA9E2182BA2400BC77AC /* AdobeMobileLibrary_TV.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AdobeMobileLibrary_TV.a; sourceTree = "<group>"; };
-		CDB957732187CA800078F434 /* ADBMobileConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ADBMobileConfig.json; path = libs/AdobeMobile/ADBMobileConfig.json; sourceTree = "<group>"; };
+		CDB957732187CA800078F434 /* ADBMobileConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ADBMobileConfig.json; path = libs/ADBMobileConfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +95,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD6E9CBF2182C20E00C24775 /* AdobeMobileLibrary_TV.a in Frameworks */,
-				CD6E9CBE2182C1FC00C24775 /* MediaSDK_TV.a in Frameworks */,
+				AC0B4FC4258CBB3800A9EA91 /* MediaSDKTV.xcframework in Frameworks */,
+				AC0B4FC5258CBB3800A9EA91 /* AdobeMobileTV.xcframework in Frameworks */,
 				3A00EE831C5ED1C300DE614A /* libsqlite3.dylib in Frameworks */,
 				3A50C0971C615D4800288017 /* CoreMedia.framework in Frameworks */,
 				3A50C07E1C615CE000288017 /* AVKit.framework in Frameworks */,
@@ -117,9 +113,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC0B4FAF258CB8B700A9EA91 /* MediaSDK.xcframework in Frameworks */,
+				AC0B4FB0258CB8B700A9EA91 /* AdobeMobile.xcframework in Frameworks */,
 				2155C61820F7F47B00367FA8 /* libz.tbd in Frameworks */,
 				2155C61220F7F45900367FA8 /* libc++.tbd in Frameworks */,
-				2155C60120F7F35E00367FA8 /* MediaSDK.a in Frameworks */,
 				C9606B3718D9E6FF00A8F275 /* libsqlite3.dylib in Frameworks */,
 				2155C61620F7F47000367FA8 /* UserNotifications.framework in Frameworks */,
 				2155C61420F7F46500367FA8 /* WebKit.framework in Frameworks */,
@@ -131,52 +128,12 @@
 				C9606AEE18D9E22B00A8F275 /* CoreGraphics.framework in Frameworks */,
 				C9606AF018D9E22B00A8F275 /* UIKit.framework in Frameworks */,
 				C9606AEC18D9E22B00A8F275 /* Foundation.framework in Frameworks */,
-				CDA4DA9F2182BA2400BC77AC /* AdobeMobileLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2155C5E220F7F35E00367FA8 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				2155C5E320F7F35E00367FA8 /* MediaSDK */,
-				2155C5EA20F7F35E00367FA8 /* AdobeMobile */,
-			);
-			path = libs;
-			sourceTree = SOURCE_ROOT;
-		};
-		2155C5E320F7F35E00367FA8 /* MediaSDK */ = {
-			isa = PBXGroup;
-			children = (
-				2155C5E420F7F35E00367FA8 /* MediaSDK_TV.a */,
-				2155C5E520F7F35E00367FA8 /* MediaSDK.a */,
-				2155C5E620F7F35E00367FA8 /* Headers */,
-			);
-			path = MediaSDK;
-			sourceTree = "<group>";
-		};
-		2155C5E620F7F35E00367FA8 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				2155C5E720F7F35E00367FA8 /* ADBMediaHeartbeat.h */,
-				2155C5E820F7F35E00367FA8 /* ADBMediaHeartbeatConfig.h */,
-				2155C5E920F7F35E00367FA8 /* ADBStandardMetadataKeys.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		2155C5EA20F7F35E00367FA8 /* AdobeMobile */ = {
-			isa = PBXGroup;
-			children = (
-				CDA4DA9D2182BA2400BC77AC /* ADBMobile.h */,
-				CDA4DA9E2182BA2400BC77AC /* AdobeMobileLibrary_TV.a */,
-				CDA4DA9C2182BA2400BC77AC /* AdobeMobileLibrary.a */,
-			);
-			path = AdobeMobile;
-			sourceTree = "<group>";
-		};
 		3A50C0811C615D0C00288017 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +198,10 @@
 		C9606AEA18D9E22B00A8F275 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AC0B4FC3258CBB3800A9EA91 /* AdobeMobileTV.xcframework */,
+				AC0B4FC2258CBB3800A9EA91 /* MediaSDKTV.xcframework */,
+				AC0B4FAE258CB8B700A9EA91 /* AdobeMobile.xcframework */,
+				AC0B4FAD258CB8B700A9EA91 /* MediaSDK.xcframework */,
 				2155C61720F7F47B00367FA8 /* libz.tbd */,
 				2155C61520F7F47000367FA8 /* UserNotifications.framework */,
 				2155C61320F7F46500367FA8 /* WebKit.framework */,
@@ -264,7 +225,6 @@
 		C9606AF118D9E22B00A8F275 /* BasicPlayerSample */ = {
 			isa = PBXGroup;
 			children = (
-				2155C5E220F7F35E00367FA8 /* libs */,
 				3A50C0811C615D0C00288017 /* Classes */,
 				C9606AF218D9E22B00A8F275 /* Supporting Files */,
 			);
@@ -332,6 +292,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -361,7 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDB957742187CA810078F434 /* ADBMobileConfig.json in Resources */,
+				AC0B4FB5258CB9E900A9EA91 /* ADBMobileConfig.json in Resources */,
 				3A50C09E1C615D5E00288017 /* Images.xcassets in Resources */,
 				3A50C09C1C615D5E00288017 /* InfoPlist.strings in Resources */,
 			);
@@ -417,15 +378,11 @@
 				GCC_PREFIX_HEADER = "BasicPlayerSample/BasicPlayerSample-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"$(PROJECT_DIR)/libs/AdobeMobile/",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+					"libs/AdobeMobileTV.xcframework/**",
 				);
 				INFOPLIST_FILE = "BasicPlayerSample/BasicPlayerSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/MediaSDK",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicPlayerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -443,15 +400,11 @@
 				GCC_PREFIX_HEADER = "BasicPlayerSample/BasicPlayerSample-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"$(PROJECT_DIR)/libs/AdobeMobile/",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+					"libs/AdobeMobileTV.xcframework/**",
 				);
 				INFOPLIST_FILE = "BasicPlayerSample/BasicPlayerSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/MediaSDK",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicPlayerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -493,11 +446,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/MediaSDK",
-					"$(PROJECT_DIR)/AdobeMobile",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -532,11 +481,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/MediaSDK",
-					"$(PROJECT_DIR)/AdobeMobile",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -555,16 +500,11 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"$(PROJECT_DIR)/libs/AdobeMobile/",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+					"libs/AdobeMobile.xcframework/**",
 				);
 				INFOPLIST_FILE = "BasicPlayerSample/BasicPlayerSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/MediaSDK",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-					"$(PROJECT_DIR)/BasicPlayerSample/libs/MediaSDK",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicPlayerSample;
 				PRODUCT_NAME = BasicPlayerSample;
 				WRAPPER_EXTENSION = app;
@@ -580,16 +520,11 @@
 				GCC_PREFIX_HEADER = "BasicPlayerSample/BasicPlayerSample-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"$(PROJECT_DIR)/libs/AdobeMobile/",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
+					"libs/AdobeMobile.xcframework/**",
 				);
 				INFOPLIST_FILE = "BasicPlayerSample/BasicPlayerSample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/MediaSDK",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-					"$(PROJECT_DIR)/BasicPlayerSample/libs/MediaSDK",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicPlayerSample;
 				PRODUCT_NAME = BasicPlayerSample;
 				WRAPPER_EXTENSION = app;

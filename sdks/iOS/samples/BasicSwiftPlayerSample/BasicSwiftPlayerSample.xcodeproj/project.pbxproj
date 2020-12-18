@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,9 +20,9 @@
 		2EC5A92120F2F2ED002EDDF7 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5A92020F2F2ED002EDDF7 /* VideoPlayer.swift */; };
 		2EC5A92520F2F49E002EDDF7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC5A92420F2F49E002EDDF7 /* SystemConfiguration.framework */; };
 		2EC5A92720F2F4CE002EDDF7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC5A92620F2F4CE002EDDF7 /* libsqlite3.0.tbd */; };
+		AC0B4FCE258CBBE800A9EA91 /* MediaSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FCC258CBBE800A9EA91 /* MediaSDK.xcframework */; };
+		AC0B4FCF258CBBE800A9EA91 /* AdobeMobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0B4FCD258CBBE800A9EA91 /* AdobeMobile.xcframework */; };
 		CDA435CF2187C74F009E24C5 /* ADBMobileConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */; };
-		CDA435D12187C773009E24C5 /* AdobeMobileLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */; };
-		CDA435D32187C77E009E24C5 /* MediaSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA435D22187C77E009E24C5 /* MediaSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +42,9 @@
 		2EC5A92220F2F3AF002EDDF7 /* BasicSwiftPlayerSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BasicSwiftPlayerSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		2EC5A92420F2F49E002EDDF7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2EC5A92620F2F4CE002EDDF7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ADBMobileConfig.json; path = libs/AdobeMobile/ADBMobileConfig.json; sourceTree = "<group>"; };
+		AC0B4FCC258CBBE800A9EA91 /* MediaSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MediaSDK.xcframework; path = libs/MediaSDK.xcframework; sourceTree = "<group>"; };
+		AC0B4FCD258CBBE800A9EA91 /* AdobeMobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AdobeMobile.xcframework; path = libs/AdobeMobile.xcframework; sourceTree = "<group>"; };
+		CDA435CE2187C74F009E24C5 /* ADBMobileConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ADBMobileConfig.json; path = libs/ADBMobileConfig.json; sourceTree = "<group>"; };
 		CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = AdobeMobileLibrary.a; path = libs/AdobeMobile/AdobeMobileLibrary.a; sourceTree = "<group>"; };
 		CDA435D22187C77E009E24C5 /* MediaSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = MediaSDK.a; path = libs/MediaSDK/MediaSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,8 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA435D32187C77E009E24C5 /* MediaSDK.a in Frameworks */,
-				CDA435D12187C773009E24C5 /* AdobeMobileLibrary.a in Frameworks */,
+				AC0B4FCE258CBBE800A9EA91 /* MediaSDK.xcframework in Frameworks */,
+				AC0B4FCF258CBBE800A9EA91 /* AdobeMobile.xcframework in Frameworks */,
 				217327DD21062D050099CC45 /* libz.tbd in Frameworks */,
 				217327D921062CF60099CC45 /* libstdc++.tbd in Frameworks */,
 				2EC5A92720F2F4CE002EDDF7 /* libsqlite3.0.tbd in Frameworks */,
@@ -116,6 +118,8 @@
 		2EC5A92320F2F49E002EDDF7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AC0B4FCD258CBBE800A9EA91 /* AdobeMobile.xcframework */,
+				AC0B4FCC258CBBE800A9EA91 /* MediaSDK.xcframework */,
 				CDA435D22187C77E009E24C5 /* MediaSDK.a */,
 				CDA435D02187C773009E24C5 /* AdobeMobileLibrary.a */,
 				217327DC21062D050099CC45 /* libz.tbd */,
@@ -291,10 +295,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/AdobeMobile/**",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -351,10 +352,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/AdobeMobile/**",
-					"$(PROJECT_DIR)/libs/MediaSDK/Headers/",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -371,17 +369,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"libs/AdobeMobile.xcframework/**",
+				);
 				INFOPLIST_FILE = BasicSwiftPlayerSample/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-					"$(PROJECT_DIR)/libs/MediaSDK",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicSwiftPlayerSample.BasicSwiftPlayerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
@@ -395,17 +392,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"libs/AdobeMobile.xcframework/**",
+				);
 				INFOPLIST_FILE = BasicSwiftPlayerSample/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/libs/AdobeMobile",
-					"$(PROJECT_DIR)/libs/MediaSDK",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adobe.primetime.va.BasicSwiftPlayerSample.BasicSwiftPlayerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";

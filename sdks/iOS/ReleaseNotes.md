@@ -12,6 +12,11 @@ Lighter, Simpler implementation.
 For full documentation please visit:
 https://marketing.adobe.com/resources/help/en_US/sc/appmeasurement/hbvideo/sdk-implement.html
 
+## 2.3.0 (December 18, 2020)
+- General - The SDK is now distributed using XCFrameworks in order to support hardware with the new Apple M1 architecture while maintaining support for existing Intel architecture.
+  - **IMPORTANT**: Upgrading to MediaSDK XCFrameworks requires Xcode 12.0 or newer
+  - **IMPORTANT**: If using Cocoapods, upgrading to MediaSDK XCFrameworks requires Cocoapods 1.10.0 or newer
+  
 ## 2.2.8 (December 1, 2020)
 - Fix race conditions to improve SDK stability.
 
