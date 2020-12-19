@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "AdobeMediaSDK"
-  s.version      = "2.2.8"
+  s.version      = "2.3.0"
   s.summary      = "AdobeMediaSDK is Adobe’s standardized Analytics solution for Audio and Video. This is the only official Adobe MediaSDK Pod."
   s.description  = <<-DESC
                     Adobe Analytics for Media enables clients to track the full customer journey across their site, which includes audio and video consumption, and these measures are easily integrated into Analytics reporting and other Experience Cloud products.
@@ -17,15 +17,16 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/Adobe-Marketing-Cloud/media-sdks.git', :tag => "ios-v#{s.version}-cocoapod"}
 
   s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-all_load' }
-  
-  s.ios.deployment_target = '6.0'
-  s.ios.source_files  = "libs/Headers/*.h", "libs/Headers/Empty.m"
-  s.ios.vendored_libraries = "libs/libMediaSDK.a"
+  s.cocoapods_version = ">= 1.10"
+
+  s.ios.deployment_target = '8.0'
+  s.ios.source_files  = "Empty.m"
+  s.ios.vendored_frameworks = "MediaSDK.xcframework"
   s.ios.dependency   "AdobeMobileSDK"
 
   s.tvos.deployment_target = '9.0'
-  s.tvos.source_files  = "libs/Headers/*.h", "libs/Headers/Empty.m"
-  s.tvos.vendored_libraries = "libs/libMediaSDK_TV.a"
+  s.tvos.source_files  = "Empty.m"
+  s.tvos.vendored_frameworks = "MediaSDKTV.xcframework"
   s.tvos.dependency   "AdobeMobileSDK/TVOS"
 
 end
