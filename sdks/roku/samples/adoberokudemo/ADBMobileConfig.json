@@ -31,7 +31,7 @@
         "backdateSessionInfo": false,
         "poi": []
     },
-    "mediaHeartbeat":{  
+    "mediaHeartbeat":{
       "server":"obumobile5.hb.omtrdc.net",
       "publisher":"test",
       "channel":"test-channel",
