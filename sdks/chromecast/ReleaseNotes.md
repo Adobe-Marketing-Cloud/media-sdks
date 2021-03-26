@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-chromecast.html
 
+## 3.0.2 (March 26, 2021)
+What's new :
+- Fix "Content-Type" HTTP header in Media Collection API requests. 
+
 ## 3.0.1 (8 October, 2020)
 What's new :
 - Changed the default ad tracking granularity to 10 seconds. Added configuration key to enable 1 sec ad tracking.
