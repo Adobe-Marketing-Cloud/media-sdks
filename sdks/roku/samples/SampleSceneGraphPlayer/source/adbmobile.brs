@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.2.4",
+      version: "2.2.5",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -630,7 +630,7 @@ Function _adb_deviceInfo() as Object
             deviceInfo = CreateObject("roDeviceInfo")
             m["resolution"] = deviceInfo.GetDisplaySize().w.ToStr() + "x" + deviceInfo.GetDisplaySize().h.ToStr()
             m["platform"] = deviceInfo.GetModel()
-            m["operatingSystem"] = "Roku " + deviceInfo.GetVersion()
+            m["operatingSystem"] = "Roku " + m._getRokuOSVersionString(deviceInfo)
             ''' build app id
             appInfo = CreateObject("roAppInfo")
             title = appInfo.GetTitle()
@@ -645,6 +645,21 @@ Function _adb_deviceInfo() as Object
             ''' timestamp string generation
             m["timestring"] = m._timestampString(deviceInfo)
           End Function,
+        _getRokuOSVersionString: Function(deviceInfo as Object) As String
+          rokuVersionString = ""
+          if FindMemberFunction(deviceInfo,"GetOSVersion") <> Invalid
+            rokuVersionObj = deviceInfo.GetOSVersion()
+            ''' Use new version format for OSVersion 10.X and above
+            if StrToI(rokuVersionObj.major) >= 10
+              rokuVersionString = rokuVersionObj.major + "." + rokuVersionObj.minor +"."+ rokuVersionObj.revision + "-" + rokuVersionObj.build
+            endif
+          endif
+          if rokuVersionString = ""
+            ''' Support for devices with OS version < 9.2
+            rokuVersionString = deviceInfo.GetVersion()
+          endif
+          return rokuVersionString
+        End Function,
         _timestampString: Function(deviceInfo as Object) As String
             dstNow = False
             tzList = {}
@@ -5815,8 +5830,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "9"
-          m["_gitHash"] = "c871f9"
+          m["_buildNumber"] = "11"
+          m["_gitHash"] = "513b24"
           m["_api_level"] = 4
         End Function
     }
