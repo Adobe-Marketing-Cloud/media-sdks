@@ -24,4 +24,5 @@ dependencies {
     implementation 'com.adobe.marketing.mobile:sdk-core:1.+'
     implementation 'com.adobe.marketing.mobile:analytics:1.+'    
     implementation 'com.adobe.marketing.mobile:media:2.+'
+    implementation 'com.adobe.marketing.mobile:assurance:1+'
 }
