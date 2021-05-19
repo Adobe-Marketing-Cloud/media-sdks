@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * ___________________
  *
- * Copyright 2018 Adobe
+ * Copyright 2021 Adobe
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains
@@ -16,89 +16,43 @@
  **************************************************************************/
 package com.adobe.mediaanalyticstestapp;
 
+import android.support.v7.app.AppCompatActivity;
+import com.adobe.marketing.mobile.Assurance;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.net.Uri;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.adobe.mediaanalyticstestapp.analytics.VideoAnalyticsProvider;
-import com.adobe.mediaanalyticstestapp.player.PlayerEvent;
-import com.adobe.mediaanalyticstestapp.player.VideoPlayer;
+public class MainActivity extends AppCompatActivity {
+    Button startPlayerBtn;
+    EditText assuranceURL;
 
-import java.util.Observable;
-import java.util.Observer;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        startPlayerBtn = findViewById(R.id.startVideoPlayer);
+        startPlayerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startVideoPlayer();
+            }
+        });
+    }
 
-public class MainActivity extends Activity implements Observer {
-	private VideoPlayer _player;
-	private VideoAnalyticsProvider _analyticsProvider;
+    //Add button for Assurance
+    public void setAssurance(View view) {
+        //include Assurance url here
+         assuranceURL = findViewById(R.id.assuranceUrl);
+         String url = assuranceURL.getText().toString();
+         Assurance.startSession(url);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		// Create the VideoPlayer instance.
-		_player = new VideoPlayer(this);
-
-		_player.addObserver(this);
-
-		// Create the VideoAnalyticsProvider instance and
-		// attach it to the VideoPlayer instance.
-		_analyticsProvider = new VideoAnalyticsProvider(_player);
-
-		// Load the main video content.
-		Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.clickbaby);
-		_player.loadContent(uri);
-	}
-
-	@Override
-	protected void onDestroy() {
-		_analyticsProvider.destroy();
-		_analyticsProvider = null;
-		_player = null;
-
-		super.onDestroy();
-	}
-
-	@Override
-	public void update(Observable observable, Object o) {
-		PlayerEvent playerEvent = (PlayerEvent) o;
-
-		switch (playerEvent) {
-			case AD_START:
-				_onEnterAd();
-				break;
-
-			case AD_COMPLETE:
-				_onExitAd();
-				break;
-
-			case SEEK_COMPLETE:
-				if (_player.getAdInfo() == null) {
-					// The user seeked outside the ad.
-					_onExitAd();
-				}
-
-				break;
-		}
-	}
-
-	private void _onEnterAd() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				findViewById(R.id.adOverlayView).setVisibility(View.VISIBLE);
-			}
-		});
-	}
-
-	private void _onExitAd() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				findViewById(R.id.adOverlayView).setVisibility(View.INVISIBLE);
-			}
-		});
-	}
+    public void startVideoPlayer(){
+        Intent intent = new Intent(this, MediaActivity.class);
+        startActivity(intent);
+    }
 }
