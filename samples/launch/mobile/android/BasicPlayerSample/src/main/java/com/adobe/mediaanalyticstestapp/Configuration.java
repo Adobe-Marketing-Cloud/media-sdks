@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * ___________________
  *
- * Copyright 2018 Adobe
+ * Copyright 2021 Adobe
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains
@@ -18,7 +18,7 @@ package com.adobe.mediaanalyticstestapp;
 
 public class Configuration {
 	public static final String VIDEO_ID = "android-video-id";
-	public static final String VIDEO_NAME = "click-baby";
+	public static final String VIDEO_NAME = "sample-video";
 
-	public static final Double VIDEO_LENGTH = 60D;
+	public static final Double VIDEO_LENGTH = 108D;
 }

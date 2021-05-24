@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * ___________________
  *
- * Copyright 2018 Adobe
+ * Copyright 2021 Adobe
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains
@@ -22,6 +22,8 @@ import android.app.Application;
 import com.adobe.marketing.mobile.*;
 
 public class MediaAnalyticsTestApp extends Application {
+	//Insert Launch App id
+	private static final String LAUNCH_ENVIRONMENT_FILE_ID = "";
 
 	@Override
 	public void onCreate() {
@@ -33,10 +35,11 @@ public class MediaAnalyticsTestApp extends Application {
 			Analytics.registerExtension();
 			Media.registerExtension();
 			Identity.registerExtension();
+			Assurance.registerExtension();
 			MobileCore.start(new AdobeCallback () {
 				@Override
 				public void call(Object o) {
-					MobileCore.configureWithAppID("94f571f308d5/44ff240a3399/launch-e04a1f758d3d-development");
+					MobileCore.configureWithAppID(LAUNCH_ENVIRONMENT_FILE_ID);
 				}
 			});
 		} catch (InvalidInitException ex) {
