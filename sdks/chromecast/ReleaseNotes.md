@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/setup/set-up-chromecast.html
 
+## 3.0.3 (June 1, 2021)
+What's new :
+- Added an API to update Media configuration after initializing the SDK.
+
 ## 3.0.2 (March 26, 2021)
 What's new :
 - Fix "Content-Type" HTTP header in Media Collection API requests. 
