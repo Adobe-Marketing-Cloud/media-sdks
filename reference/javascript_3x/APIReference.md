@@ -439,12 +439,17 @@ ADB.Media.updatePlayhead(time);
 
 | Variable Name | Description |
 | :--- | :--- |
-| `time` | Current playhead in seconds. For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. For live streaming, returns the playhead position if available or the current UTC time in seconds if not available. |
+| `time` | Current playhead in seconds. For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. For live streaming, the value is specified as the number of seconds since midnight UTC on that day.|
 
 **Example**
 
 ```javascript
 tracker.updatePlayhead(13.3);
+
+//live streaming case example:
+var UTCTimeInSeconds = Math.floor(Date.now() / 1000)
+var timeFromMidnightInSecond = UTCTimeInSeconds % 86400
+tracker.updatePlayhead(timeFromMidnightInSecond);
 ```
 
 #### updateQoEObject
