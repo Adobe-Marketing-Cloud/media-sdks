@@ -169,8 +169,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getCurrentPlaybackTime</h4>
 <pre>java.lang.Double&nbsp;getCurrentPlaybackTime()</pre>
-<div class="block">Current position of the playhead. For VOD, value is specified in seconds from the beginning of the media item.
- For live streaming, return playhead position if available or the current UTC time in seconds otherwise.</div>
+<div class="block">Current playhead in seconds. For video-on-demand (VOD), the value is specified in seconds from the beginning of the media item. For live streaming, the value is specified as the number of seconds since midnight UTC on that day.</div>
 </li>
 </ul>
 </li>
