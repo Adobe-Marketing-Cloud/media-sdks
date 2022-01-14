@@ -21,7 +21,7 @@ Library "v30/bslCore.brs"
 Function ADBMobile() As Object
   if GetGlobalAA().ADBMobile = invalid
     instance = {
-      version: "2.2.5",
+      version: "2.2.6",
       PRIVACY_STATUS_OPT_IN: "optedin",
       PRIVACY_STATUS_OPT_OUT: "optedout",
 
@@ -647,16 +647,10 @@ Function _adb_deviceInfo() as Object
           End Function,
         _getRokuOSVersionString: Function(deviceInfo as Object) As String
           rokuVersionString = ""
+          ''' GetVersion API has been deprecated, GetOSVersion API is available from Roku OS 9.2 and above
           if FindMemberFunction(deviceInfo,"GetOSVersion") <> Invalid
             rokuVersionObj = deviceInfo.GetOSVersion()
-            ''' Use new version format for OSVersion 10.X and above
-            if StrToI(rokuVersionObj.major) >= 10
-              rokuVersionString = rokuVersionObj.major + "." + rokuVersionObj.minor +"."+ rokuVersionObj.revision + "-" + rokuVersionObj.build
-            endif
-          endif
-          if rokuVersionString = ""
-            ''' Support for devices with OS version < 9.2
-            rokuVersionString = deviceInfo.GetVersion()
+            rokuVersionString = rokuVersionObj.major + "." + rokuVersionObj.minor + "." + rokuVersionObj.revision + "-" + rokuVersionObj.build
           endif
           return rokuVersionString
         End Function,
@@ -5830,8 +5824,8 @@ Function _adb_media_version() as Object
       ''' initialize the private variables
       _init: Function() As Void
           m["_platform"] = "roku"
-          m["_buildNumber"] = "11"
-          m["_gitHash"] = "513b24"
+          m["_buildNumber"] = "16"
+          m["_gitHash"] = "73a9ee"
           m["_api_level"] = 4
         End Function
     }

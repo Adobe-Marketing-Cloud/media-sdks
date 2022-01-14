@@ -5,6 +5,10 @@ Included are notes from the latest major revision to current.
 For full documentation please visit:
 https://docs.adobe.com/content/help/en/media-analytics/using/sdk-implement/download-sdks.html
 
+## 2.2.6 (13 January, 2022)
+What's new :
+- Removed usage of deprecated [GetVersion() Roku API](https://developer.roku.com/docs/references/brightscript/interfaces/ifdeviceinfo.md#getversion-as-string).
+
 ## 2.2.5 (5 May, 2021)
 What's new :
 - Added fix to generate correct Roku OS version string for OS version 10 and above.
