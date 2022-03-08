@@ -429,7 +429,8 @@ ADB.Media.trackEvent(event, info, contextData);
 
 #### updatePlayhead
 
-Provide current media playhead to media tracker. For accurate tracking, call this method whenever playhead changes during playback.
+Provide current media playhead to media tracker. For accurate tracking, call this method multiple times when the playhead changes. If the player does not notify playhead changes, call this method once every second with the most recent playhead.
+
 
 **Syntax**
 
@@ -439,7 +440,7 @@ ADB.Media.updatePlayhead(time);
 
 | Variable Name | Description |
 | :--- | :--- |
-| `time` | Current playhead in seconds. For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. For live streaming, returns the playhead position if available or the current UTC time in seconds if not available. |
+| `time` | Current playhead in seconds. <br /> For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. <br /> For live streaming, if the player does not provide information about the content duration, the value can be specified as the number of seconds since midnight UTC of that day. <br /> Note: When using progress markers, the content duration is required and the playhead needs to be updated as number of seconds from the beginning of the media item, starting with 0. |
 
 **Example**
 
