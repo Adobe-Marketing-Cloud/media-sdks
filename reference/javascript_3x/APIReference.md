@@ -429,7 +429,7 @@ ADB.Media.trackEvent(event, info, contextData);
 
 #### updatePlayhead
 
-Provides a media tracker with the current media playhead. For accurate tracking, call this method multiple times when the playhead changes. If the player does not notify playhead changes, call this method once every second with the most recent playhead.
+Provides the current media playhead to the media tracker instance. For accurate tracking, call this method everytime the playhead changes. If the player does not notify playhead changes, call this method once every second with the most recent playhead.
 
 **Syntax**
 
