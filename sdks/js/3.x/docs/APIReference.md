@@ -7,9 +7,8 @@
 #### configure
 
 > **_Note:_** 
-This method is for Media SDK JavaScript v3.x.  
-For Media Analytics v3.x for Audio and Vidoe extension, configure the setup via data collection (Tags).
-
+This method is for standalone Media SDK JavaScript v3.x.  
+For Media SDK Javascript v3.x with Tags extension, setup the configuration via Data Collection UI (Tags UI).
 
 Configures MediaSDK for tracking. This method should be called once before creating any tracker instances in a page.
 
@@ -56,6 +55,7 @@ var tracker = ADB.Media.getInstance();
 
 ```javascript
 // create an instance with custom channel example
+// this overrides the channel which was set during the configuration
 var tracker = ADB.Media.getInstance({"media.channel":"custom_channel_name"})
 ```
 
