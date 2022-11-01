@@ -6,10 +6,10 @@
 
 #### configure
 
-{% hint style="info" %}
+> **_Note:_** 
 This method is for Media SDK JavaScript v3.x.  
 For Media Analytics v3.x for Audio and Vidoe extension, configure the setup via data collection (Tags).
-{% endhint %}
+
 
 Configures MediaSDK for tracking. This method should be called once before creating any tracker instances in a page.
 
