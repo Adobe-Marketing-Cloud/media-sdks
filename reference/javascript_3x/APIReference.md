@@ -646,7 +646,10 @@ tracker.trackSessionStart(mediaObject);
 
 #### Granular ad tracking
 
-Constant to enable granular (every second) pings for ad content. This information must be provided when starting a tracking session.
+Constant to enable `1 second` ad tracking. This information must be provided when starting a tracking session.
+
+> **Note**
+> Default ad ping interval is `10 seconds`.
 
 **Syntax**
 
@@ -661,6 +664,7 @@ Constant to enable granular (every second) pings for ad content. This informatio
 ```javascript
 var mediaObject = ADB.Media.createMediaObject("media-name", "media-id", 60, ADB.Media.StreamType.VOD, ADB.Media.MediaType.Video);
 
+// Enable granular ad tracking
 mediaObject[ADB.Media.MediaObjectKey.GranularAdTracking] = true;
 
 tracker.trackSessionStart(mediaObject);
