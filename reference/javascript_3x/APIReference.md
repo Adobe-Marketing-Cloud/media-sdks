@@ -6,8 +6,8 @@
 
 #### configure
 
-> **_Note:_** 
-This method is for standalone Media SDK JavaScript v3.x.  
+> **_Note:_**
+This method is for standalone Media SDK JavaScript v3.x.
 For Media SDK Javascript v3.x with Tags extension, setup the configuration via Data Collection UI (Tags UI).
 
 Configures MediaSDK for tracking. This method should be called once before creating any tracker instances in a page.
@@ -369,9 +369,9 @@ ADB.Media.trackEvent(event, info, contextData);
   // Standard metadata keys provided by adobe.
   adMetadata[ADB.Media.AdMetadataKeys.Advertiser]  ="Sample Advertiser";
   adMetadata[ADB.Media.AdMetadataKeys.CampaignId] = "Sample Campaign";
-  // Custom metadata keys  
+  // Custom metadata keys
   adMetadata["affiliate"] = "Sample affiliate";
-  
+
   tracker.trackEvent(ADB.Media.Event.AdStart, adObject, adMetadata);
 
 // AdComplete
@@ -630,7 +630,7 @@ Constant to denote that the current tracking session is resuming a previously cl
 
 ```javascript
  ADB.Media.MediaObjectKey = {
-    MediaResumed: "resumed"
+    MediaResumed: "media.resumed"
 }
 ```
 
@@ -640,6 +640,32 @@ Constant to denote that the current tracking session is resuming a previously cl
 var mediaObject = ADB.Media.createMediaObject("media-name", "media-id", 60, ADB.Media.StreamType.VOD, ADB.Media.MediaType.Video);
 
 mediaObject[ADB.Media.MediaObjectKey.MediaResumed] = true;
+
+tracker.trackSessionStart(mediaObject);
+```
+
+#### Granular ad tracking
+
+Constant to enable `1 second` ad tracking. This information must be provided when starting a tracking session.
+
+> **Note**
+> Default ad ping interval is `10 seconds`.
+
+**Syntax**
+
+```javascript
+ ADB.Media.MediaObjectKey = {
+    GranularAdTracking: "media.granularadtracking"
+}
+```
+
+**Example**
+
+```javascript
+var mediaObject = ADB.Media.createMediaObject("media-name", "media-id", 60, ADB.Media.StreamType.VOD, ADB.Media.MediaType.Video);
+
+// Enable granular ad tracking
+mediaObject[ADB.Media.MediaObjectKey.GranularAdTracking] = true;
 
 tracker.trackSessionStart(mediaObject);
 ```
