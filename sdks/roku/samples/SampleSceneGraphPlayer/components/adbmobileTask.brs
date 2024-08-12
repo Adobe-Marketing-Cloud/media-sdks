@@ -27,16 +27,16 @@ end sub
 sub initializeRunLoop()
 
     m.adbmobile = ADBMobile()
-    
+
     while true
         msg = wait(250, m.port)
-        
+
         if (msg = invalid) then
             m.adbmobile.processMessages()
             m.adbmobile.processMediaMessages()
-        else 
+        else
             msgType = type(msg)
-    
+
             if msgType = "roSGNodeEvent"
                 if msg.getField() = m.adbmobile.sgConstants().API_CALL
                     executeBRSApiCall(msg.getData())
@@ -51,7 +51,7 @@ end sub
 function executeBRSApiCall(invocation as Object)
     args = invocation.args
     length = args.count()
-    if (invocation.methodName.Instr("getter/") = 0) then        
+    if (invocation.methodName.Instr("getter/") = 0) then
         methodName = invocation.methodName.Replace("getter/", "")
         returnVal = m.adbmobile[methodName]()
 
@@ -59,7 +59,7 @@ function executeBRSApiCall(invocation as Object)
         response.apiName = methodName
         response.returnValue = returnVal
         m.top["adbmobileApiResponse"] = response
-    else 
+    else
         target = m.adbmobile
         methodName = invocation.methodName
 

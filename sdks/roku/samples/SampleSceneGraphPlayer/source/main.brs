@@ -26,7 +26,7 @@ sub showHomecreen()
   screen = CreateObject("roSGScreen")
   m.port = CreateObject("roMessagePort")
   screen.setMessagePort(m.port)
-  scene = screen.CreateScene("HomeScene")
+  _scene = screen.CreateScene("HomeScene")
   screen.show()
 
   while (true)
