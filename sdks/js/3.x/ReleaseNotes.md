@@ -1,8 +1,12 @@
 # Release Notes for JavaScript Media SDK 3.x
 
+## 3.1.0 (January 6, 2025)
+- Added feature to override `playerName` configuration per tracker instance.
+- Added public constants for configuration keys.
+
 ## 3.0.2 (March 26, 2021)
 
-- Fix "Content-Type" HTTP header in Media Collection API requests. 
+- Fix "Content-Type" HTTP header in Media Collection API requests.
 
 ## 3.0.1 (October 8, 2020)
 

@@ -6,10 +6,6 @@
 
 #### configure
 
-> **_Note:_** 
-This method is for standalone Media SDK JavaScript v3.x.  
-For Media SDK Javascript v3.x with Tags extension, setup the configuration via Data Collection UI (Tags UI).
-
 Configures MediaSDK for tracking. This method should be called once before creating any tracker instances in a page.
 
 **Syntax**
@@ -19,7 +15,7 @@ ADB.Media.configure(mediaConfig, appMeasurement);
 ```
 
 |Variable Name | Type | Description |
-|---|---|---
+|---|---|---|
 | mediaConfig | [ADB.MediaConfig](#ADB.MediaConfig) | Valid media configuration |
 | appMeasurement | object | AppMeasurement instance |
 
@@ -44,8 +40,12 @@ Creates an instance of media to track the playback session. Returns `null` is ca
 **Syntax**
 
 ```javascript
-ADB.Media.getInstance()
+ADB.Media.getInstance(trackerConfig)
 ```
+
+| Variable Name | Type | Required | Description |
+| :--- | :--- | :---: |
+| `trackerConfig` | [Tracker configuration](#tracker-config) | No | Tracker configuration object. |
 
 **Example**
 
@@ -53,11 +53,17 @@ ADB.Media.getInstance()
 var tracker = ADB.Media.getInstance();
 ```
 
+To override channel or playerName per tracker instance, pass the override values in the tracker configuration object.
+
+**Example with tracker configuration**
 ```javascript
-// create an instance with custom channel example
-// this overrides the channel which was set during the configuration
-var tracker = ADB.Media.getInstance({"media.channel":"custom_channel_name"})
+const trackerConfig = {
+  [Media.TrackerConfig.Channel]: "custom_channel_name",
+  [Media.TrackerConfig.PlayerName]: "custom_player_name",
+}
+this._mediaTracker = Media.getInstance(trackerConfig);
 ```
+
 
 #### createMediaObject
 
@@ -369,9 +375,9 @@ ADB.Media.trackEvent(event, info, contextData);
   // Standard metadata keys provided by adobe.
   adMetadata[ADB.Media.AdMetadataKeys.Advertiser]  ="Sample Advertiser";
   adMetadata[ADB.Media.AdMetadataKeys.CampaignId] = "Sample Campaign";
-  // Custom metadata keys  
+  // Custom metadata keys
   adMetadata["affiliate"] = "Sample affiliate";
-  
+
   tracker.trackEvent(ADB.Media.Event.AdStart, adObject, adMetadata);
 
 // AdComplete
@@ -439,8 +445,7 @@ ADB.Media.trackEvent(event, info, contextData);
 
 #### updatePlayhead
 
-Provide current media playhead to media tracker. For accurate tracking, call this method multiple times when the playhead changes. If the player does not notify playhead changes, call this method once every second with the most recent playhead.
-
+Provide current media playhead to media tracker. For accurate tracking, call this method whenever playhead changes during playback.
 
 **Syntax**
 
@@ -450,12 +455,18 @@ ADB.Media.updatePlayhead(time);
 
 | Variable Name | Description |
 | :--- | :--- |
-| `time` | Current playhead in seconds. <br /> For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. <br /> For live streaming, if the player does not provide information about the content duration, the value can be specified as the number of seconds since midnight UTC of that day. <br /> Note: When using progress markers, the content duration is required and the playhead needs to be updated as number of seconds from the beginning of the media item, starting with 0. |
+| `time` | Current playhead in seconds.  <br /> For video-on-demand \(VOD\), the value is specified in seconds from the beginning of the media item. <br /> For live streaming, if the player does not provide information about the content duration, the value can be specified as the number of seconds since midnight UTC of that day.  <br /> Note: When using progress markers, the content duration is required and the playhead needs to be updated as number of seconds from the beginning of the media item, starting with 0.|
 
 **Example**
 
 ```javascript
 tracker.updatePlayhead(13.3);
+
+// For live streams
+var UTCTimeInSeconds = Math.floor(Date.now() / 1000)
+var timeFromMidnightInSecond = UTCTimeInSeconds % 86400
+
+tracker.updatePlayhead(timeFromMidnightInSecond);
 ```
 
 #### updateQoEObject
@@ -497,6 +508,17 @@ tracker.destroy();
 ```
 
 ### Constants
+
+#### Tracker config
+
+This defines the configuration keys that can be set per tracker instance.
+
+```javascript
+ADB.Media.TrackerConfig = {
+  Channel: "media.channel",
+  PlayerName: "media.playerName"
+}
+```
 
 #### Media type
 
