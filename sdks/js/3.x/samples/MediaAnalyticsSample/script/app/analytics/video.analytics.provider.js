@@ -27,16 +27,16 @@
     });
 
     //Enable optin service for privacy management.
-    // var preOptInApprovalsConfig = {}; 
-    // preOptInApprovalsConfig[adobe.OptInCategories.ANALYTICS] = true; 
-    // preOptInApprovalsConfig[adobe.OptInCategories.ECID] = false; 
-    // preOptInApprovalsConfig[adobe.OptInCategories.MEDIA_ANALYTICS] = true; 
-        
-    // var visitor = Visitor.getInstance(Configuration.VISITOR.MARKETING_CLOUD_ORG_ID, { 
+    // var preOptInApprovalsConfig = {};
+    // preOptInApprovalsConfig[adobe.OptInCategories.ANALYTICS] = true;
+    // preOptInApprovalsConfig[adobe.OptInCategories.ECID] = false;
+    // preOptInApprovalsConfig[adobe.OptInCategories.MEDIA_ANALYTICS] = true;
+
+    // var visitor = Visitor.getInstance(Configuration.VISITOR.MARKETING_CLOUD_ORG_ID, {
     //     "doesOptInApply": true,
-    //     "preOptInApprovals": preOptInApprovalsConfig, 
-    //     "previousPermissions": preOptInApprovalsConfig, 
-    //     "isOptInStorageEnabled": true 
+    //     "preOptInApprovals": preOptInApprovalsConfig,
+    //     "previousPermissions": preOptInApprovalsConfig,
+    //     "isOptInStorageEnabled": true
     // });
 
     // Set-up the AppMeasurement component.
@@ -50,11 +50,11 @@
     var mediaConfig = new MediaConfig();
     mediaConfig.trackingServer = Configuration.HEARTBEAT.TRACKING_SERVER;
     mediaConfig.playerName = Configuration.PLAYER.NAME;
-    mediaConfig.channel = Configuration.HEARTBEAT.CHANNEL;    
+    mediaConfig.channel = Configuration.HEARTBEAT.CHANNEL;
     mediaConfig.appVersion = Configuration.HEARTBEAT.SDK;
     mediaConfig.ssl = true;
     mediaConfig.debugLogging = true;
-    
+
 
     Media.configure(mediaConfig, appMeasurement);
 
@@ -64,8 +64,11 @@
         }
         this._player = player;
 
-
-        this._mediaTracker = Media.getInstance();
+        const trackerConfig = {
+            [Media.TrackerConfig.Channel]: "custom_channel_name",
+            [Media.TrackerConfig.PlayerName]: "custom_player_name",
+        }
+        this._mediaTracker = Media.getInstance(trackerConfig);
 
         this._installEventListeners();
     }
@@ -76,7 +79,7 @@
             this._mediaTracker = null;
         }
 
-        if (this._player) {            
+        if (this._player) {
             this._player = null;
             this._uninstallEventListeners();
         }
@@ -100,10 +103,10 @@
             tvStation: "Sample TV station",
             programmer: "Sample programmer"
         };
-        
-        // Set standard Video Metadata        
+
+        // Set standard Video Metadata
         contextData[Media.VideoMetadataKeys.Episode] = "Sample Episode";
-        contextData[Media.VideoMetadataKeys.Show] = "Sample Show";        
+        contextData[Media.VideoMetadataKeys.Show] = "Sample Show";
 
         this._mediaTracker.trackSessionStart(mediaInfo, contextData);
     };
@@ -159,10 +162,10 @@
             campaign: "Sample ad campaign"
         };
 
-        // Set standard Ad Metadata        
+        // Set standard Ad Metadata
         adContextData[Media.AdMetadataKeys.Advertiser] = "Sample Advertiser";
         adContextData[Media.AdMetadataKeys.CampaignId] = "Sample Campaign";
-        
+
         this._mediaTracker.trackEvent(Media.Event.AdBreakStart, adBreakInfo);
         this._mediaTracker.trackEvent(Media.Event.AdStart, adInfo, adContextData);
     };
@@ -219,7 +222,7 @@
 
         this._mediaTracker.trackEvent(event, info);
     };
-    
+
 
     VideoAnalyticsProvider.prototype._onFullscreenChange = function () {
         var fullscreen = this._player.isFullscreen()
@@ -230,7 +233,7 @@
 
         this._mediaTracker.trackEvent(event, info);
     };
-    
+
     /////////
     // Private helper functions
     /////////
