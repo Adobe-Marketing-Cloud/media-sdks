@@ -65,7 +65,7 @@ const trackerConfig = {
   [Media.TrackerConfig.Channel]: "custom_channel_name",
   [Media.TrackerConfig.PlayerName]: "custom_player_name",
 }
-var tracker = Media.getInstance(trackerConfig);
+var tracker = ADB.Media.getInstance(trackerConfig);
 ```
 
 #### createMediaObject
