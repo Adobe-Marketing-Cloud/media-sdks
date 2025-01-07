@@ -44,8 +44,12 @@ Creates an instance of media to track the playback session. Returns `null` is ca
 **Syntax**
 
 ```javascript
-ADB.Media.getInstance()
+ADB.Media.getInstance(trackerConfig)
 ```
+
+| Variable Name | Type | Required | Description |
+| :--- | :--- | :--- | :---: |
+| `trackerConfig` | [Tracker configuration](#tracker-config) | No | Tracker configuration object. |
 
 **Example**
 
@@ -53,11 +57,16 @@ ADB.Media.getInstance()
 var tracker = ADB.Media.getInstance();
 ```
 
- ```javascript
- // create an instance with custom channel example
- // this overrides the channel which was set during the configuration
- var tracker = ADB.Media.getInstance({"media.channel":"custom_channel_name"})
- ```
+To override channel or playerName per tracker instance, pass the override values in the tracker configuration object.
+
+**Example with tracker configuration**
+```javascript
+const trackerConfig = {
+  [Media.TrackerConfig.Channel]: "custom_channel_name",
+  [Media.TrackerConfig.PlayerName]: "custom_player_name",
+}
+var tracker = Media.getInstance(trackerConfig);
+```
 
 #### createMediaObject
 
@@ -501,6 +510,17 @@ tracker.destroy();
 ```
 
 ### Constants
+
+#### Tracker config
+
+This defines the configuration keys that can be set per tracker instance.
+
+```javascript
+ADB.Media.TrackerConfig = {
+  Channel: "media.channel",
+  PlayerName: "media.playerName"
+}
+```
 
 #### Media type
 
